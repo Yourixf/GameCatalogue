@@ -5,7 +5,7 @@ function Home () {
     return(
         <> 
         <div className='outer-container'>
-            <h1>HOME PAGINA</h1>
+            <h1>HOME </h1>
         </div>
         </>
     

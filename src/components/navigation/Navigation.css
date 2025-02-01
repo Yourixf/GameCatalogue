@@ -1,3 +1,22 @@
 nav {
+    display: flex;
+
     height: 92px;
+    width: 100%;
+
+    background-color: var(--navbar-background-dark);
 }
+
+.company-section {
+    display: flex;
+}
+
+.navbar-icon {
+    width: 70px;
+}
+
+.company-title {
+    font-size: 40px;
+    color: var(--navbar-gamecatalogue-dark);
+}
+
