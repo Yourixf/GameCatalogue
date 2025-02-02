@@ -135,12 +135,20 @@ ul {
     border-radius: 3px;
 }
 
+.navbar-dropdown {
+    display: none;
+}
+
+
 @media all and (max-width: 1100px) {
     .navbar-menu {
         display: flex;
     }
 
-    ul, .navbar-light-mode-wrapper, .login-button {display: none}
+    ul, .navbar-light-mode-wrapper, .login-button{
+        display: none
+    }
+
 
 }
 
@@ -149,14 +157,19 @@ ul {
         display: flex;
     }
 
-    .navbar-light-mode-wrapper, ul, .company-title, .login-button {display: none}
+    .navbar-light-mode-wrapper, ul, .company-title, .login-button {
+        display: none
+    }
+
 
     .nav-searchbar {
         display: flex;
     }
 
     .company-section {
-        min-width: 0px;
+        min-width: 0;
     }
+
+
 }
 

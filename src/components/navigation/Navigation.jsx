@@ -10,6 +10,14 @@ import lightmode from "../../assets/navbar/lightmode.png";
 
 
 function Navigation () {
+    const [dropdown, dropdownToggle] = React.useState(false);
+
+    function dropdownClick () {
+        console.log(dropdown);
+        dropdownToggle(!dropdown);
+        console.log(dropdown);
+    }
+
     return(
         <>
             <nav>
@@ -32,7 +40,6 @@ function Navigation () {
                     <button className="navbar-search-icon-button">
                         <img className="search-icon" src={search} alt="company-logo"/>
                     </button>
-
                 </div>
 
                 <ul>
@@ -56,19 +63,55 @@ function Navigation () {
                                 <img className="navbar-icon" src={favorite} alt="favorite-logo"/>
                             </div>
                         </NavLink>
-
                     </li>
-
-
                 </ul>
+
                 <button className="login-button">
                     login
                 </button>
 
-                <div className="navbar-menu">
+                <div onClick={dropdownClick}  className="navbar-menu">
                     <span></span>
                     <span></span>
                     <span></span>
+                </div>
+
+                <div className="navbar-dropdown">
+                    <li>
+                         <span className="navbar-light-mode-wrapper">
+                             <button className="navbar-ligt-mode-button navbar-icon-circle">
+                                <img className="navbar-icon" src={lightmode} alt="company-logo"/>
+                             </button>
+                         </span>
+
+                    </li>
+                    <li>
+                        <NavLink to="/">
+                            <div className="navbar-icon-circle">
+                                <img className="navbar-icon" src={home} alt="home-logo"/>
+                            </div>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/recommendations">
+                            <div className="navbar-icon-circle">
+                                <img className="navbar-icon" src={recommended} alt="recommended-logo"/>
+                            </div>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/favorites">
+                            <div className="navbar-icon-circle">
+                                <img className="navbar-icon" src={favorite} alt="favorite-logo"/>
+                            </div>
+                        </NavLink>
+
+                    </li>
+                    <li>
+                        <button className="login-button">
+                            login
+                        </button>
+                    </li>
 
                 </div>
             </nav>

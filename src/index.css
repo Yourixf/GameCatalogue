@@ -36,8 +36,7 @@ body{
 .page-container {
   display: flex;
   width: 100%;
-  height: calc(100vw - 80px);
-
+  min-height: calc(100vh - 80px);
   background: linear-gradient(45deg, var(--main-background-color-dark) 20%, var(--secondary-background-color-dark) 100%);
 }
 
