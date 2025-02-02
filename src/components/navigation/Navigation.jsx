@@ -13,10 +13,12 @@ function Navigation () {
     return(
         <>
             <nav>
-                <span className="company-section">
-                    <img className="company-icon" src={joystick} alt="company-logo"/>
-                    <p className='company-title'>Game Catalogue</p>
-                </span>
+                <NavLink to='/'>
+                    <span className="company-section">
+                        <img className="company-icon" src={joystick} alt="company-logo"/>
+                        <p className='company-title'>Game Catalogue</p>
+                    </span>
+                </NavLink>
 
                 <span className="navbar-light-mode-wrapper">
                      <button className="navbar-ligt-mode-button navbar-icon-circle">
