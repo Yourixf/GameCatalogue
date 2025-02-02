@@ -1,22 +1,137 @@
 nav {
     display: flex;
-
-    height: 92px;
+    height: 80px;
     width: 100%;
-
+    padding: 0 10px;
     background-color: var(--navbar-background-dark);
+    border-bottom: 1px solid var(--main-stroke-color);
+    align-items: center;
+    justify-content: space-between;
+
+    flex: 1 1 50%;
 }
 
 .company-section {
     display: flex;
+    align-items: center;
+    column-gap: 20px;
+    min-width: fit-content;
 }
 
-.navbar-icon {
+.company-icon {
     width: 70px;
 }
 
 .company-title {
     font-size: 40px;
     color: var(--navbar-gamecatalogue-dark);
+}
+
+.nav-searchbar {
+    display: flex;
+    width: 584px;
+    min-width: 220px;
+    height: 50px;
+}
+
+#game-search-field {
+    padding: 20px;
+    width: 100%;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    background-color: var(--navbar-secondary);
+    border: none;
+    font-size: 25px;
+}
+.navbar-search-icon-button {
+    display: flex;
+    align-items: center;
+    padding: 0 12px 0 5px;
+
+    height: 100%;
+    width: fit-content;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    background-color: var(--navbar-secondary);
+    border: none;
+    border-left: var(--navbar-background-dark) solid 4px;
+}
+.search-icon {
+    max-height: 38px;
+}
+
+ul {
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+    column-gap: 5px;
+    width: 300px;
+    justify-content: space-between;
+}
+
+
+.navbar-icon {
+    max-width: 45px;
+}
+
+
+
+.navbar-icon-circle {
+    background-color: var(--navbar-secondary);
+    height: 60px;
+    width: 60px;
+    border:none;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.login-button {
+    display: flex;
+    align-items: center;
+
+    background-color: var(--navbar-secondary);
+    font-size: 40px;
+    height: 50px;
+    padding: 5px 21px 10px;
+    border-radius: 15px;
+    border: none;
+
+}
+
+
+/*dropdown menu*/
+.navbar-menu {
+    display: none;
+    flex-direction: column;;
+    row-gap: 10px;
+
+}
+
+.navbar-menu > span {
+    width: 48px;
+    height: 4px;
+    background-color: var(--navbar-gamecatalogue-dark);
+    border-radius: 3px;
+}
+
+@media all and (max-width: 1100px) {
+    .navbar-menu {
+        display: flex;
+    }
+
+    .nav-searchbar, .login-button {display: none}
+
+}
+
+@media all and (max-width: 758px) {
+    .navbar-menu {
+        display: flex;
+    }
+
+    .navbar-light-mode-wrapper, ul, .nav-searchbar, .login-button {display: none}
+
 }
 
