@@ -18,6 +18,10 @@ function Navigation () {
         console.log(dropdown);
     }
 
+    // TO DO:
+    // 1: profiel icon en username toevoegen indien ingelogd
+    // 2: light mode functie koppelen
+
     return(
         <>
             <nav>
@@ -117,7 +121,6 @@ function Navigation () {
             </nav>
         </>
     );
-
 }
 
 export default Navigation;

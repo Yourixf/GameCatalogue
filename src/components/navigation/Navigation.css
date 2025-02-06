@@ -10,7 +10,6 @@ nav {
     column-gap: 10px;
 }
 
-/* anders komt er een lijntje onder game catalogue */
 a {
     text-decoration: none;
 }
@@ -23,8 +22,6 @@ a {
     flex: 1 1 250px;
     white-space: nowrap;
     overflow: hidden;
-
-
 }
 
 .company-icon {
@@ -87,12 +84,9 @@ ul {
     max-width: 500px;
 }
 
-
 .navbar-icon {
     max-width: 45px;
 }
-
-
 
 .navbar-icon-circle {
     background-color: var(--navbar-secondary);
@@ -105,7 +99,6 @@ ul {
     justify-content: center;
 }
 
-
 .login-button {
     display: flex;
     align-items: center;
@@ -116,7 +109,6 @@ ul {
     border-radius: 15px;
     border: none;
 }
-
 
 /*dropdown menu*/
 .navbar-menu {
@@ -133,17 +125,11 @@ ul {
     border-radius: 3px;
 }
 
-.navbar-dropdown {
-
-}
 
 .navbar-dropdown-inactive, .navbar-dropdown-active {
     display: none;
 }
 
-
-
-/*state one*/
 
 /* state two */
 @media all and (max-width: 1130px) {
@@ -173,7 +159,6 @@ ul {
     }
 }
 
-
 /* state three */
 @media all and (max-width: 758px) {
     .navbar-menu {
@@ -191,8 +176,4 @@ ul {
     .company-section {
         min-width: 0;
     }
-
-
-
 }
-
