@@ -1,3 +1,179 @@
 nav {
-    height: 92px;
+    display: flex;
+    height: 80px;
+    width: 100%;
+    padding: 0 10px;
+    background-color: var(--navbar-background-dark);
+    border-bottom: 1px solid var(--main-stroke-color);
+    align-items: center;
+    justify-content: space-between;
+    column-gap: 10px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.company-section {
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+    min-width: 150px;
+    flex: 1 1 250px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.company-icon {
+    width: 70px;
+}
+
+.nav-searchbar {
+    display: flex;
+    width: 584px;
+    min-width: 220px;
+    height: 50px;
+}
+
+.company-title {
+    font-size: 40px;
+    color: var(--navbar-gamecatalogue-dark);
+    text-decoration: none;
+}
+
+.nav-searchbar {
+    display: flex;
+    width: 584px;
+    min-width: 220px;
+    height: 50px;
+}
+
+#game-search-field {
+    padding: 20px;
+    width: 100%;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    background-color: var(--navbar-secondary);
+    border: none;
+    font-size: 25px;
+}
+.navbar-search-icon-button {
+    display: flex;
+    align-items: center;
+    padding: 0 12px 0 5px;
+
+    height: 100%;
+    width: fit-content;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    background-color: var(--navbar-secondary);
+    border: none;
+    border-left: var(--navbar-background-dark) solid 4px;
+}
+.search-icon {
+    max-height: 38px;
+}
+
+ul {
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+    column-gap: 5px;
+    flex: 1 2 300px;
+    justify-content: space-between;
+    max-width: 500px;
+}
+
+.navbar-icon {
+    max-width: 45px;
+}
+
+.navbar-icon-circle {
+    background-color: var(--navbar-secondary);
+    height: 60px;
+    width: 60px;
+    border:none;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-button {
+    display: flex;
+    align-items: center;
+    background-color: var(--navbar-secondary);
+    font-size: 40px;
+    height: 50px;
+    padding: 5px 21px 10px;
+    border-radius: 15px;
+    border: none;
+}
+
+/*dropdown menu*/
+.navbar-menu {
+    display: none;
+    flex-direction: column;;
+    row-gap: 10px;
+    cursor: pointer;
+}
+
+.navbar-menu > span {
+    width: 48px;
+    height: 4px;
+    background-color: var(--navbar-gamecatalogue-dark);
+    border-radius: 3px;
+}
+
+
+.navbar-dropdown-inactive, .navbar-dropdown-active {
+    display: none;
+}
+
+
+/* state two */
+@media all and (max-width: 1130px) {
+    .navbar-menu {
+        display: flex;
+    }
+
+    .state-one {
+        display: none
+    }
+
+    .navbar-dropdown-active {
+        display: flex;
+        padding: 10px 10px 10px 10px;
+        flex-direction: column;
+        align-items: center;
+        position: absolute;
+        row-gap: 10px;
+        top: 90px;
+        right: 10px;
+        border: var(--main-stroke-color) 1px solid;
+        background-color: var(--secondary-background-color-dark);
+        border-radius: 15px;
+        list-style-type: none;
+        max-width: 200px ;
+        box-shadow: 0 0 20px 4px black;
+    }
+}
+
+/* state three */
+@media all and (max-width: 758px) {
+    .navbar-menu {
+        display: flex;
+    }
+
+    .state-one, .state-three{
+        display: none
+    }
+
+    .nav-searchbar {
+        display: flex;
+    }
+
+    .company-section {
+        min-width: 0;
+    }
 }
