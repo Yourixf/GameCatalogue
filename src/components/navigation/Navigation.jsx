@@ -24,11 +24,11 @@ function Navigation () {
                 <NavLink to='/'>
                     <span className="company-section">
                         <img className="company-icon" src={joystick} alt="company-logo"/>
-                        <p className='company-title'>Game Catalogue</p>
+                        <p className={"company-title" + " state-three" }>Game Catalogue</p>
                     </span>
                 </NavLink>
 
-                <span className="navbar-light-mode-wrapper">
+                <span className={"navbar-light-mode-wrapper" + " state-one"}>
                      <button className="navbar-ligt-mode-button navbar-icon-circle">
                         <img className="navbar-icon" src={lightmode} alt="company-logo"/>
                      </button>
@@ -42,7 +42,7 @@ function Navigation () {
                     </button>
                 </div>
 
-                <ul>
+                <ul className="state-one">
                     <li>
                         <NavLink to="/">
                             <div className="navbar-icon-circle">
@@ -66,40 +66,40 @@ function Navigation () {
                     </li>
                 </ul>
 
-                <button className="login-button">
+                <button className={"login-button" + " state-one"}>
                     login
                 </button>
 
-                <div onClick={dropdownClick}  className="navbar-menu">
+                <div onClick={dropdownClick} className={"navbar-menu" + [dropdown ? " navbar-menu-active" : ""]}>
                     <span></span>
                     <span></span>
                     <span></span>
                 </div>
 
-                <div className="navbar-dropdown">
-                    <li>
-                         <span className="navbar-light-mode-wrapper">
-                             <button className="navbar-ligt-mode-button navbar-icon-circle">
-                                <img className="navbar-icon" src={lightmode} alt="company-logo"/>
+                <div className={dropdown ? "navbar-dropdown-active" : "navbar-dropdown-inactive"}>
+                    <li className={dropdown ? "state-two" : ""}>
+                          <span className={"navbar-light-mode-wrapper"}>
+                              <button className="navbar-ligt-mode-button navbar-icon-circle">
+                                  <img className="navbar-icon" src={lightmode} alt="company-logo"/>
                              </button>
-                         </span>
+                          </span>
 
                     </li>
-                    <li>
+                    <li className={dropdown ? "state-two" : ""}>
                         <NavLink to="/">
                             <div className="navbar-icon-circle">
                                 <img className="navbar-icon" src={home} alt="home-logo"/>
                             </div>
                         </NavLink>
                     </li>
-                    <li>
+                    <li className={dropdown ? "state-two" : ""}>
                         <NavLink to="/recommendations">
                             <div className="navbar-icon-circle">
                                 <img className="navbar-icon" src={recommended} alt="recommended-logo"/>
                             </div>
                         </NavLink>
                     </li>
-                    <li>
+                    <li className={dropdown ? "state-two" : ""}>
                         <NavLink to="/favorites">
                             <div className="navbar-icon-circle">
                                 <img className="navbar-icon" src={favorite} alt="favorite-logo"/>
@@ -107,8 +107,8 @@ function Navigation () {
                         </NavLink>
 
                     </li>
-                    <li>
-                        <button className="login-button">
+                    <li className={dropdown ? "state-two" : ""}>
+                        <button className={"login-button"}>
                             login
                         </button>
                     </li>

@@ -109,14 +109,12 @@ ul {
 .login-button {
     display: flex;
     align-items: center;
-
     background-color: var(--navbar-secondary);
     font-size: 40px;
     height: 50px;
     padding: 5px 21px 10px;
     border-radius: 15px;
     border: none;
-
 }
 
 
@@ -136,31 +134,55 @@ ul {
 }
 
 .navbar-dropdown {
+
+}
+
+.navbar-dropdown-inactive, .navbar-dropdown-active {
     display: none;
 }
 
 
-@media all and (max-width: 1100px) {
+
+/*state one*/
+
+/* state two */
+@media all and (max-width: 1130px) {
     .navbar-menu {
         display: flex;
     }
 
-    ul, .navbar-light-mode-wrapper, .login-button{
+    .state-one {
         display: none
     }
 
-
+    .navbar-dropdown-active {
+        display: flex;
+        padding: 10px 10px 10px 10px;
+        flex-direction: column;
+        align-items: center;
+        position: absolute;
+        row-gap: 10px;
+        top: 90px;
+        right: 10px;
+        border: var(--main-stroke-color) 1px solid;
+        background-color: var(--secondary-background-color-dark);
+        border-radius: 15px;
+        list-style-type: none;
+        max-width: 200px ;
+        box-shadow: 0 0 20px 4px black;
+    }
 }
 
+
+/* state three */
 @media all and (max-width: 758px) {
     .navbar-menu {
         display: flex;
     }
 
-    .navbar-light-mode-wrapper, ul, .company-title, .login-button {
+    .state-one, .state-three{
         display: none
     }
-
 
     .nav-searchbar {
         display: flex;
@@ -169,6 +191,7 @@ ul {
     .company-section {
         min-width: 0;
     }
+
 
 
 }
