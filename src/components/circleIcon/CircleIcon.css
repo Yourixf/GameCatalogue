@@ -1,0 +1,15 @@
+
+.circle-icon-main {
+    background-color: var(--navbar-secondary);
+    height: 60px;
+    width: 60px;
+    border:none;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.circle-icon-picture {
+    max-width: 45px;
+}

@@ -7,7 +7,8 @@ import favorite from "../../assets/navbar/favorite.png";
 import recommended from "../../assets/navbar/recommended.png";
 import search from "../../assets/navbar/search.png";
 import lightmode from "../../assets/navbar/lightmode.png";
-
+import Button from "../button/Button";
+import CircleIcon from '../../components/circleIcon/CircleIcon';
 
 function Navigation () {
     const [dropdown, dropdownToggle] = React.useState(false);
@@ -33,9 +34,7 @@ function Navigation () {
                 </NavLink>
 
                 <span className={"navbar-light-mode-wrapper" + " state-one"}>
-                     <button className="navbar-ligt-mode-button navbar-icon-circle">
-                        <img className="navbar-icon" src={lightmode} alt="company-logo"/>
-                     </button>
+                     <CircleIcon className="light-mode-icon" iconPictureSource={lightmode} />
                 </span>
 
                 <div className="nav-searchbar">
@@ -49,30 +48,22 @@ function Navigation () {
                 <ul className="state-one">
                     <li>
                         <NavLink to="/">
-                            <div className="navbar-icon-circle">
-                                <img className="navbar-icon" src={home} alt="home-logo"/>
-                            </div>
+                            <CircleIcon className="home-icon" iconPictureSource={home}/>
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/recommendations">
-                            <div className="navbar-icon-circle">
-                                <img className="navbar-icon" src={recommended} alt="recommended-logo"/>
-                            </div>
+                        <NavLink to="/recommendations">                        
+                            <CircleIcon className="recommended-icon" iconPictureSource={recommended}/>
                         </NavLink>
                     </li>
                     <li>
                         <NavLink to="/favorites">
-                            <div className="navbar-icon-circle">
-                                <img className="navbar-icon" src={favorite} alt="favorite-logo"/>
-                            </div>
+                            <CircleIcon className="favorite-icon" iconPictureSource={favorite}/>
                         </NavLink>
                     </li>
                 </ul>
-
-                <button className={"login-button" + " state-one"}>
-                    login
-                </button>
+              
+                <Button className={"login-button" + " state-one"} content="login"/>
 
                 <div onClick={dropdownClick} className={"navbar-menu" + [dropdown ? " navbar-menu-active" : ""]}>
                     <span></span>
@@ -82,41 +73,28 @@ function Navigation () {
 
                 <div className={dropdown ? "navbar-dropdown-active" : "navbar-dropdown-inactive"}>
                     <li className={dropdown ? "state-two" : ""}>
-                          <span className={"navbar-light-mode-wrapper"}>
-                              <button className="navbar-ligt-mode-button navbar-icon-circle">
-                                  <img className="navbar-icon" src={lightmode} alt="company-logo"/>
-                             </button>
-                          </span>
-
+                        <span className={"navbar-light-mode-wrapper"}>
+                            <CircleIcon className="light-mode-icon" iconPictureSource={lightmode} />
+                        </span>
                     </li>
                     <li className={dropdown ? "state-two" : ""}>
                         <NavLink to="/">
-                            <div className="navbar-icon-circle">
-                                <img className="navbar-icon" src={home} alt="home-logo"/>
-                            </div>
+                            <CircleIcon className="home-icon" iconPictureSource={home}/>
                         </NavLink>
                     </li>
                     <li className={dropdown ? "state-two" : ""}>
                         <NavLink to="/recommendations">
-                            <div className="navbar-icon-circle">
-                                <img className="navbar-icon" src={recommended} alt="recommended-logo"/>
-                            </div>
+                            <CircleIcon className="recommended-icon" iconPictureSource={recommended}/>
                         </NavLink>
                     </li>
                     <li className={dropdown ? "state-two" : ""}>
                         <NavLink to="/favorites">
-                            <div className="navbar-icon-circle">
-                                <img className="navbar-icon" src={favorite} alt="favorite-logo"/>
-                            </div>
+                            <CircleIcon className="favorite-icon" iconPictureSource={favorite}/>
                         </NavLink>
-
                     </li>
                     <li className={dropdown ? "state-two" : ""}>
-                        <button className={"login-button"}>
-                            login
-                        </button>
+                    <Button className={"login-button" + " state-one"} content="login"/>
                     </li>
-
                 </div>
             </nav>
         </>
