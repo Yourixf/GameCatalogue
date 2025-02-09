@@ -1,0 +1,25 @@
+.input-field {
+    display: flex;
+    padding: 20px;
+    height: 50px;
+    width: 100%;
+    max-width: 570px;
+    border-radius: 25px;
+    background-color: var(--navbar-secondary);
+    border: none;
+    font-size: 25px;
+}
+
+/* state two */
+@media all and (max-width: 1130px) {
+
+}
+
+/* state three */
+@media all and (max-width: 758px) {
+    .input-field {
+        height: 38px;
+        max-width: 430px;
+        font-size: 20px;
+    }
+}

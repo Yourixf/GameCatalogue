@@ -1,6 +1,7 @@
 .button-main {
     display: flex;
     align-items: center;
+    justify-content: center;
     background-color: var(--button-main-color);
     font-size: 30px;
     height: 42px;
@@ -34,5 +35,4 @@
         height: 35px;
         padding: 5px 12px 10px;
     }
-
 }
