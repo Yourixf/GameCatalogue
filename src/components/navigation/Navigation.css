@@ -104,20 +104,23 @@ ul {
 }
 
 .navbar-dropdown-inactive, .navbar-dropdown-active {
-    display: none;
+    display: none;.l
 }
 
 
 /* state two */
 @media all and (max-width: 1130px) {
+
     .navbar-menu {
         display: flex;
     }
+    /*.state-one {*/
+    /*    display: none*/
+    /*}*/
 
     .state-one {
-        display: none
+        display: none !important;
     }
-
 
     .navbar-dropdown-active {
         display: flex;
@@ -144,7 +147,7 @@ ul {
     }
 
     .state-one, .state-three{
-        display: none
+        display: none;
     }
 
     .nav-searchbar {

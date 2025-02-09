@@ -1,5 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
 
+/*////////////////////////
+    Table of Contents
+    1. Global Styles
+    2. Typography
+    3. Layout
+        3.1 Reusables
+
+////////////////////////*/
+
+/* -------------------- 1. Global Styles ---------------------- */
+
 :root {
   --main-stroke-color: #FF0000;
   
@@ -17,7 +28,6 @@
 
 }
 
-
 * {
   margin: 0;
   padding: 0;
@@ -27,19 +37,28 @@
   font-style: normal;
 }
 
+button {
+  cursor: pointer;
+}
+
+/* ---------------------- 2. Typography ----------------------- */
+
+
 body{
   font-family: "Orbitron", serif;
   font-optical-sizing: auto;
   font-style: normal;
 }
 
+
+
+/* ----------------------- 3. Layout ------------------------- */
+/* --------------- 3.1 Reusables ----------------- */
+
+
 .page-container {
   display: flex;
   width: 100%;
   min-height: calc(100vh - 80px);
   background: linear-gradient(45deg, var(--main-background-color-dark) 0%, var(--secondary-background-color-dark) 100%);
-}
-
-button {
-  cursor: pointer;
 }
