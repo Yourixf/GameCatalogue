@@ -105,13 +105,17 @@ ul {
 }
 
 .navbar-menu:hover > span{
-    background-color: var(--navbar-secondary-hover);
+    background-color: var(--navbar-hover);
 }
 
 .navbar-dropdown-inactive, .navbar-dropdown-active {
     display: none;
 }
 
+nav > .navbar-login-button {
+    height: 50px;
+    font-size: 40px;
+}
 
 /* state two */
 @media all and (max-width: 1130px) {

@@ -1,6 +1,7 @@
 import React from "react";
 import './Navigation.css';
 import {NavLink} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import joystick from "../../assets/navbar/joystick.png";
 import home from "../../assets/navbar/home.png";
 import favorite from "../../assets/navbar/favorite.png";
@@ -11,12 +12,17 @@ import Button from "../button/Button";
 import CircleIcon from '../../components/circleIcon/CircleIcon';
 
 function Navigation () {
+    const navigate = useNavigate();
     const [dropdown, dropdownToggle] = React.useState(false);
 
     function dropdownClick () {
         console.log(dropdown);
         dropdownToggle(!dropdown);
         console.log(dropdown);
+    }
+
+    function handleClick () {
+        navigate("/login")
     }
 
     // TO DO:
@@ -52,7 +58,7 @@ function Navigation () {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/recommendations">                        
+                        <NavLink to="/recommendations">
                             <CircleIcon className="recommended-icon" iconPictureSource={recommended}/>
                         </NavLink>
                     </li>
@@ -62,8 +68,8 @@ function Navigation () {
                         </NavLink>
                     </li>
                 </ul>
-              
-                <Button className={"login-button" + " state-one"} content="login"/>
+
+                <Button onClick={handleClick} className={"navbar-login-button" + " state-one"} content="login" shadow={false}/>
 
                 <div onClick={dropdownClick} className={"navbar-menu" + [dropdown ? " navbar-menu-active" : ""]}>
                     <span></span>
@@ -93,7 +99,7 @@ function Navigation () {
                         </NavLink>
                     </li>
                     <li className={dropdown ? "state-two" : ""}>
-                        <Button className={"login-button" + " state-two"} content="login"/>
+                        <Button onClick={handleClick} className={"navbar-login-button" + " state-two"} content="login"/>
                     </li>
                 </div>
             </nav>
