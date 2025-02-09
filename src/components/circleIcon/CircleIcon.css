@@ -15,7 +15,7 @@
 }
 
 .circle-icon-main:hover {
-    background-color: var(--navbar-secondary-hover);
+    background-color: var(--navbar-hover);
 }
 
 

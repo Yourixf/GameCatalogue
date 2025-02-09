@@ -1,0 +1,23 @@
+.label-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 20px;
+    width: 100%;
+}
+
+.label-title, p {
+    font-size: 30px;
+}
+
+/* state two */
+@media all and (max-width: 1130px) {
+
+}
+
+/* state three */
+@media all and (max-width: 758px) {
+    .label-title, p {
+        font-size: 23px;
+    }
+}
