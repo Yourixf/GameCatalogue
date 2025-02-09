@@ -13,3 +13,24 @@
 .circle-icon-picture {
     max-width: 45px;
 }
+
+.circle-icon-main:hover {
+    background-color: var(--navbar-secondary-hover);
+}
+
+
+/* state two */
+@media all and (max-width: 1130px) {
+
+}
+
+/* state three */
+@media all and (max-width: 758px) {
+    .navbar-dropdown-active .circle-icon-main {
+        height: 50px;
+        width: 50px;
+    }
+    .navbar-dropdown-active .circle-icon-picture {
+        max-width: 35px;
+    }
+}

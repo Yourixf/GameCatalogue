@@ -8,3 +8,27 @@
     border-radius: 15px;
     border: none;
 }
+
+.button-main:hover{
+    background-color: var(--navbar-secondary-hover);
+}
+
+.button-main::first-letter{
+    text-transform: capitalize !important;
+}
+
+/* state two */
+@media all and (max-width: 1130px) {
+
+}
+
+/* state three */
+@media all and (max-width: 758px) {
+    .button-main {
+        font-size: 24px;
+        border-radius: 11px;
+        height: 35px;
+        padding: 5px 12px 10px;
+    }
+
+}

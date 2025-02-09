@@ -21,7 +21,8 @@
 
   --navbar-gamecatalogue-dark:#D9D9D9;
   --navbar-gamecatalogue-light:#000000;  
-  --navbar-secondary: #D9D9D9;
+  --navbar-secondary: #d9d9d9;
+  --navbar-secondary-hover: #c1c1c1;
   --navbar-background-dark: #000000;
   --navbar-background-light: #EAEAEA;
   --navbar-search-text: #000000;
@@ -58,7 +59,14 @@ body{
 
 .page-container {
   display: flex;
+  justify-content: center;
   width: 100%;
   min-height: calc(100vh - 80px);
   background: linear-gradient(45deg, var(--main-background-color-dark) 0%, var(--secondary-background-color-dark) 100%);
+
+  @media (max-width: 758px) {
+    min-height: calc(100vh - 58px);
+
+  }
 }
+

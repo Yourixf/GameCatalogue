@@ -51,6 +51,7 @@ a {
 #game-search-field {
     padding: 20px;
     width: 100%;
+    height: 100%;
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;
     background-color: var(--navbar-secondary);
@@ -103,8 +104,12 @@ ul {
     border-radius: 3px;
 }
 
+.navbar-menu:hover > span{
+    background-color: var(--navbar-secondary-hover);
+}
+
 .navbar-dropdown-inactive, .navbar-dropdown-active {
-    display: none;.l
+    display: none;
 }
 
 
@@ -114,9 +119,6 @@ ul {
     .navbar-menu {
         display: flex;
     }
-    /*.state-one {*/
-    /*    display: none*/
-    /*}*/
 
     .state-one {
         display: none !important;
@@ -142,8 +144,21 @@ ul {
 
 /* state three */
 @media all and (max-width: 758px) {
+    nav {
+        height: 58px;
+    }
+
+    .nav-searchbar {
+        height: 38px;
+    }
+
     .navbar-menu {
         display: flex;
+    }
+
+    #game-search-field {
+        padding: 10px ;
+        font-size: 21px;
     }
 
     .state-one, .state-three{
@@ -154,7 +169,20 @@ ul {
         display: flex;
     }
 
+    .company-icon {
+        width: 44px;
+    }
+
+    .navbar-search-icon-button {
+        border-left: var(--navbar-background-dark) solid 3px;
+    }
+
+    .search-icon {
+        width: 35px;
+    }
     .company-section {
         min-width: 0;
     }
+
+
 }

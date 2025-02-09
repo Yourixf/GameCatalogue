@@ -1,0 +1,46 @@
+.not-found-error {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    max-width: 900px;
+}
+
+.error-code {
+    font-size: 125px;
+    color: #B00000;
+}
+
+.error-main-text {
+    font-size: 35px;
+    color: #FFFFFF;
+}
+
+.error-secondary-text {
+    font-size: 35px;
+    color: #4B4B4B;
+
+}
+
+.error-home-button {
+    margin-top: 10px;
+}
+
+/* state two */
+@media all and (max-width: 1130px) {
+
+}
+
+/* state three */
+@media all and (max-width: 758px) {
+    .error-code {
+        font-size: 90px;
+    }
+
+    .error-main-text, .error-secondary-text, .error-home-button{
+        font-size: 24px;
+    }
+
+}

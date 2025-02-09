@@ -93,7 +93,7 @@ function Navigation () {
                         </NavLink>
                     </li>
                     <li className={dropdown ? "state-two" : ""}>
-                    <Button className={"login-button" + " state-one"} content="login"/>
+                        <Button className={"login-button" + " state-two"} content="login"/>
                     </li>
                 </div>
             </nav>
