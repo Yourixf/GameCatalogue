@@ -6,6 +6,7 @@ import {useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 
 
+
 function Login () {
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm({mode:'onSubmit'});
@@ -15,8 +16,9 @@ function Login () {
     }
 
     function handleFormSubmit(data) {
-        console.log(data);
+        console.log(data)
     }
+
     return(
         <form onSubmit={handleSubmit(handleFormSubmit)}>
             <div className={"login-card"}>
