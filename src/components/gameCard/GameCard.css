@@ -1,0 +1,64 @@
+.game-card-main {
+    display: flex;
+    flex-basis: auto;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    margin: 10px;
+
+    width: 299px;
+    min-height: 290px;
+    border-radius: 12px;
+
+
+    background-color: var(--game-card-main-dark);
+    box-shadow: 0px 0px 25px 11px rgba(0, 0, 0, 0.25);
+}
+
+.game-favorite-label {
+    position: absolute;
+    text-align: center;
+
+    padding: 5px 10px;
+    width: fit-content;
+    height: 34px;
+    font-size: 18px;
+    border-radius: 12px 0px;
+    background: linear-gradient(83deg, #FF9D00 30%, #FFB94A 100%);
+
+    text-transform: uppercase;
+}
+
+.game-card-picture {
+    flex: 0;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    overflow: hidden;
+}
+
+.game-image {
+    max-width: 100%;
+    border-bottom: 1px solid var(--main-stroke-color);
+
+}
+
+.game-card-title {
+    flex-grow: 1;
+    padding: 10px 15px 0 15px;
+    font-size: 24px;
+    color: var(--game-card-text-dark);
+}
+
+.game-card-platforms {
+    display: flex;
+    width: 100%;
+    padding: 10px 15px 5px 15px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.platform-icon {
+    max-width: 30px;
+}

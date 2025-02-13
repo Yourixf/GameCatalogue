@@ -37,6 +37,11 @@
   --button-text-color-light: #000000;
   --button-hover-dark: #c1c1c1;
 
+  --game-card-main-dark: #351313;
+  --game-card-main-light: #000000;
+  --game-card-text-dark: #FFFFFF;
+  --game-card-text-light: #000000;
+
 }
 
 * {
