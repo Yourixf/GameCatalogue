@@ -29,6 +29,11 @@
 
 }
 
+.error-message {
+    color: var(--error-text-color-dark);
+    font-size: 30px;
+}
+
 /* state two */
 @media all and (max-width: 1130px) {
 

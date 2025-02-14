@@ -1,15 +1,26 @@
+import React from "react";
 import './Login.css';
 import Button from "../../components/button/Button.jsx";
 import Label from "../../components/label/Label.jsx";
 import Input from "../../components/input/Input.jsx";
 import {useNavigate} from "react-router-dom";
-import {useForm} from "react-hook-form";
-
+import {set, useForm} from "react-hook-form";
+import axios from "axios";
+import { jwtDecode} from "jwt-decode";
 
 
 function Login () {
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm({mode:'onSubmit'});
+
+    const [error, setError] = React.useState(false);
+
+    const NOVI_BASE_API_ENDPOINT = "https://api.datavortex.nl/gamecatalogue";
+
+    const noviBaseHeaders = {
+        'Content-type': 'application/json',
+        'X-Api-Key': `${import.meta.env.VITE_NOVI_API_KEY}`,
+    };
 
     function handleClick () {
         navigate('/register');
@@ -17,24 +28,47 @@ function Login () {
 
     function handleFormSubmit(data) {
         console.log(data)
+
+        let formData = {
+            username: `${data["username-field"]}`,
+            password: `${data["user-password-field"]}`
+        }
+        console.log("form data :" ,formData)
+        getJWTToken(formData)
+        console.log("uitgevoerd")
+    }
+
+    async function getJWTToken(formData) {
+        try {
+            const result = await axios.post(`${NOVI_BASE_API_ENDPOINT}/users/authenticate`, formData, noviBaseHeaders);
+            console.log(result)
+            localStorage.setItem('token', `Bearer ${result.data.jwt}`)
+            setError(false)
+        }
+        catch (e) {
+            console.log(e)
+            setError(e)
+        }
     }
 
     return(
         <form onSubmit={handleSubmit(handleFormSubmit)}>
             <div className={"login-card"}>
                 <h1 className={"login-title"}>Login</h1>
-                <Label className={"label-username-email"} htmlFor={"username-email-field"}>
-                    Email of gebruikersnaam:
-                    <Input className={"login-form-field"} id={"username-email-field"}
+                {error ?  <h3 className="error-message">{error.response.data}</h3> : ''}
+
+                <Label className={"label-username"} htmlFor={"username-field"}>
+                    Gebruikersnaam:
+                    <Input className={"login-form-field"} id={"username-field"}
                            validationRules={{
                                required: {
                                    value: true,
-                                   message: `Email of gebruikersnaam is verplicht`,
+                                   message: `Gebruikersnaam is verplicht`,
                                }
                            }}
                            register={register}
                            errors={errors}
-                           type={"email"}
+                           type={"username"}
                     />
                 </Label>
 
