@@ -37,6 +37,8 @@
   --button-text-color-light: #000000;
   --button-hover-dark: #c1c1c1;
 
+  --error-text-color-dark: red;
+
 }
 
 * {

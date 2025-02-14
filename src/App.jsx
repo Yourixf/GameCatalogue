@@ -9,6 +9,7 @@ import Results from './pages/results/Results';
 import Login from './pages/login/Login';
 import Register from './pages/register/Register';
 import NotFound from './pages/404/404';
+import Test from './pages/test/Test.jsx'
 
 import {Routes, Route} from 'react-router-dom';
 
@@ -27,6 +28,7 @@ function App() {
             <Route path='/results' element={<Results/>}/>
             <Route path='/login' element={<Login/>}/>
             <Route path='/register' element={<Register/>}/>
+            <Route path='/test' element={<Test/>}/>
             <Route path='*' element={<NotFound/>}/>
           </Routes>
         </div>
