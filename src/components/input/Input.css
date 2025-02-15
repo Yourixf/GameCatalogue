@@ -1,13 +1,13 @@
 .input-field {
     display: flex;
     padding: 20px;
-    height: 50px;
+    height: 45px;
     width: 100%;
     max-width: 570px;
     border-radius: 25px;
     background-color: var(--navbar-secondary);
     border: none;
-    font-size: 25px;
+    font-size: 21px;
 }
 
 .input-error {
@@ -23,9 +23,9 @@
 /* state three */
 @media all and (max-width: 758px) {
     .input-field {
+        padding: 10px;
         height: 38px;
-        max-width: 430px;
-        font-size: 20px;
+        font-size: 18px;
     }
     .input-error {
         color: var(--error-text-color-dark);

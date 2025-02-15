@@ -35,7 +35,7 @@ function Test () {
 
     async function getJWTToken() {
         try {
-            const result = await axios.post(`${NOVI_BASE_API_ENDPOINT}/users/authenticate`, testUserDataBody, noviBaseHeaders);
+            const result = await axios.post(`${NOVI_BASE_API_ENDPOINT}/users/authenticate`, testUserDataBody, {headers:noviBaseHeaders});
             const tempJWTToken = result.data.jwt;
             setJWTToken(tempJWTToken)
             console.log(tempJWTToken)

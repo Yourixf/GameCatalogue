@@ -1,10 +1,20 @@
+form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 .login-card {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     text-align: center;
-    width: 845px;
+
+    width: 100%;
+    max-width: 780px;
+    min-width: 300px;
+
     row-gap: 50px;
     padding: 20px 10px;
     margin: 20px;
@@ -18,7 +28,7 @@
 }
 
 .login-title {
-    font-size: 45px;
+    font-size: 41px;
 }
 
 .register-section {
@@ -42,16 +52,20 @@
 /* state three */
 @media all and (max-width: 758px) {
     .login-card {
-        row-gap: 30px;
+        width: 80%;
+        max-width: 450px;
+        row-gap: 20px;
+        padding: 15px;
     }
 
     .login-title {
         font-size: 32px;
     }
 
-    .input-field {
-        height: 38px;
-        max-width: 430px;
-        font-size: 20px;
+    .error-message{
+        font-size: 22px;
+    }
+    .login-card .input-field {
+        width: 90%;
     }
 }

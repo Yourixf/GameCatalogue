@@ -15,8 +15,6 @@ function Login () {
 
     const [error, setError] = React.useState(false);
 
-    const NOVI_BASE_API_ENDPOINT = "https://api.datavortex.nl/gamecatalogue";
-
     const noviBaseHeaders = {
         'Content-type': 'application/json',
         'X-Api-Key': `${import.meta.env.VITE_NOVI_API_KEY}`,
@@ -34,13 +32,13 @@ function Login () {
             password: `${data["user-password-field"]}`
         }
         console.log("form data :" ,formData)
-        getJWTToken(formData)
+        loginAccount(formData)
         console.log("uitgevoerd")
     }
 
-    async function getJWTToken(formData) {
+    async function loginAccount(formData) {
         try {
-            const result = await axios.post(`${NOVI_BASE_API_ENDPOINT}/users/authenticate`, formData, noviBaseHeaders);
+            const result = await axios.post(`${import.meta.env.VITE_NOVI_API_BASE_URL}/users/authenticate`, formData, noviBaseHeaders);
             console.log(result)
             localStorage.setItem('token', `Bearer ${result.data.jwt}`)
             setError(false)
@@ -51,51 +49,55 @@ function Login () {
         }
     }
 
-    return(
-        <form onSubmit={handleSubmit(handleFormSubmit)}>
-            <div className={"login-card"}>
-                <h1 className={"login-title"}>Login</h1>
-                {error ?  <h3 className="error-message">{error.response.data}</h3> : ''}
+    return (
+        <div className={"page-inner-container"}>
+            <form onSubmit={handleSubmit(handleFormSubmit)}>
+                <div className={"login-card"}>
+                    <h1 className={"login-title"}>Login</h1>
+                    {error ? <h3 className="error-message">{error.response.data + error.message} </h3> : ''}
 
-                <Label className={"label-username"} htmlFor={"username-field"}>
-                    Gebruikersnaam:
-                    <Input className={"login-form-field"} id={"username-field"}
-                           validationRules={{
-                               required: {
-                                   value: true,
-                                   message: `Gebruikersnaam is verplicht`,
-                               }
-                           }}
-                           register={register}
-                           errors={errors}
-                           type={"username"}
-                    />
-                </Label>
+                    <Label className={"label-username"} htmlFor={"username-field"}>
+                        Gebruikersnaam:
+                        <Input className={"login-form-field"} id={"username-field"}
+                               validationRules={{
+                                   required: {
+                                       value: true,
+                                       message: `Gebruikersnaam is verplicht`,
+                                   }
+                               }}
+                               register={register}
+                               errors={errors}
+                               type={"username"}
+                        />
+                    </Label>
 
-                <Label className={"label-password"} htmlFor={"user-password-field"}>
-                    Wachtwoord:
-                    <Input className={"login-form-field"} id={"user-password-field"}
-                           validationRules={{
-                               required: {
-                                   value: true,
-                                   message: 'Wachtwoord is verplicht',
-                               }
-                           }}
-                           register={register}
-                           errors={errors}
-                           type={"password"}
-                    />
-                </Label>
+                    <Label className={"label-password"} htmlFor={"user-password-field"}>
+                        Wachtwoord:
+                        <Input className={"login-form-field"} id={"user-password-field"}
+                               validationRules={{
+                                   required: {
+                                       value: true,
+                                       message: 'Wachtwoord is verplicht',
+                                   }
+                               }}
+                               register={register}
+                               errors={errors}
+                               type={"password"}
+                        />
+                    </Label>
 
-                <Button className={"login-button"} content={"login"} type={"submit"}></Button>
+                    <Button className={"login-button"} content={"login"} type={"submit"}></Button>
 
-                <div className={"register-section"}>
-                    <p>Geen account?</p>
-                    <Button onClick={handleClick} className={"register-button"} content={"maak een account"}></Button>
+                    <div className={"register-section"}>
+                        <p>Geen account?</p>
+                        <Button onClick={handleClick} className={"register-button"}
+                                content={"maak een account"}></Button>
+                    </div>
                 </div>
-            </div>
-        </form>
-    );
+            </form>
+        </div>
+    )
+    ;
 }
 
 export default Login;
