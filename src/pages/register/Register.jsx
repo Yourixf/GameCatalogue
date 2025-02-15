@@ -6,6 +6,7 @@ import {useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import { useState } from "react";
 import { useRegisterUser } from "../../hooks/useUser.js";
+import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 
 
 function Register () {
@@ -41,9 +42,11 @@ function Register () {
                 <div className={"register-card"}>
                     <h1 className={"register-title"}>Registreer</h1>
 
-                    {loading && <h3 className="loading-message">Laden...</h3>}
-                    {error ? <h3 className="error-message">{error.response.data}</h3> : ''}
-                    {data && <h3 className={"succes-message"}>Account gemaakt! Goedendag, {data.username}!</h3>}
+                    <StatusMessage statusState={loading} type={"loading"} content={"Laden..."}/>
+
+                    <StatusMessage statusState={error} type={"error"} content={error ?  error.response.data : "er ging iets fout..."}/>
+
+                    <StatusMessage statusState={data} type={"succes"} content={"Account gemaakt"}/>
 
                     <Label className={"label-email"} htmlFor={"email-field"}>
                         Email:
