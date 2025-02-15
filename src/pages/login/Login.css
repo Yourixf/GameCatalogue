@@ -39,11 +39,6 @@ form {
 
 }
 
-.error-message {
-    color: var(--error-text-color-dark);
-    font-size: 30px;
-}
-
 /* state two */
 @media all and (max-width: 1130px) {
 
@@ -62,9 +57,6 @@ form {
         font-size: 32px;
     }
 
-    .error-message{
-        font-size: 22px;
-    }
     .login-card .input-field {
         width: 90%;
     }

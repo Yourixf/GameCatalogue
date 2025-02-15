@@ -4,28 +4,21 @@ import Label from "../../components/label/Label.jsx";
 import Input from "../../components/input/Input.jsx";
 import {useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
-import axios from "axios";
-import React from "react";
+import { useState } from "react";
+import { useRegisterUser } from "../../hooks/useUser.js";
 
 
 function Register () {
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm({mode:'onSubmit'});
-    const [error, setError] = React.useState(false);
 
+    const { registerUser, data, loading, error } = useRegisterUser();
 
     function handleClick () {
         navigate('/login');
     }
 
-    const noviBaseHeaders = {
-        'Content-type': 'application/json',
-        'X-Api-Key': `${import.meta.env.VITE_NOVI_API_KEY}`
-    };
-
     function handleFormSubmit(data) {
-        console.log(data);
-
         let formData =
             {
             username: `${data["username-field"]}`,
@@ -38,22 +31,7 @@ function Register () {
                 }
             ]
         }
-
-        console.log("form data :" ,formData)
-        registerAccount(formData)
-        console.log("uitgevoerd")
-    }
-
-    async function registerAccount (formData) {
-        try {
-            const result = await axios.post(`${import.meta.env.VITE_NOVI_API_BASE_URL}/users`, formData, {headers:noviBaseHeaders})
-            console.log(result)
-            setError(false)
-        }
-        catch (e) {
-            console.log(e)
-            setError(e)
-        }
+        registerUser(formData)
     }
 
     return (
@@ -62,7 +40,10 @@ function Register () {
             <form onSubmit={handleSubmit(handleFormSubmit)}>
                 <div className={"register-card"}>
                     <h1 className={"register-title"}>Registreer</h1>
+
+                    {loading && <h3 className="loading-message">Laden...</h3>}
                     {error ? <h3 className="error-message">{error.response.data}</h3> : ''}
+                    {data && <h3 className={"succes-message"}>Account gemaakt! Goedendag, {data.username}!</h3>}
 
                     <Label className={"label-email"} htmlFor={"email-field"}>
                         Email:

@@ -1,52 +1,29 @@
-import React from "react";
+import { useState } from "react";
 import './Login.css';
 import Button from "../../components/button/Button.jsx";
 import Label from "../../components/label/Label.jsx";
 import Input from "../../components/input/Input.jsx";
 import {useNavigate} from "react-router-dom";
-import {set, useForm} from "react-hook-form";
-import axios from "axios";
-import { jwtDecode} from "jwt-decode";
+import { useForm } from "react-hook-form";
+import {useLoginUser } from "../../hooks/useUser.js";
 
 
 function Login () {
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm({mode:'onSubmit'});
 
-    const [error, setError] = React.useState(false);
-
-    const noviBaseHeaders = {
-        'Content-type': 'application/json',
-        'X-Api-Key': `${import.meta.env.VITE_NOVI_API_KEY}`,
-    };
+    const { loginUser, data, loading, error } = useLoginUser();
 
     function handleClick () {
         navigate('/register');
     }
 
     function handleFormSubmit(data) {
-        console.log(data)
-
         let formData = {
             username: `${data["username-field"]}`,
             password: `${data["user-password-field"]}`
         }
-        console.log("form data :" ,formData)
-        loginAccount(formData)
-        console.log("uitgevoerd")
-    }
-
-    async function loginAccount(formData) {
-        try {
-            const result = await axios.post(`${import.meta.env.VITE_NOVI_API_BASE_URL}/users/authenticate`, formData, noviBaseHeaders);
-            console.log(result)
-            localStorage.setItem('token', `Bearer ${result.data.jwt}`)
-            setError(false)
-        }
-        catch (e) {
-            console.log(e)
-            setError(e)
-        }
+        loginUser(formData)
     }
 
     return (
@@ -54,7 +31,10 @@ function Login () {
             <form onSubmit={handleSubmit(handleFormSubmit)}>
                 <div className={"login-card"}>
                     <h1 className={"login-title"}>Login</h1>
-                    {error ? <h3 className="error-message">{error.response.data + error.message} </h3> : ''}
+
+                    {loading && <h3 className="loading-message">Laden...</h3>}
+                    {error ? <h3 className="error-message">{error.response.data}</h3> : ''}
+                    {data && <h3 className={"succes-message"}>Ingelogd!</h3>}
 
                     <Label className={"label-username"} htmlFor={"username-field"}>
                         Gebruikersnaam:

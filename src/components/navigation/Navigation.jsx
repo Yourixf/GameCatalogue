@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import './Navigation.css';
 import {NavLink} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
@@ -13,7 +13,7 @@ import CircleIcon from '../../components/circleIcon/CircleIcon';
 
 function Navigation () {
     const navigate = useNavigate();
-    const [dropdown, dropdownToggle] = React.useState(false);
+    const [dropdown, dropdownToggle] = useState(false);
 
     function dropdownClick () {
         console.log(dropdown);
