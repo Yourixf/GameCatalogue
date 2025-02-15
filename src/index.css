@@ -37,8 +37,9 @@
   --button-text-color-light: #000000;
   --button-hover-dark: #c1c1c1;
 
+  --loading-text-color-dark: orange;
   --error-text-color-dark: red;
-
+  --succes-text-color-dark: green;
 }
 
 * {
@@ -92,3 +93,23 @@ body{
 }
 
 
+.loading-message {
+  color: var(--loading-text-color-dark);
+  font-size: 30px;
+}
+
+.error-message {
+  color: var(--error-text-color-dark);
+  font-size: 30px;
+}
+
+.succes-message {
+  color: var(--succes-text-color-dark);
+  font-size: 30px;
+}
+
+@media (max-width: 758px) {
+  .loading-message, .error-message, .succes-message {
+    font-size: 22px;
+  }
+}

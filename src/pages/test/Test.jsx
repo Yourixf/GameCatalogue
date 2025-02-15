@@ -1,11 +1,10 @@
-import React from 'react';
+import { useState } from 'react';
 import './Test.css';
 import axios from "axios";
 import Button from "../../components/button/Button.jsx";
-import { jwtDecode  } from 'jwt-decode';
 
 function Test () {
-    const [jwtToken, setJWTToken] = React.useState("")
+    const [jwtToken, setJWTToken] = useState("")
     const NOVI_BASE_API_ENDPOINT = "https://api.datavortex.nl/gamecatalogue";
 
     const noviBaseHeaders = {
@@ -20,8 +19,6 @@ function Test () {
 
     }
 
-    // const decoded = jwtDecode(testToken);
-    // console.log(decoded)
 
     async function testAPI() {
         try {

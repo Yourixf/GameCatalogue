@@ -38,11 +38,6 @@ form {
     row-gap: 20px;
 }
 
-.error-message {
-    color: var(--error-text-color-dark);
-    font-size: 30px;
-}
-
 /* state two */
 @media all and (max-width: 1130px) {
 
@@ -60,10 +55,7 @@ form {
     .register-title {
         font-size: 32px;
     }
-    
-    .error-message{
-        font-size: 22px;
-    }
+
     .register-card .input-field {
         width: 90%;
     }
