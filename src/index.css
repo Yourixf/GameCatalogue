@@ -76,13 +76,23 @@ body{
   align-items: center;
   width: 100%;
   min-height: calc(100vh - 80px);
-  background: linear-gradient(45deg, var(--main-background-color-dark) 0%, var(--secondary-background-color-dark) 100%);
 
   @media (max-width: 758px) {
     min-height: calc(100vh - 58px);
 
   }
 }
+
+.page-container.dark-mode {
+  background: linear-gradient(45deg, var(--main-background-color-dark) 0%, var(--secondary-background-color-dark) 100%);
+
+}
+
+.page-container.light-mode {
+  background: linear-gradient(45deg, var(--main-background-color-light) 0%, var(--secondary-background-color-light) 100%);
+
+}
+
 
 .page-inner-container {
   display: flex;

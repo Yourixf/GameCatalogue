@@ -1,13 +1,20 @@
-nav {
+.navbar {
     display: flex;
     height: 80px;
     width: 100%;
     padding: 0 10px;
-    background-color: var(--navbar-background-dark);
     border-bottom: 1px solid var(--main-stroke-color);
     align-items: center;
     justify-content: space-between;
     column-gap: 10px;
+}
+
+.navbar.dark-mode {
+    background-color: var(--navbar-background-dark);
+}
+
+.navbar.light-mode {
+    background-color: var(--navbar-background-light);
 }
 
 a {
@@ -28,6 +35,16 @@ a {
     width: 70px;
 }
 
+.navbar.light-mode .light-mode-icon {
+    transform: rotate(180deg);
+    transition-duration: 1.5s;
+}
+.navbar.dark-mode .light-mode-icon {
+    transform: rotate(0deg);
+    transition-duration: 1.5s;
+}
+
+
 .nav-searchbar {
     display: flex;
     width: 584px;
@@ -37,8 +54,15 @@ a {
 
 .company-title {
     font-size: 40px;
-    color: var(--navbar-gamecatalogue-dark);
     text-decoration: none;
+}
+
+.company-title.dark-mode {
+    color: var(--navbar-gamecatalogue-dark);
+}
+
+.company-title.light-mode {
+    color: var(--navbar-gamecatalogue-light);
 }
 
 .nav-searchbar {
@@ -69,8 +93,17 @@ a {
     border-bottom-right-radius: 25px;
     background-color: var(--navbar-secondary);
     border: none;
+}
+
+.navbar-search-icon-button.dark-mode {
     border-left: var(--navbar-background-dark) solid 4px;
 }
+
+.navbar-search-icon-button.light-mode {
+    border-left: var(--navbar-background-light) solid 4px;
+}
+
+
 .search-icon {
     max-height: 38px;
 }
@@ -100,8 +133,15 @@ ul {
 .navbar-menu > span {
     width: 48px;
     height: 4px;
-    background-color: var(--navbar-gamecatalogue-dark);
     border-radius: 3px;
+}
+
+.navbar-menu.dark-mode > span {
+    background-color: var(--navbar-gamecatalogue-dark);
+}
+
+.navbar-menu.light-mode > span {
+    background-color: var(--navbar-gamecatalogue-light);
 }
 
 .navbar-menu:hover > span{
@@ -112,7 +152,7 @@ ul {
     display: none;
 }
 
-nav > .navbar-login-button {
+.navbar > .navbar-login-button {
     height: 50px;
     font-size: 40px;
 }
@@ -138,17 +178,23 @@ nav > .navbar-login-button {
         top: 90px;
         right: 10px;
         border: var(--main-stroke-color) 1px solid;
-        background-color: var(--secondary-background-color-dark);
         border-radius: 15px;
         list-style-type: none;
         max-width: 200px ;
         box-shadow: 0 0 20px 4px black;
     }
+
+    .navbar-dropdown-active.dark-mode {
+        background-color: var(--navbar-background-dark);
+    }
+    .navbar-dropdown-active.light-mode {
+        background-color: var(--navbar-background-light);
+    }
 }
 
 /* state three */
 @media all and (max-width: 758px) {
-    nav {
+    .navbar {
         height: 58px;
     }
 
@@ -177,9 +223,7 @@ nav > .navbar-login-button {
         width: 44px;
     }
 
-    .navbar-search-icon-button {
-        border-left: var(--navbar-background-dark) solid 3px;
-    }
+
 
     .search-icon {
         width: 35px;

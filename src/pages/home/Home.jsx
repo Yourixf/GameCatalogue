@@ -14,7 +14,6 @@ function Home () {
             <CircleIcon className='test-icon' iconPictureSource={recommended}/>
         </div>
         </>
-    
     );
 }
 
