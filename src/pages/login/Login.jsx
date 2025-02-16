@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useContext, useState} from "react";
 import './Login.css';
 import Button from "../../components/button/Button.jsx";
 import Label from "../../components/label/Label.jsx";
@@ -8,6 +8,7 @@ import {useNavigate} from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {useLoginUser } from "../../hooks/useUser.js";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
+import {ThemeContext} from "../../context/ThemeProvider.jsx";
 
 
 function Login () {
@@ -15,6 +16,7 @@ function Login () {
     const { register, handleSubmit, formState: { errors } } = useForm({mode:'onSubmit'});
 
     const { loginUser, data, loading, error } = useLoginUser();
+    const { selectedTheme } = useContext(ThemeContext)
 
     function handleClick () {
         navigate('/register');
@@ -31,7 +33,7 @@ function Login () {
     return (
         <div className={"page-inner-container"}>
             <form onSubmit={handleSubmit(handleFormSubmit)}>
-                <div className={"login-card"}>
+                <div className={`login-card ${selectedTheme}`}>
                     <h1 className={"login-title"}>Login</h1>
 
                     <StatusMessage statusState={loading} type={"loading"} content={"Laden..."}/>

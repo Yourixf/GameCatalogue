@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import './Navigation.css';
 import {NavLink} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
@@ -10,10 +10,13 @@ import search from "../../assets/navbar/search.png";
 import lightmode from "../../assets/navbar/lightmode.png";
 import Button from "../button/Button";
 import CircleIcon from '../../components/circleIcon/CircleIcon';
+import { ThemeContext } from "../../context/ThemeProvider.jsx";
+
 
 function Navigation () {
     const navigate = useNavigate();
     const [dropdown, dropdownToggle] = useState(false);
+    const { toggleTheme, selectedTheme } = useContext(ThemeContext)
 
     function dropdownClick () {
         console.log(dropdown);
@@ -25,28 +28,34 @@ function Navigation () {
         navigate("/login")
     }
 
+    function changeTheme () {
+        console.log(selectedTheme)
+        toggleTheme()
+        console.log(selectedTheme)
+    }
+
     // TO DO:
     // 1: profiel icon en username toevoegen indien ingelogd
     // 2: light mode functie koppelen
 
     return(
         <>
-            <nav>
+            <nav className={`navbar ${selectedTheme}`}>
                 <NavLink to='/'>
                     <span className="company-section">
-                        <img className="company-icon" src={joystick} alt="company-logo"/>
-                        <p className={"company-title" + " state-three" }>Game Catalogue</p>
+                        <img className={`company-icon`} src={joystick} alt="company-logo"/>
+                        <p className={`company-title ${selectedTheme} state-three` }>Game Catalogue</p>
                     </span>
                 </NavLink>
 
                 <span className={"navbar-light-mode-wrapper" + " state-one"}>
-                     <CircleIcon className="light-mode-icon" iconPictureSource={lightmode} />
+                     <CircleIcon onClick={changeTheme} className={`light-mode-icon`} iconPictureSource={lightmode} />
                 </span>
 
                 <div className="nav-searchbar">
                     <input type="text" id="game-search-field" placeholder="Zoeken"/>
 
-                    <button className="navbar-search-icon-button">
+                    <button className={`navbar-search-icon-button ${selectedTheme}`}>
                         <img className="search-icon" src={search} alt="company-logo"/>
                     </button>
                 </div>
@@ -71,16 +80,16 @@ function Navigation () {
 
                 <Button onClick={handleClick} className={"navbar-login-button" + " state-one"} content="login" shadow={false}/>
 
-                <div onClick={dropdownClick} className={"navbar-menu" + [dropdown ? " navbar-menu-active" : ""]}>
+                <div onClick={dropdownClick} className={`navbar-menu ${selectedTheme} ${[dropdown ? " navbar-menu-active" : ""]}`}>
                     <span></span>
                     <span></span>
                     <span></span>
                 </div>
 
-                <div className={dropdown ? "navbar-dropdown-active" : "navbar-dropdown-inactive"}>
+                <div className={`${dropdown ? "navbar-dropdown-active" : "navbar-dropdown-inactive"} ${selectedTheme}` }>
                     <li className={dropdown ? "state-two" : ""}>
                         <span className={"navbar-light-mode-wrapper"}>
-                            <CircleIcon className="light-mode-icon" iconPictureSource={lightmode} />
+                     <CircleIcon onClick={changeTheme} className={`light-mode-icon`} iconPictureSource={lightmode} />
                         </span>
                     </li>
                     <li className={dropdown ? "state-two" : ""}>

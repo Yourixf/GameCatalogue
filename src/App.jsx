@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useState, createContext, useContext} from 'react';
 
 import './App.css';
 import Navigation from './components/navigation/Navigation';
@@ -10,16 +10,18 @@ import Login from './pages/login/Login';
 import Register from './pages/register/Register';
 import NotFound from './pages/404/404';
 import Test from './pages/test/Test.jsx'
-
 import {Routes, Route} from 'react-router-dom';
+import { ThemeContext } from "./context/ThemeProvider.jsx";
 
 
 
 function App() {
+  const { selectedTheme } = useContext(ThemeContext)
+
   return (
     <>
       <Navigation/>
-        <div className="page-container">
+        <div className={`page-container ${selectedTheme}`}>
 
           <Routes>
             <Route path='/' element={<Home/>}/>

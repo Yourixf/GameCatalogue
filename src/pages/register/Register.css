@@ -20,11 +20,19 @@ form {
     margin: 20px;
 
     border-radius: 10px;
-    background-color: var(--login-main-background-color-dark);
-    color: var(--login-text-color-dark);
     border-bottom: 1px solid var(--main-stroke-color);
     box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.48);
+}
 
+.register-card.dark-mode {
+    background-color: var(--login-main-background-color-dark);
+    color: var(--login-text-color-dark);
+
+}
+
+.register-card.light-mode {
+    background-color: var(--login-main-background-color-light);
+    color: var(--login-text-color-light);
 }
 
 .register-title {
