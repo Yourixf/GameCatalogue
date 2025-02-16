@@ -30,7 +30,7 @@ function Register () {
             info: "",
             authorities: [
                 {
-                    authority: "USER"
+                    authority: "ADMIN"
                 }
             ]
         }

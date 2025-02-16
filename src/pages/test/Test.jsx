@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './Test.css';
 import axios from "axios";
 import Button from "../../components/button/Button.jsx";
+import {getToken, getTokenUserInfo, getTokenUsername, saveToken} from "../../helpers/auth.js";
 
 function Test () {
     const [jwtToken, setJWTToken] = useState("")
@@ -35,12 +36,30 @@ function Test () {
             const result = await axios.post(`${NOVI_BASE_API_ENDPOINT}/users/authenticate`, testUserDataBody, {headers:noviBaseHeaders});
             const tempJWTToken = result.data.jwt;
             setJWTToken(tempJWTToken)
+            console.log(result)
+
+            saveToken(tempJWTToken)
             console.log(tempJWTToken)
+
         }
         catch (e) {
             console.log(e)
         }
     }
+
+    async function getUserInfo() {
+        try {
+            const result = await axios.get(`${NOVI_BASE_API_ENDPOINT}/users/youriuser`, {headers:noviBaseHeaders});
+            console.log(result)
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }
+
+
+
+
     return(
         <>
             <div>
@@ -48,6 +67,7 @@ function Test () {
 
                 <Button onClick={testAPI} content={"testapi"}></Button>
                 <Button onClick={getJWTToken} content={"get jwt token"}></Button>
+                <Button onClick={getUserInfo} content={"Get User info"}/>
                 <p className={"tokenTest"}>{jwtToken}</p>
             </div>
         </>

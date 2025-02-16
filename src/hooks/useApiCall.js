@@ -21,6 +21,9 @@ export function useApiCall () {
             const response = await axios(options);
             setData(response.data);
             console.log(response)
+            console.log("1e data:")
+            console.log(data)
+            console.log(data.jwt)
         } catch (e) {
             setError(e);
         } finally {
