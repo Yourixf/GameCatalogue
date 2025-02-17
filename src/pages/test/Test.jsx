@@ -1,14 +1,16 @@
-import { useState } from 'react';
+import {useContext, useState} from 'react';
 import './Test.css';
 import axios from "axios";
 import Button from "../../components/button/Button.jsx";
 import {getToken, getTokenUserId, getTokenUsername, saveToken} from "../../helpers/auth.js";
 import {useGetUserInfo} from "../../hooks/useUser.js";
+import {AuthContext} from "../../context/AuthProvider.jsx";
 
 function Test () {
     const [jwtToken, setJWTToken] = useState("")
     const NOVI_BASE_API_ENDPOINT = "https://api.datavortex.nl/gamecatalogue";
     const { getUserInfo, data } = useGetUserInfo()
+    const { authData, login, logout } = useContext(AuthContext)
 
 
     const noviBaseHeaders = {
@@ -60,9 +62,11 @@ function Test () {
             getUserInfo(jwtToken, tokenUsername)
             console.log("dat zou dan moeten zijn: 1234", data)
 
+
+
             console.log(
-                data.username,
-                data.email,
+                await data.username,
+                await data.email,
             )
         }
         catch (e) {
@@ -75,6 +79,10 @@ function Test () {
         console.log(getTokenUserId(jwtToken))
     }
 
+    function logthisuserOut () {
+        logout()
+        console.log("logouit uitgevoerd")
+    }
 
 
 
@@ -87,6 +95,7 @@ function Test () {
                 <Button onClick={getJWTToken} content={"get jwt token"}></Button>
                 <Button onClick={getUserInfoTest} content={"Get User info"}/>
                 <Button onClick={randomTest} content={"Random test"}/>
+                <Button onClick={logthisuserOut} content={"log uit"}/>
                 <p className={"tokenTest"}>{jwtToken}</p>
             </div>
         </>

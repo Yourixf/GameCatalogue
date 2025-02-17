@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import {useLoginUser } from "../../hooks/useUser.js";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
+import {AuthContext} from "../../context/AuthProvider.jsx";
 
 
 function Login () {
@@ -17,17 +18,34 @@ function Login () {
 
     const { loginUser, data, loading, error } = useLoginUser();
     const { selectedTheme } = useContext(ThemeContext)
+    const { authData, login } = useContext(AuthContext)
+
 
     function handleClick () {
         navigate('/register');
     }
 
-    function handleFormSubmit(data) {
+    async function handleFormSubmit(data) {
         let formData = {
             username: `${data["username-field"]}`,
             password: `${data["user-password-field"]}`
         }
-        loginUser(formData)
+
+        try {
+            const token = await loginUser(formData)
+
+            if (!token) {
+                throw new Error("Login failed")
+            }
+
+            await login(token.data.jwt);
+        } catch (e) {
+            console.log("dikke error")
+        }
+
+
+        authData.login(response.data.jwt)
+
     }
 
     return (

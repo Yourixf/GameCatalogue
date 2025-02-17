@@ -11,24 +11,33 @@ function AuthContextProvider ({ children }) {
         user: null,
         status: 'pending',
     })
-    const { getUserInfo } = useGetUserInfo()
+    const { getUserInfo, data} = useGetUserInfo()
 
     async function login (token) {
         saveToken(token)
         const tokenUsername = getTokenUsername(token)
         const tokenUserId = getTokenUserId(token)
-
+        console.log("step 1")
         try{
+            console.log("step 2")
             const userData = await getUserInfo(token, tokenUsername)
+
+            if (!userData) {
+                throw new Error("User data is null")
+            }
+
+            console.log("step 3")
+
             setAuthState({
                 user: {
-                    username: `${userData.username}`,
+                    username: `${ userData.username}`,
                     email: `${userData.email}`,
                     info: `${userData.info}`,
                     id: tokenUserId,
                 },
                 status: 'done',
             });
+            console.log("step 4")
         } catch (e) {
             console.log("major error occured")
             console.log(e)

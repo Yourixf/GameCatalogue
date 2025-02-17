@@ -4,7 +4,7 @@ import Label from "../../components/label/Label.jsx";
 import Input from "../../components/input/Input.jsx";
 import {useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { useRegisterUser } from "../../hooks/useUser.js";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";

@@ -8,15 +8,18 @@ import favorite from "../../assets/navbar/favorite.png";
 import recommended from "../../assets/navbar/recommended.png";
 import search from "../../assets/navbar/search.png";
 import lightmode from "../../assets/navbar/lightmode.png";
+import defaultProfile from "../../assets/navbar/defaultProfile.png";
 import Button from "../button/Button";
 import CircleIcon from '../../components/circleIcon/CircleIcon';
 import { ThemeContext } from "../../context/ThemeProvider.jsx";
+import {AuthContext} from "../../context/AuthProvider.jsx";
 
 
 function Navigation () {
     const navigate = useNavigate();
     const [dropdown, dropdownToggle] = useState(false);
     const { toggleTheme, selectedTheme } = useContext(ThemeContext)
+    const { authData } = useContext(AuthContext)
 
     function dropdownClick () {
         console.log(dropdown);
@@ -34,9 +37,9 @@ function Navigation () {
         console.log(selectedTheme)
     }
 
-    // TO DO:
-    // 1: profiel icon en username toevoegen indien ingelogd
-    // 2: light mode functie koppelen
+    function profileButton () {
+        navigate("/profile")
+    }
 
     return(
         <>
@@ -78,7 +81,14 @@ function Navigation () {
                     </li>
                 </ul>
 
-                <Button onClick={handleClick} className={"navbar-login-button" + " state-one"} content="login" shadow={false}/>
+                {authData.authState ? <Button content={"patat"}/> : <Button content={"pizza"}/>}
+
+
+                {authData ?
+                    <CircleIcon className={"profile-icon"} onClick={profileButton} iconPictureSource={defaultProfile}/>
+                    :
+                    <Button onClick={handleClick} className={"navbar-login-button" + " state-one"} content="login" shadow={false}/>
+                    }
 
                 <div onClick={dropdownClick} className={`navbar-menu ${selectedTheme} ${[dropdown ? " navbar-menu-active" : ""]}`}>
                     <span></span>
