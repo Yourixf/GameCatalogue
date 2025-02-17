@@ -1,6 +1,6 @@
 import {createContext, useEffect, useState} from "react";
 import StatusMessage from "../components/statusMessage/StatusMessage.jsx";
-import {getToken, getTokenUserInfo, getTokenUsername} from "../helpers/auth.js";
+import {deleteToken, getToken, getTokenUserId, getTokenUsername, saveToken} from "../helpers/auth.js";
 import {useGetUserInfo} from "../hooks/useUser.js";
 
 
@@ -11,47 +11,66 @@ function AuthContextProvider ({ children }) {
         user: null,
         status: 'pending',
     })
+    const { getUserInfo } = useGetUserInfo()
 
-    useEffect(() => {
-        //check of er een token in local storage staat.
+    async function login (token) {
+        saveToken(token)
+        const tokenUsername = getTokenUsername(token)
+        const tokenUserId = getTokenUserId(token)
 
-        const currentToken = getToken();
-
-        if (currentToken) {
-            //zoja haal nieuwe dat op en zet deze in state:
-
-            const tokenUsername = getTokenUsername(currentToken)
-            const tokenUserInfo = useGetUserInfo(currentToken, tokenUsername)
-
-
+        try{
+            const userData = await getUserInfo(token, tokenUsername)
             setAuthState({
                 user: {
-                    username: "pietje",
-                    id: 1,
+                    username: `${userData.username}`,
+                    email: `${userData.email}`,
+                    info: `${userData.info}`,
+                    id: tokenUserId,
                 },
                 status: 'done',
             });
-        }
-        else{
-            // zo nee
+        } catch (e) {
+            console.log("major error occured")
+            console.log(e)
+
             setAuthState({
                 user: null,
                 status: 'done',
             });
         }
+    }
 
+    function logout () {
+        deleteToken()
 
+        setAuthState({
+            user: null,
+            status: 'done',
+        });
+    }
 
+    useEffect(() => {
+        const currentToken = getToken();
+
+        if (currentToken) {
+            login(currentToken)
+        }
+        else{
+            setAuthState({
+                user: null,
+                status: 'done',
+            });
+        }
     }, []);
 
-    const data = {
+    const authData = {
         ...authState,
-        login: login,
-        logout: logout,
+        login,
+        logout,
     };
 
     return (
-        <AuthContext.Provider value={data}>
+        <AuthContext.Provider value={authData}>
             {authState.status === 'pending'
                 ? <StatusMessage type={"loading"} content={"Laden..."} />
                 : children
@@ -60,3 +79,5 @@ function AuthContextProvider ({ children }) {
         </AuthContext.Provider>
     )
 }
+
+export default AuthContextProvider;

@@ -21,11 +21,7 @@ export function getTokenUsername (token) {
     return decoded.sub;
 }
 
-export function getTokenUserInfo (token) {
-    // const currentToken = token;
-    // const tokenUsername = getTokenUsername(currentToken)
-    //
-    // const infor = getUserInfo(currentToken, tokenUsername);
-    // console.log("test gettokenuserinfo")
-    // console.log(getUserInfo)
+export function getTokenUserId (token) {
+    return jwtDecode(token).userId
 }
+

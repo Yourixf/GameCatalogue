@@ -30,20 +30,22 @@ export function useLoginUser () {
             userData,
             { "X-Api-Key": `${API_KEY}` }
         );
+        // token wordt nu automatisch in local storage gezet
+        data && saveToken(data.jwt)
     };
 
     return { loginUser, data, loading, error };
 }
-//
+
 export function useGetUserInfo () {
     const { fetchData, data, loading, error } = useApiCall();
 
 
     function getUserInfo (currentToken, tokenUsername) {
         fetchData(
-            `${BASE_URL}/users/authenticate`,
-            "POST",
-            tokenUsername,
+            `${BASE_URL}/users/${tokenUsername}`,
+            "GET",
+            null,
             { "X-Api-Key": `${API_KEY}`,
                 "Authorization": `Bearer ${currentToken}`
             }

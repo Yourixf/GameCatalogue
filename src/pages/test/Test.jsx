@@ -2,11 +2,14 @@ import { useState } from 'react';
 import './Test.css';
 import axios from "axios";
 import Button from "../../components/button/Button.jsx";
-import {getToken, getTokenUserInfo, getTokenUsername, saveToken} from "../../helpers/auth.js";
+import {getToken, getTokenUserId, getTokenUsername, saveToken} from "../../helpers/auth.js";
+import {useGetUserInfo} from "../../hooks/useUser.js";
 
 function Test () {
     const [jwtToken, setJWTToken] = useState("")
     const NOVI_BASE_API_ENDPOINT = "https://api.datavortex.nl/gamecatalogue";
+    const { getUserInfo, data } = useGetUserInfo()
+
 
     const noviBaseHeaders = {
         'Content-type': 'application/json',
@@ -47,14 +50,29 @@ function Test () {
         }
     }
 
-    async function getUserInfo() {
+    async function getUserInfoTest() {
         try {
             const result = await axios.get(`${NOVI_BASE_API_ENDPOINT}/users/youriuser`, {headers:noviBaseHeaders});
             console.log(result)
+
+            const tokenUsername = getTokenUsername(jwtToken)
+            console.log("current username:"+ tokenUsername)
+            getUserInfo(jwtToken, tokenUsername)
+            console.log("dat zou dan moeten zijn: 1234", data)
+
+            console.log(
+                data.username,
+                data.email,
+            )
         }
         catch (e) {
             console.log(e)
         }
+    }
+
+
+    function randomTest () {
+        console.log(getTokenUserId(jwtToken))
     }
 
 
@@ -67,7 +85,8 @@ function Test () {
 
                 <Button onClick={testAPI} content={"testapi"}></Button>
                 <Button onClick={getJWTToken} content={"get jwt token"}></Button>
-                <Button onClick={getUserInfo} content={"Get User info"}/>
+                <Button onClick={getUserInfoTest} content={"Get User info"}/>
+                <Button onClick={randomTest} content={"Random test"}/>
                 <p className={"tokenTest"}>{jwtToken}</p>
             </div>
         </>
