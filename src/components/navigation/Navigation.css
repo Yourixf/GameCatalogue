@@ -143,6 +143,11 @@ ul {
     cursor: pointer;
 }
 
+.navbar-dropdown-active .profile-section {
+    flex-direction: column;
+    row-gap: 10px;
+}
+
 .navbar-menu > span {
     width: 48px;
     height: 4px;
@@ -165,7 +170,7 @@ ul {
     display: none;
 }
 
-.navbar > .navbar-login-button {
+.navbar .navbar-login-button {
     height: 50px;
     font-size: 40px;
 }
@@ -193,7 +198,10 @@ ul {
         border: var(--main-stroke-color) 1px solid;
         border-radius: 15px;
         list-style-type: none;
-        max-width: 200px ;
+
+        width: 100%;
+        max-width: fit-content;
+
         box-shadow: 0 0 20px 4px black;
     }
 

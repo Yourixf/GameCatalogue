@@ -85,8 +85,8 @@ function Navigation () {
 
                 {authData.user ?
                     <div className={"profile-section"}>
-                        <p className={`user-username ${selectedTheme} state-three`}>{authData.user.username}</p>
-                        <CircleIcon className={"profile-icon"} onClick={profileButton}
+                        <p className={`user-username ${selectedTheme} state-one`}>{authData.user.username}</p>
+                        <CircleIcon className={"profile-icon state-one"} onClick={profileButton}
                                     iconPictureSource={defaultProfile}/>
                     </div>
                     :
@@ -123,9 +123,24 @@ function Navigation () {
                             <CircleIcon className="favorite-icon" iconPictureSource={favorite}/>
                         </NavLink>
                     </li>
-                    <li className={dropdown ? "state-two" : ""}>
-                        <Button onClick={handleClick} className={"navbar-login-button" + " state-two"} content="login"/>
-                    </li>
+                    {authData.user ?
+                        <div className={"profile-section"}>
+                            <CircleIcon className={"profile-icon state-two"} onClick={profileButton}
+                                        iconPictureSource={defaultProfile}/>
+
+                            <li className={dropdown ? "state-two" : ""}>
+                                <Button onClick={authData.logout} className={"navbar-login-button" + " state-two"}
+                                        content="logout"/>
+                            </li>
+                        </div>
+
+                        :
+                        <div className={"profile-section"}>
+                            <Button onClick={handleClick} className={"navbar-login-button" + " state-two"} content="login" shadow={false}/>
+                        </div>
+
+                    }
+
                 </div>
             </nav>
         </>

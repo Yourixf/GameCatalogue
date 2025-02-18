@@ -33,8 +33,8 @@ function App() {
 
           <Routes>
             <Route path='/' element={<Home/>}/>
-            <Route path='/favorites' element={<Favorites/>}/>
-            <Route path='/recommendations' element={<Recommendations/>}/>
+            <Route path='/favorites' element={authData.user ? <Favorites/> : <Navigate to="/login"/>}/>
+            <Route path='/recommendations' element={authData.user ? <Recommendations/> : <Navigate to="/login"/>}/>
             <Route path='/results' element={<Results/>}/>
             <Route path='/login' element={<Login/>}/>
             <Route path='/register' element={<Register/>}/>
