@@ -20,7 +20,7 @@ function Login () {
     const { authData } = useContext(AuthContext)
 
 
-    function handleClick () {
+    function registerButton () {
         navigate('/register');
     }
 
@@ -38,6 +38,8 @@ function Login () {
             }
 
             await authData.login(token.data.jwt);
+
+            navigate('/')
         } catch (e) {
             console.log("dikke error")
             console.log(e)
@@ -90,7 +92,7 @@ function Login () {
 
                     <div className={"register-section"}>
                         <p>Geen account?</p>
-                        <Button onClick={handleClick} className={"register-button"}
+                        <Button onClick={registerButton} className={"register-button"}
                                 content={"maak een account"}></Button>
                     </div>
                 </div>
