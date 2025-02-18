@@ -122,6 +122,19 @@ ul {
     cursor: pointer;
 }
 
+.profile-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 5px;
+}
+
+.user-username {
+    color: var(--navbar-gamecatalogue-dark);
+    font-size: 40px;
+
+}
+
 /*dropdown menu*/
 .navbar-menu {
     display: none;

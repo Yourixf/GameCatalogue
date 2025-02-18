@@ -10,7 +10,7 @@ function Test () {
     const [jwtToken, setJWTToken] = useState("")
     const NOVI_BASE_API_ENDPOINT = "https://api.datavortex.nl/gamecatalogue";
     const { getUserInfo, data } = useGetUserInfo()
-    const { authData, login, logout } = useContext(AuthContext)
+    const { authData } = useContext(AuthContext)
 
 
     const noviBaseHeaders = {
@@ -80,7 +80,7 @@ function Test () {
     }
 
     function logthisuserOut () {
-        logout()
+        authData.logout()
         console.log("logouit uitgevoerd")
     }
 

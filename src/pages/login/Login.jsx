@@ -18,7 +18,7 @@ function Login () {
 
     const { loginUser, data, loading, error } = useLoginUser();
     const { selectedTheme } = useContext(ThemeContext)
-    const { authData, login } = useContext(AuthContext)
+    const { authData } = useContext(AuthContext)
 
 
     function handleClick () {
@@ -38,14 +38,11 @@ function Login () {
                 throw new Error("Login failed")
             }
 
-            await login(token.data.jwt);
+            await authData.login(token.data.jwt);
         } catch (e) {
             console.log("dikke error")
+            console.log(e)
         }
-
-
-        authData.login(response.data.jwt)
-
     }
 
     return (

@@ -81,14 +81,20 @@ function Navigation () {
                     </li>
                 </ul>
 
-                {authData.authState ? <Button content={"patat"}/> : <Button content={"pizza"}/>}
 
 
-                {authData ?
-                    <CircleIcon className={"profile-icon"} onClick={profileButton} iconPictureSource={defaultProfile}/>
+                {authData.user ?
+                    <div className={"profile-section"}>
+                        <p className={`user-username ${selectedTheme} state-three`}>{authData.user.username}</p>
+                        <CircleIcon className={"profile-icon"} onClick={profileButton}
+                                    iconPictureSource={defaultProfile}/>
+                    </div>
                     :
-                    <Button onClick={handleClick} className={"navbar-login-button" + " state-one"} content="login" shadow={false}/>
-                    }
+                    <div className={"profile-section"}>
+                        <Button onClick={handleClick} className={"navbar-login-button" + " state-one"} content="login" shadow={false}/>
+                    </div>
+
+                }
 
                 <div onClick={dropdownClick} className={`navbar-menu ${selectedTheme} ${[dropdown ? " navbar-menu-active" : ""]}`}>
                     <span></span>

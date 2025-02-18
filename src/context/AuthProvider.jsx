@@ -11,7 +11,7 @@ function AuthContextProvider ({ children }) {
         user: null,
         status: 'pending',
     })
-    const { getUserInfo, data} = useGetUserInfo()
+    const { getUserInfo } = useGetUserInfo()
 
     async function login (token) {
         saveToken(token)
@@ -30,9 +30,9 @@ function AuthContextProvider ({ children }) {
 
             setAuthState({
                 user: {
-                    username: `${ userData.username}`,
-                    email: `${userData.email}`,
-                    info: `${userData.info}`,
+                    username: `${ userData.data.username}`,
+                    email: `${userData.data.email}`,
+                    info: `${userData.data.info}`,
                     id: tokenUserId,
                 },
                 status: 'done',
@@ -78,10 +78,13 @@ function AuthContextProvider ({ children }) {
         logout,
     };
 
+    console.log("hele authData")
+    console.log(authData)
+
     return (
-        <AuthContext.Provider value={authData}>
+        <AuthContext.Provider value={{authData}}>
             {authState.status === 'pending'
-                ? <StatusMessage type={"loading"} content={"Laden..."} />
+                ? <StatusMessage type={"loading"} content={"Laden..." } />
                 : children
 
             }

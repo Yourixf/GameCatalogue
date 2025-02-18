@@ -20,14 +20,11 @@ import {AuthContext} from "./context/AuthProvider.jsx";
 
 function App() {
   const { selectedTheme } = useContext(ThemeContext)
-  const { authData, authState } = useContext(AuthContext)
+  const { authData } = useContext(AuthContext)
 
   console.log("app console")
-  console.log(!authData)
   console.log(authData)
 
-  console.log("authstate:")
-  console.log(authState)
 
   return (
     <>
@@ -41,7 +38,7 @@ function App() {
             <Route path='/results' element={<Results/>}/>
             <Route path='/login' element={<Login/>}/>
             <Route path='/register' element={<Register/>}/>
-            <Route path='/profile' element={authData ? <Profile/> : <Navigate to="/login"/>}/>
+            <Route path='/profile' element={authData.user ? <Profile/> : <Navigate to="/login"/>}/>
             <Route path='/test' element={<Test/>}/>
             <Route path='*' element={<NotFound/>}/>
           </Routes>
