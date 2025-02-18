@@ -6,11 +6,7 @@ function ThemeContextProvider ({ children }) {
     const [selectedTheme, toggleSelectedTheme] = useState("dark-mode")
 
     function toggleTheme () {
-        console.log("initial theme "+ selectedTheme)
         selectedTheme === "dark-mode" ? toggleSelectedTheme("light-mode") : toggleSelectedTheme("dark-mode")
-
-        console.log("after change theme "+ selectedTheme)
-
     }
 
     return (

@@ -1,14 +1,14 @@
-import {useContext, useState} from "react";
+import {useContext} from "react";
 import './Login.css';
 import Button from "../../components/button/Button.jsx";
 import Label from "../../components/label/Label.jsx";
 import Input from "../../components/input/Input.jsx";
-import statusMessage from "../../components/statusMessage/StatusMessage.jsx";
 import {useNavigate} from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {useLoginUser } from "../../hooks/useUser.js";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
+import {AuthContext} from "../../context/AuthProvider.jsx";
 
 
 function Login () {
@@ -17,17 +17,33 @@ function Login () {
 
     const { loginUser, data, loading, error } = useLoginUser();
     const { selectedTheme } = useContext(ThemeContext)
+    const { authData } = useContext(AuthContext)
 
-    function handleClick () {
+
+    function registerButton () {
         navigate('/register');
     }
 
-    function handleFormSubmit(data) {
+    async function handleFormSubmit(data) {
         let formData = {
             username: `${data["username-field"]}`,
             password: `${data["user-password-field"]}`
         }
-        loginUser(formData)
+
+        try {
+            const token = await loginUser(formData)
+
+            if (!token) {
+                throw new Error("Login failed")
+            }
+
+            await authData.login(token.data.jwt);
+
+            navigate('/')
+        } catch (e) {
+            console.log("dikke error")
+            console.log(e)
+        }
     }
 
     return (
@@ -76,7 +92,7 @@ function Login () {
 
                     <div className={"register-section"}>
                         <p>Geen account?</p>
-                        <Button onClick={handleClick} className={"register-button"}
+                        <Button onClick={registerButton} className={"register-button"}
                                 content={"maak een account"}></Button>
                     </div>
                 </div>

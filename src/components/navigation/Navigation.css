@@ -122,12 +122,30 @@ ul {
     cursor: pointer;
 }
 
+.profile-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 7px;
+}
+
+.user-username {
+    color: var(--navbar-gamecatalogue-dark);
+    font-size: 40px;
+
+}
+
 /*dropdown menu*/
 .navbar-menu {
     display: none;
     flex-direction: column;;
     row-gap: 10px;
     cursor: pointer;
+}
+
+.navbar-dropdown-active .profile-section {
+    flex-direction: column;
+    row-gap: 10px;
 }
 
 .navbar-menu > span {
@@ -152,7 +170,7 @@ ul {
     display: none;
 }
 
-.navbar > .navbar-login-button {
+.navbar .navbar-login-button {
     height: 50px;
     font-size: 40px;
 }
@@ -180,7 +198,10 @@ ul {
         border: var(--main-stroke-color) 1px solid;
         border-radius: 15px;
         list-style-type: none;
-        max-width: 200px ;
+
+        width: 100%;
+        max-width: fit-content;
+
         box-shadow: 0 0 20px 4px black;
     }
 

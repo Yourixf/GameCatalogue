@@ -32,6 +32,13 @@
   --login-text-color-dark: #FFFFFF;
   --login-text-color-light: #000000;
 
+  --profile-background-dark: #351313;
+  --profile-background-light: #EAEAEA;
+  --profile-text-dark: #FFFFFF;
+  --profile-text-light: #000000;
+  --profile-picture-background-dark: #692727;
+  --profile-picture-background-light: #D9D9D9;
+
   --button-main-color: #D9D9D9;
   --button-text-color-dark: #FFFFFF;
   --button-text-color-light: #000000;
