@@ -19,21 +19,21 @@ function Profile () {
                     <CircleIcon iconPictureSource={defaultProfile}/>
                 </div>
 
-                <div className={"profile-content"}>
-                    <h1>{authData.user.username}</h1>
-                    <h2>{authData.user.email}</h2>
+                    <div className={"profile-content"}>
+                        <h1>{authData.user.username}</h1>
+                        <h2>{authData.user.email}</h2>
 
-                    <span className={`profile-favorite-games-section`}>
-                        <h2>{authData.user.info}</h2>
-                        <p>Favorieten games</p>
-                    </span>
-                </div>
+                        <span className={`profile-favorite-games-section`}>
+                            <h2>{authData.user.info}</h2>
+                            <p>Favorieten games</p>
+                        </span>
+                    </div>
 
-                <div className={"profile-buttons"}>
-                    <Button content={"verander profiel foto"} />
-                    <Button content={"verander wachtwoord"} />
-                    <Button onClick={authData.logout} content={"uitloggen"} />
-                </div>
+                    <div className={"profile-buttons"}>
+                        <Button content={"verander profiel foto"} />
+                        <Button content={"verander wachtwoord"} />
+                        <Button onClick={authData.logout} content={"uitloggen"} />
+                    </div>
             </div>
         </div>
     
