@@ -2,7 +2,7 @@ import {useContext, useState} from 'react';
 import './Test.css';
 import axios from "axios";
 import Button from "../../components/button/Button.jsx";
-import {getToken, getTokenUserId, getTokenUsername, saveToken} from "../../helpers/auth.js";
+import {getToken, getTokenUserId, getTokenUsername, saveToken, validateToken} from "../../helpers/auth.js";
 import {useGetUserInfo} from "../../hooks/useUser.js";
 import {AuthContext} from "../../context/AuthProvider.jsx";
 
@@ -84,7 +84,11 @@ function Test () {
         console.log("logouit uitgevoerd")
     }
 
+    function validateTokenForMe () {
+        const currentToken = getToken()
+        validateToken(currentToken)
 
+    }
 
     return(
         <>
@@ -96,6 +100,7 @@ function Test () {
                 <Button onClick={getUserInfoTest} content={"Get User info"}/>
                 <Button onClick={randomTest} content={"Random test"}/>
                 <Button onClick={logthisuserOut} content={"log uit"}/>
+                <Button onClick={validateTokenForMe} content={"Validate token"}/>
                 <p className={"tokenTest"}>{jwtToken}</p>
             </div>
         </>

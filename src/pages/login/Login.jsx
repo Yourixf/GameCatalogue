@@ -31,17 +31,18 @@ function Login () {
         }
 
         try {
+            console.log("login.jsx - 34")
             const token = await loginUser(formData)
 
             if (!token) {
-                throw new Error("Login failed")
+                throw new Error("Login.jsx.jsx - 38 - Login failed")
             }
-
+            console.log("login.jsx - 40")
             await authData.login(token.data.jwt);
 
             navigate('/')
         } catch (e) {
-            console.log("dikke error")
+            console.log("login.jsx - 45")
             console.log(e)
         }
     }

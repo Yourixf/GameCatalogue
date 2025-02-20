@@ -49,8 +49,27 @@ export function useGetUserInfo () {
                 "Authorization": `Bearer ${currentToken}`
             }
         );
+
         return response;
     };
 
     return { getUserInfo, data, loading, error }
+}
+
+export function useUpdateUserInfo () {
+    const { fetchData, data, loading, error } = useApiCall();
+
+    async function updateUserInfo (userData, currentToken, tokenUsername) {
+        const response = await fetchData(
+            `${BASE_URL}/users/${tokenUsername}`,
+            "PUT",
+            userData,
+            { "X-Api-Key": `${API_KEY}`,
+                "Authorization": `Bearer ${currentToken}`
+            }
+        )
+        return response;
+    }
+
+    return { updateUserInfo, data, loading, error }
 }

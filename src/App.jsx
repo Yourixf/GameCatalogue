@@ -14,17 +14,11 @@ import Test from './pages/test/Test.jsx'
 import {Routes, Route, Navigate} from 'react-router-dom';
 import { ThemeContext } from "./context/ThemeProvider.jsx";
 import {AuthContext} from "./context/AuthProvider.jsx";
-
-
-
+import ChangePassword from "./pages/changePassword/ChangePassword.jsx";
 
 function App() {
   const { selectedTheme } = useContext(ThemeContext)
   const { authData } = useContext(AuthContext)
-
-  console.log("app console")
-  console.log(authData)
-
 
   return (
     <>
@@ -39,6 +33,7 @@ function App() {
             <Route path='/login' element={<Login/>}/>
             <Route path='/register' element={<Register/>}/>
             <Route path='/profile' element={authData.user ? <Profile/> : <Navigate to="/login"/>}/>
+            <Route path='/profile/changepassword' element={authData.user ? <ChangePassword/> : <Navigate to="/login"/>}/>
             <Route path='/test' element={<Test/>}/>
             <Route path='*' element={<NotFound/>}/>
           </Routes>

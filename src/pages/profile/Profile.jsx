@@ -5,10 +5,16 @@ import defaultProfile from "../../assets/navbar/defaultProfile.png";
 import {AuthContext} from "../../context/AuthProvider.jsx";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
 import Button from "../../components/button/Button.jsx";
+import {useNavigate} from "react-router-dom";
 
 function Profile () {
+    const navigate = useNavigate()
     const { authData } = useContext(AuthContext)
     const { selectedTheme } = useContext(ThemeContext)
+
+    function changePassword () {
+        navigate("/profile/changepassword")
+    }
 
 
     return(
@@ -31,7 +37,7 @@ function Profile () {
 
                     <div className={"profile-buttons"}>
                         <Button content={"verander profiel foto"} />
-                        <Button content={"verander wachtwoord"} />
+                        <Button onClick={changePassword} content={"verander wachtwoord"} />
                         <Button onClick={authData.logout} content={"uitloggen"} />
                     </div>
             </div>
