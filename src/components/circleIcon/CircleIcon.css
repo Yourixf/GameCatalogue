@@ -27,11 +27,13 @@
 
 /* state three */
 @media all and (max-width: 758px) {
-    .navbar-dropdown-active .circle-icon-main {
-        height: 50px;
-        width: 50px;
+    .circle-icon-main {
+        min-height: 45px;
+        height: 45px;
+        min-width: 45px;
+        width: 45px;
     }
-    .navbar-dropdown-active .circle-icon-picture {
-        max-width: 35px;
+    .circle-icon-picture {
+        max-width: 30px;
     }
 }

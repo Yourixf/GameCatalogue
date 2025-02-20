@@ -129,7 +129,7 @@ function Navigation () {
                                         iconPictureSource={defaultProfile}/>
 
                             <li className={dropdown ? "state-two" : ""}>
-                                <Button onClick={authData.logout} className={"navbar-login-button" + " state-two"}
+                                <Button onClick={authData.logout} className={"navbar-logout-button" + " state-two"}
                                         content="logout"/>
                             </li>
                         </div>

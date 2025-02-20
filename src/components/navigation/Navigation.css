@@ -181,7 +181,7 @@ ul {
     display: none;
 }
 
-.navbar .navbar-login-button {
+.navbar.state-one .navbar-login-button {
     height: 50px;
     font-size: 40px;
 }
@@ -214,6 +214,9 @@ ul {
         max-width: fit-content;
 
         box-shadow: 0 0 20px 4px black;
+
+        z-index: 2;
+
     }
 
     .navbar-dropdown-active.dark-mode {
