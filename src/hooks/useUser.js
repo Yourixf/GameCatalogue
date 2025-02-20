@@ -53,7 +53,7 @@ export function useGetUserInfo () {
         return response;
     };
 
-    return { getUserInfo, data, loading, error }
+    return { getUserInfo, data, loading, error };
 }
 
 export function useUpdateUserInfo () {
@@ -67,9 +67,27 @@ export function useUpdateUserInfo () {
             { "X-Api-Key": `${API_KEY}`,
                 "Authorization": `Bearer ${currentToken}`
             }
-        )
+        );
         return response;
-    }
+    };
+    return { updateUserInfo, data, loading, error };
+}
 
-    return { updateUserInfo, data, loading, error }
+export function useUploadProfilePicture () {
+    const { fetchData, data, loading, error } = useApiCall();
+
+    async function uploadProfilePicture (profilePicture, currentToken, tokenUsername) {
+        const response = await fetchData(
+            `${BASE_URL}/users/${tokenUsername}/upload`,
+            "POST",
+            profilePicture,
+            { "X-Api-Key": `${API_KEY}`,
+            "Content-type":'multipart/form-data',
+                "Authorization": `Bearer ${currentToken}`
+            }
+        );
+
+        return response;
+    };
+    return { uploadProfilePicture, data, loading, error};
 }

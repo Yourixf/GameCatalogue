@@ -3,13 +3,16 @@ import './Test.css';
 import axios from "axios";
 import Button from "../../components/button/Button.jsx";
 import {getToken, getTokenUserId, getTokenUsername, saveToken, validateToken} from "../../helpers/auth.js";
-import {useGetUserInfo} from "../../hooks/useUser.js";
+import {useGetUserInfo, useUploadProfilePicture} from "../../hooks/useUser.js";
 import {AuthContext} from "../../context/AuthProvider.jsx";
+
+import lightmode from "../../assets/navbar/lightmode.png";
 
 function Test () {
     const [jwtToken, setJWTToken] = useState("")
     const NOVI_BASE_API_ENDPOINT = "https://api.datavortex.nl/gamecatalogue";
     const { getUserInfo, data } = useGetUserInfo()
+    const {uploadProfilePicture } = useUploadProfilePicture()
     const { authData } = useContext(AuthContext)
 
 
@@ -90,6 +93,18 @@ function Test () {
 
     }
 
+    function uploadProfilePic () {
+        const currentToken = getToken()
+        console.log(currentToken)
+        const tokenUsername = getTokenUsername(currentToken)
+        console.log(tokenUsername)
+        const profilePicture =  `https://yt3.googleusercontent.com/ytc/AIdro_mGfLWTNObiKBPVx_I45IMevDWgxzLbpcyqPM8ynAyyVyQ=s160-c-k-c0x00ffffff-no-rj`;
+        console.log(profilePicture)
+
+        uploadProfilePicture(profilePicture, currentToken, tokenUsername)
+
+
+    }
     return(
         <>
             <div>
@@ -101,6 +116,7 @@ function Test () {
                 <Button onClick={randomTest} content={"Random test"}/>
                 <Button onClick={logthisuserOut} content={"log uit"}/>
                 <Button onClick={validateTokenForMe} content={"Validate token"}/>
+                <Button onClick={uploadProfilePic} content={"upload profiel foto"}/>
                 <p className={"tokenTest"}>{jwtToken}</p>
             </div>
         </>

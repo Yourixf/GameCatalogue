@@ -25,21 +25,26 @@ function ChangePassword () {
     }
 
     async function handleFormSubmit(data) {
+        console.log("inital data")
+        console.log(data)
+
         let formData = {
-            password: `${data["user-password-field"]}`
+            password: `${data["user-new-password-field"]}`
         }
 
         const currentToken = getToken()
-        const tokenUsername = getTokenUsername()
+        const tokenUsername = getTokenUsername(currentToken)
+        console.log(data)
 
         try {
             const token = await updateUserInfo(formData, currentToken, tokenUsername)
 
             if (!token) {
-                throw new Error("ChangePassword.jsc - 39 - wachtwoord wijzigen mislukt")
+                throw new Error("ChangePassword.jsx - 39 - wachtwoord wijzigen mislukt")
             }
+            console.log(data)
+            //datislekker
 
-            navigate('/')
         } catch (e) {
             console.log("ChangePassword.jsx - 44 - er ging wat mis...")
             console.log(e)
@@ -55,16 +60,35 @@ function ChangePassword () {
                     <StatusMessage statusState={loading} type={"loading"} content={"Laden..."}/>
 
                     <StatusMessage statusState={error} type={"error"} content={error ?  error.response.data : "er ging iets fout..."}/>
-
                     <StatusMessage statusState={data} type={"succes"} content={"Wachtwoord veranderd"}/>
 
-                    <Label className={"label-password"} htmlFor={"user-password-field"}>
-                        Nieuw wachtwoord:
-                        <Input className={"register-form-field"} id={"user-password-field"}
+
+                    <Label className={"label-current-password"} htmlFor={"current-user-password-field"}>
+                        Huidig wachtwoord:
+                        <Input className={"change-password-form-field"} id={"current-user-password-field"}
                                validationRules={{
                                    required: {
                                        value: true,
-                                       message: 'Wachtwoord is verplicht',
+                                       message: 'Huidig wachtwoord is verplicht',
+                                   },
+                                   minLength: {
+                                       value: 8,
+                                       message: "Wachtwoord moet minimaal uit 8 characters bestaan "
+                                   }
+                               }}
+                               register={register}
+                               errors={errors}
+                               type={"password"}
+                        />
+                    </Label>
+
+                    <Label className={"label-new-password"} htmlFor={"user-new-password-field"}>
+                        Nieuw wachtwoord:
+                        <Input className={"change-password-form-field"} id={"user-new-password-field"}
+                               validationRules={{
+                                   required: {
+                                       value: true,
+                                       message: 'Nieuw wachtwoord is verplicht',
                                    },
                                    minLength: {
                                        value: 8,
@@ -80,7 +104,7 @@ function ChangePassword () {
 
                     <Label className={"label-confirm-password"} htmlFor={"user-confirm-password-field"}>
                         Bevestig nieuw wachtwoord:
-                        <Input className={"login-form-field"} id={"user-confirm-password-field"}
+                        <Input className={"change-password-form-field"} id={"user-confirm-password-field"}
                                validationRules={{
                                    required: {
                                        value: true,
@@ -98,7 +122,8 @@ function ChangePassword () {
                     <Button className={"confirm-button"} content={"bevestig"} type={"submit"}></Button>
 
                     <Button onClick={cancelButton} className={"cancel-button"}
-                                content={"Annuleren"}></Button>
+                            content={data? 'Terug naar profiel' : "Annuleren"}></Button>
+
 
                 </div>
             </form>

@@ -20,8 +20,10 @@ export function useApiCall () {
             };
             const response = await axios(options);
             setData(response);
+            console.log(response)
             return response
         } catch (e) {
+            console.log(e)
             setError(e);
         } finally {
             setLoading(false);
@@ -30,4 +32,3 @@ export function useApiCall () {
 
     return { fetchData, data, loading, error }
 }
-
