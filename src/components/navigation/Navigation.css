@@ -127,12 +127,23 @@ ul {
     align-items: center;
     justify-content: center;
     column-gap: 7px;
+    height: inherit;
+
 }
 
 .user-username {
-    color: var(--navbar-gamecatalogue-dark);
-    font-size: 40px;
+    display: flex;
+    max-width: 300px;
+    width: 100px;
+    min-width: 150px;
+}
 
+.navbar.dark-mode .user-username{
+    color: var(--navbar-gamecatalogue-dark);
+}
+
+.navbar.light-mode .user-username{
+    color: var(--navbar-gamecatalogue-light);
 }
 
 /*dropdown menu*/

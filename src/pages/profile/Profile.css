@@ -44,6 +44,7 @@
     top: -50px;
     left: 50%;
     transform: translateX(-50%);
+
 }
 
 
@@ -52,6 +53,7 @@
     height: 179px;
     flex-shrink: 0;
     border-radius: 100%;
+    box-shadow: 0 5px 20px -7px black;
 }
 
 .profile-picture .circle-icon-main .circle-icon-picture {
@@ -62,10 +64,15 @@
 
 }
 
+.profile-card  h1,h2 {
+    font-weight: normal;
+}
+
 .profile-content {
     display: flex;
     flex-direction: column;
     row-gap: 45px;
+    font-weight: normal;
 }
 
 .profile-buttons {

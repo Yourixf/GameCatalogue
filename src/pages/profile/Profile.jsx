@@ -24,7 +24,7 @@ function Profile () {
                         <h2>{authData.user.email}</h2>
 
                         <span className={`profile-favorite-games-section`}>
-                            <h2>{authData.user.info}</h2>
+                            <h2>{authData.user.info}0</h2>
                             <p>Favorieten games</p>
                         </span>
                     </div>
