@@ -20,12 +20,12 @@ function Profile () {
                 </div>
 
                     <div className={"profile-content"}>
-                        <h1>{authData.user.username}</h1>
-                        <h2>{authData.user.email}</h2>
+                        <h1 className={"profile-username"}>{authData.user.username}</h1>
+                        <h2 className={"profile-email"}>{authData.user.email}</h2>
 
                         <span className={`profile-favorite-games-section`}>
-                            <h2>{authData.user.info}0</h2>
-                            <p>Favorieten games</p>
+                            <h2 className={"profile-favorite-amount"}>{authData.user.info}0</h2>
+                            <p className={"profile-favorite-text"}>Favorieten games</p>
                         </span>
                     </div>
 
