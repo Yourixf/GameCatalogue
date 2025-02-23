@@ -77,12 +77,17 @@ export function useUploadProfilePicture () {
     const { fetchData, data, loading, error } = useApiCall();
 
     async function uploadProfilePicture (profilePicture, currentToken, tokenUsername) {
+        
+        const formData = new FormData();
+        formData.append("file", profilePicture); 
+        
         const response = await fetchData(
             `${BASE_URL}/users/${tokenUsername}/upload`,
             "POST",
-            profilePicture,
-            { "X-Api-Key": `${API_KEY}`,
-            "Content-type":'multipart/form-data',
+            formData,
+            {
+                "accept":"*/*",
+                "Content-type":'multipart/form-data',
                 "Authorization": `Bearer ${currentToken}`
             }
         );
@@ -90,4 +95,24 @@ export function useUploadProfilePicture () {
         return response;
     };
     return { uploadProfilePicture, data, loading, error};
+}
+
+
+export function useDownloadProfilePicture () {
+    const { fetchData, data, loading, error } = useApiCall();
+
+    async function downloadProfilePicture (currentToken, tokenUsername) {
+        const response = await fetchData(
+            `${BASE_URL}/users/${tokenUsername}/download`,
+            "GET",
+            null,
+            {
+                "accept":"*/*",
+                "Authorization": `Bearer ${currentToken}`
+            }
+        );
+
+        return response;
+    };
+    return { downloadProfilePicture, data, loading, error};
 }

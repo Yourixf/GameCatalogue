@@ -70,10 +70,6 @@ function ChangePassword () {
                                    required: {
                                        value: true,
                                        message: 'Huidig wachtwoord is verplicht',
-                                   },
-                                   minLength: {
-                                       value: 8,
-                                       message: "Wachtwoord moet minimaal uit 8 characters bestaan "
                                    }
                                }}
                                register={register}

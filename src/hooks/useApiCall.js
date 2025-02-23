@@ -11,7 +11,7 @@ export function useApiCall () {
         setLoading(true);
         setError(null);
 
-        try {
+        try {            
             const options = {
                 method,
                 headers: { "Content-Type": "application/json", ...headers },
@@ -19,6 +19,8 @@ export function useApiCall () {
                 url,
             };
             const response = await axios(options);
+            console.log("Options zijn")
+            console.log(options);
             setData(response);
             console.log(response)
             return response
