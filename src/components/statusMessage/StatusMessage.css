@@ -1,0 +1,21 @@
+.status-message {
+    font-size: 30px;
+}
+
+.status-loading {
+    color: var(--loading-text-color-dark);
+}
+
+.status-error {
+    color: var(--error-text-color-dark);
+}
+
+.status-succes {
+    color: var(--succes-text-color-dark);
+}
+
+@media (max-width: 758px) {
+    .status-message {
+        font-size: 22px;
+    }
+}

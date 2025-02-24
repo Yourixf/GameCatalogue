@@ -1,8 +1,9 @@
-
 .circle-icon-main {
     background-color: var(--navbar-secondary);
     height: 60px;
+    min-height: 60px;
     width: 60px;
+    min-width: 60px;
     border:none;
     border-radius: 50px;
     display: flex;
@@ -26,11 +27,13 @@
 
 /* state three */
 @media all and (max-width: 758px) {
-    .navbar-dropdown-active .circle-icon-main {
-        height: 50px;
-        width: 50px;
+    .circle-icon-main {
+        min-height: 45px;
+        height: 45px;
+        min-width: 45px;
+        width: 45px;
     }
-    .navbar-dropdown-active .circle-icon-picture {
-        max-width: 35px;
+    .circle-icon-picture {
+        max-width: 30px;
     }
 }

@@ -1,0 +1,129 @@
+.profile-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+
+    width: 100%;
+    max-width: 780px;
+    min-width: 300px;
+
+    row-gap: 50px;
+    padding: 150px 50px 20px;
+    margin: 85px 20px 20px;
+
+    border-radius: 10px;
+    border-bottom: 1px solid var(--main-stroke-color);
+    box-shadow: 0 4px 30px 0 rgba(0, 0, 0, 0.48);
+    z-index: 1;
+
+
+}
+
+.profile-card.dark-mode {
+    background-color: var(--profile-background-dark);
+    color: var(--profile-text-dark);
+}
+
+.profile-card.light-mode {
+    background-color: var(--profile-background-light);
+    color: var(--profile-text-light);
+}
+
+.profile-card.dark-mode .circle-icon-main {
+    background-color: var(--profile-picture-background-dark);
+}
+
+.profile-card.light-mode .circle-icon-main {
+    background-color: var(--profile-picture-background-light);
+}
+
+.profile-picture {
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+
+}
+
+
+.profile-picture .circle-icon-main  {
+    width: 179px;
+    height: 179px;
+    flex-shrink: 0;
+    border-radius: 100%;
+    box-shadow: 0 5px 20px -7px black;
+}
+
+.profile-picture .circle-icon-main .circle-icon-picture {
+    width: 80%;
+    max-width: 90%;
+    position: relative;
+    bottom: 6px;
+
+}
+
+.profile-username, .profile-email, .profile-favorite-amount , .profile-favorite-text {
+    font-weight: normal;
+}
+
+.profile-content {
+    display: flex;
+    flex-direction: column;
+    row-gap: 45px;
+    font-weight: normal;
+}
+
+.profile-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 15px;
+}
+
+
+
+/* state two */
+@media all and (max-width: 1130px) {
+
+}
+
+/* state three */
+@media all and (max-width: 758px) {
+    .profile-card {
+        width: 80%;
+        max-width: 450px;
+        /*row-gap: 20px;*/
+        /*padding: 15px;*/
+
+        row-gap: 50px;
+        padding: 110px 15px 15px;
+        margin: 85px 20px 20px;
+    }
+
+    .profile-username, .profile-email, .profile-favorite-amount, .profile-favorite-text {
+        font-size: 18px;
+    }
+
+    .profile-card {
+        width: 90%;
+    }
+
+    .profile-picture .circle-icon-main  {
+        width: 130px;
+        height: 130px;
+        flex-shrink: 0;
+        border-radius: 100%;
+        box-shadow: 0 5px 20px -7px black;
+    }
+
+    .profile-picture .circle-icon-main .circle-icon-picture {
+        width: 80%;
+        max-width: 90%;
+        position: relative;
+        bottom: 6px;
+
+    }
+}
