@@ -38,9 +38,18 @@
   --button-hover-dark: #c1c1c1;
 
   --game-card-main-dark: #351313;
-  --game-card-main-light: #000000;
+  --game-card-main-light: #EAEAEA;
   --game-card-text-dark: #FFFFFF;
   --game-card-text-light: #000000;
+
+  --pagination-main-background-dark: #351313;
+  --pagination-main-background-light: #EAEAEA;
+  --pagination-secondary-background-dark: #692727;
+  --pagination-secondary-background-light: #BA7878;
+  --pagination-selected-page-dark: #281212;
+  --pagination-selected-page-light: #FFFFFF;
+  --pagination-text-dark: #FFFFFF;
+  --pagination-text-light: #000000;
 
 }
 

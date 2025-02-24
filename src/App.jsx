@@ -17,7 +17,6 @@ import {Routes, Route} from 'react-router-dom';
 function App() {
   return (
     <>
-      <Navigation/>
         <div className="page-container">
 
           <Routes>
