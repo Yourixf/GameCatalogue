@@ -37,19 +37,19 @@ function GameCard ({className="" }) {
 
         <article className={`game-card-main ${className} ${selectedTheme}`}>
 
-            <div className={"game-card-picture"}>
+            <figure className={"game-card-picture"}>
                 <span className={"game-text-label"}>favoriet</span>
                 <img className={"game-image"} src={pubgImg} alt="game-image"/>
-            </div>
+            </figure>
             <div className={`game-card-title`}>PlayerUnknown’s Battlegrounds</div>
-            <div className={"game-card-platforms"}>
+            <figure className={"game-card-platforms"}>
                 <img className={"platform-icon"}  src={windwows} alt="windows-icon"/>
                 <img className={"platform-icon"} src={playstation} alt="playstation-icon"/>
                 <img className={"platform-icon"} src={xbox} alt="xbox-icon"/>
                 <img className={"platform-icon"} src={apple} alt="apple-icon"/>
                 <img className={"platform-icon"} src={android} alt="android-icon"/>
                 <img className={"platform-icon"} src={nitendoswitch} alt="nitendoswitch-icon"/>
-            </div>
+            </figure>
 
         </article>
     )

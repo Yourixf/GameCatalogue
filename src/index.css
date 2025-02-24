@@ -49,6 +49,10 @@
   --game-card-text-dark: #FFFFFF;
   --game-card-text-light: #000000;
 
+  --recommended-text-description: #4B4B4B ;
+  --recommended-pagination-other-game: #AEAEAE ;
+  --recommended-pagination-selected-game: #4B4B4B ;
+
   --pagination-main-background-dark: #351313;
   --pagination-main-background-light: #EAEAEA;
   --pagination-secondary-background-dark: #692727;
