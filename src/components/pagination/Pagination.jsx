@@ -1,11 +1,13 @@
 import'./Pagination.css';
+import {useContext} from "react";
+import {ThemeContext} from "../../context/ThemeProvider.jsx";
 
 
 // when adding API data, i will add the code for the dynamic part.
 
 function Pagination () {
-    //temp theme, when merged ill implement ThemeProvider
-    const selectedTheme = "dark-mode";
+    const { selectedTheme } = useContext(ThemeContext)
+
 
     return (
         <nav className={`pagination ${selectedTheme}`}>

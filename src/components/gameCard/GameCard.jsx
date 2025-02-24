@@ -7,6 +7,8 @@ import nitendoswitch from '../../assets/platforms/nitendoswitch.png'
 import windwows from '../../assets/platforms/windows.png'
 import xbox from '../../assets/platforms/xbox.png'
 import pubgImg from '../../assets/TEMPGAMEBACKGROUND.png'
+import {useContext} from "react";
+import {ThemeContext} from "../../context/ThemeProvider.jsx";
 
 /* in data would be the, data object itself > results object > platforms list with object in
  > sepperate platform object(s) :
@@ -28,8 +30,8 @@ import pubgImg from '../../assets/TEMPGAMEBACKGROUND.png'
 
 // when adding API data, i will add the code for the dynamic part.
 function GameCard ({className="" }) {
-    //temp theme, when merged ill implement ThemeProvider
-    const selectedTheme = "light-mode";
+    const { selectedTheme } = useContext(ThemeContext)
+
 
     return (
 
