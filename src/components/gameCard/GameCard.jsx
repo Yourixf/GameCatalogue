@@ -28,7 +28,7 @@ import pubgImg from '../../assets/TEMPGAMEBACKGROUND.png'
 
 // when adding API data, i will add the code for the dynamic part.
 function GameCard ({className="" }) {
-
+    //temp theme, when merged ill implement ThemeProvider
     const selectedTheme = "light-mode";
 
     return (

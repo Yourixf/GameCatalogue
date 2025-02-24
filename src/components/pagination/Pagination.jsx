@@ -1,6 +1,10 @@
 import'./Pagination.css';
 
+
+// when adding API data, i will add the code for the dynamic part.
+
 function Pagination () {
+    //temp theme, when merged ill implement ThemeProvider
     const selectedTheme = "dark-mode";
 
     return (

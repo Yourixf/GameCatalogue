@@ -68,7 +68,7 @@
     width: 100%;
     min-width: 40px;
 
-    height: 34px;
+    height: 85%;
 
     padding: 0 10px;
     border-radius: 10px;
@@ -91,7 +91,15 @@
 
 /* state two */
 @media all and (max-width: 1130px) {
+    .pagination {
+        font-size: 17px;
+        height: 30px;
 
+    }
+
+    .pagination-pages {
+        min-width: 25px;
+    }
 }
 
 /* state three */

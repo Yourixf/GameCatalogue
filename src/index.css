@@ -51,6 +51,10 @@
   --pagination-text-dark: #FFFFFF;
   --pagination-text-light: #000000;
 
+  --filter-sort-background-color-dark: #692727;
+  --filter-sort-background-color-light: #EAEAEA;
+  --filter-sort-text-color-dark: #FFFFFF;
+  --filter-sort-text-color-light: #000000;
 }
 
 * {
