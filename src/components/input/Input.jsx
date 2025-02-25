@@ -1,10 +1,10 @@
 import "./Input.css";
 
-function Input ({className="", type='text', id, placeholder, disabled,  register, validationRules, errors }) {
+function Input ({className="", type='text', name='', id, placeholder, disabled,  register, validationRules, errors }) {
         return(
             <>
                 <input className={"input-field " + className}
-                       id={id} type={type}
+                       id={id} type={type} name={name}
                        disabled={disabled}
                        placeholder={placeholder}
                        {...(register ? register(id, validationRules) : {})}
