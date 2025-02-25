@@ -21,7 +21,7 @@ function SortingFilter ({className="", type='sorting', content}) {
 
     // filter options needs to be
 
-    return(
+    return (
         <div className={`sorting-filter ${type} ${className} ${selectedTheme} ${[dropdown ? " dropdown-menu-active" : "dropdown-menu-inactive"]}`}>
             <div className={"sorting-filter-main-wrapper"}>
                 <p className={`sorting-filter-label`}>{content}</p>
@@ -33,7 +33,7 @@ function SortingFilter ({className="", type='sorting', content}) {
             <div className={`sorting-filter-dropdown-options ${[dropdown ? " dropdown-menu-active" : "dropdown-menu-inactive"]}`}>
 
                 { type === "sorting" ? [
-                    <Label htmlFor={"sorting-release-date"} >
+                    <Label key={'1'} htmlFor={"sorting-release-date"} >
                         Release datum
                         <Input
                             type={"radio"}
@@ -43,7 +43,7 @@ function SortingFilter ({className="", type='sorting', content}) {
                         />
                     </Label>
                     ,
-                    <Label htmlFor={"sorting-alphabetical-order"} >
+                    <Label key={'2'} htmlFor={"sorting-alphabetical-order"} >
                         Alphabetische volgorde
                         <Input
                             type={"radio"}
@@ -55,8 +55,8 @@ function SortingFilter ({className="", type='sorting', content}) {
                     ] :
 
                     [
-                        <p>Genres:</p>,
-                        <Label htmlFor={"filter-genre"}>
+                        <p key={'3'}>Genres:</p>,
+                        <Label key={'4'} htmlFor={"filter-genre"}>
                             Actie
                             <Input
                                 type={"checkbox"}
@@ -67,22 +67,22 @@ function SortingFilter ({className="", type='sorting', content}) {
                         </Label>
                         ,
 
-                        <p>Uitgevers:</p>,
+                        <p key={'5'}>Uitgevers:</p>,
 
 
-                        <Label htmlFor={"filter-publisher"}>
+                        <Label key={'6'} htmlFor={"filter-publisher"}>
                             Steam
                             <Input
                                 type={"checkbox"}
                                 className={"sorting-alphabetical-order"}
-                                id={"sorting-alphabetical-order"}
+                                id={"filter-publisher"}
                                 name={"filter-options"}
                             />
                         </Label>,
 
-                        <p>Platform:</p>,
+                        <p key={'7'}>Platform:</p>,
 
-                        <Label htmlFor={"filter-platform"}>
+                        <Label key={'8'} htmlFor={"filter-platform"}>
                             PC
                             <Input
                                 type={"checkbox"}

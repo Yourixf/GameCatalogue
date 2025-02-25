@@ -28,19 +28,16 @@ function Home () {
             <section className={`section-outer-container recommended-section-outer`}>
                 <div className={`section-inner-container recommended-section-inner ${selectedTheme}`}>
 
-                     <span className={"sorting-filter-wrapper state-one"}>
-                       <SortingFilter content={"Sorteer op:"} type={'sorting'}/>
-                       <SortingFilter content={"Filter op:"} type={"filter"}/>
-                    </span>
 
                     <span className={"recommended-section-wrapper"}>
-                        <h2 className={`section-title recommended-title`}>Aanbevolen voor jou</h2>
-                        <article className={`recommended-card ${selectedTheme}`}>
-                            <figure className={`recommended-game-image-wrapper`}>
+
+                            <span className={"section-title-wrapper"}>
+                                <h2 className={`section-title recommended-title`}>Aanbevolen voor jou</h2>
+                            </span>
+                            <article className={`recommended-card ${selectedTheme}`}>
+                                <figure className={`recommended-game-image-wrapper`}>
                                 <img className={`recommended-game-image`} src={pubgImg} alt="game-image"/>
-
                             </figure>
-
                             <span className={`recommended-game-info-wrapper`}>
                                 <div className={`recommended-text-info`}>
                                     <h3 className={`recommended-text-description`}>Titel</h3>
@@ -64,36 +61,36 @@ function Home () {
                                     <img className={"platform-icon"} src={nitendoswitch} alt="nitendoswitch-icon"/>
                                 </figure>
                             </span>
-                        </article>
-                        <nav className={`recommended-pagination`} aria-label={"recommended games pagination"}>
-                            <span className={`recommended-pagination-other currently-selected`}
-                                  aria-label={"game-1"}></span>
-                            <span className={`recommended-pagination-other`} aria-label={"game 2"}></span>
-                            <span className={`recommended-pagination-other`} aria-label={"game 3"}></span>
-                            <span className={`recommended-pagination-other`} aria-label={"game 4"}></span>
-                            <span className={`recommended-pagination-other`} aria-label={"game 5"}></span>
-                            <span className={`recommended-pagination-other`} aria-label={"game 6"}></span>
-
-
-                        </nav>
-                    </span>
+                            </article>
+                            <nav className={`recommended-pagination`} aria-label={"recommended games pagination"}>
+                                <span className={`recommended-pagination-other currently-selected`}
+                                      aria-label={"game-1"}></span>
+                                <span className={`recommended-pagination-other`} aria-label={"game 2"}></span>
+                                <span className={`recommended-pagination-other`} aria-label={"game 3"}></span>
+                                <span className={`recommended-pagination-other`} aria-label={"game 4"}></span>
+                                <span className={`recommended-pagination-other`} aria-label={"game 5"}></span>
+                                <span className={`recommended-pagination-other`} aria-label={"game 6"}></span>
+                            </nav>
+                        </span>
                 </div>
 
             </section>
 
 
-            <section className={`section-outer-container trending-games`}>
-                <div className={`section-inner-container trending-games-section-inner`}>
-                    <div>
+            <section className={`section-outer-container trending-games-outer-container`}>
+                <div className={`section-inner-container trending-games-inner-container`}>
+                    <div className={"section-game-header"}>
                         <h2 className={`section-title`}>
                             Uitgelicht
                         </h2>
+                        <span className={"sorting-filter-wrapper state-two"}>
+                            <SortingFilter content={"Sorteer op:"} type={'sorting'}/>
+                            <SortingFilter content={"Filter op:"} type={"filter"}/>
+                        </span>
 
+                        <span className={"hidden-item"}></span>
                     </div>
-                    <span className={"sorting-filter-wrapper state-two"}>
-                       <SortingFilter content={"Sorteer op:"} type={'sorting'}/>
-                       <SortingFilter content={"Filter op:"} type={"filter"}/>
-                    </span>
+
 
                     <div className={`game-card-wrapper`}>
                         <GameCard/>
@@ -113,11 +110,6 @@ function Home () {
                 </div>
             </section>
 
-            {/*<h1>HOME </h1>*/}
-            {/*<SortingFilter type={`sorting`} content={`Sorteer op:`}/>*/}
-            {/*<SortingFilter type={`filter`} content={`Filter op:`}/>*/}
-            {/*<GameCard/>*/}
-            {/*<Pagination/>*/}
 
 
         </main>

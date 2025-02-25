@@ -42,6 +42,10 @@
     color: var(--game-card-text-light);
 }
 
+.section-title-wrapper{
+    display: flex;
+}
+
 .section-title {
     font-size: 41px;
     font-weight: normal;
@@ -53,7 +57,11 @@
      flex-direction: column;
      align-items: center;
      justify-content: center;
+
+    height: 100%;
+    max-height: inherit;
  }
+
 .recommended-card {
     position: relative;
     display: flex;
@@ -164,13 +172,38 @@
     background-color: var(--recommended-pagination-selected-game);
 }
 
-.trending-games {
+.recommended-hidden-item {
+    width: 410px;
+}
+
+.trending-games-outer-container {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     align-content: center;
+}
+
+.section-game-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+    width: 100%;
+    gap: 10px;
+}
+
+.section-game-header.section-title {
+
+}
+.sorting-filter-wrapper {
+
+}
+
+.hidden-item {
+    width: 206px;
 }
 
 .game-card-wrapper {
@@ -180,26 +213,30 @@
     justify-content: space-evenly;
     align-content: center;
 }
+
 .sorting-filter-wrapper.state-one {
-    position: absolute;
     display: flex;
     flex-direction: column;
-    z-index: 3;
-
-    top: 50%;
-    left: 0;
-
 }
 
 .sorting-filter-wrapper.state-two {
     display: flex;
     align-items: flex-start;
-    justify-content: center;
-    column-gap: 160px;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 10px;
 }
 
 /* state two */
 @media all and (max-width: 1130px) {
+    .section-game-header {
+        flex-direction: column;
+    }
+    .hidden-item {
+        width: 0;
+    }
+
 
 }
 
@@ -229,6 +266,9 @@
     .recommended-text-description {
         font-size: 17px;
     }
+    .recommended-text-content {
+        font-size: 20px;
+    }
 
     .recommended-game-card-platforms {
         padding: 5px;
@@ -246,4 +286,9 @@
         max-height: 14px;
         min-height: 14px;
     }
+
+    .section-title{
+        font-size: 32px;
+    }
+
 }
