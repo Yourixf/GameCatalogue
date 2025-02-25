@@ -1,0 +1,9 @@
+.temp-game-section {
+    display: flex
+;
+    max-width: 90%;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
