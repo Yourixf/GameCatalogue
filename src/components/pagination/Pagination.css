@@ -51,6 +51,10 @@
     border-bottom-left-radius: 0;
 }
 
+.pagination-previous-next::first-letter {
+    text-transform: capitalize;
+}
+
 .pagination.dark-mode .pagination-previous-next {
     background-color: var(--pagination-main-background-dark);
 }

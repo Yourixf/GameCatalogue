@@ -25,8 +25,13 @@
     align-items: center;
     align-content: center;
     flex-wrap: wrap;
+    row-gap: 20px;
     width: 100%;
     max-height: fit-content;
+}
+
+.recommended-section-inner {
+    position: relative;
 }
 
 .recommended-section-inner.dark-mode {
@@ -39,9 +44,16 @@
 
 .section-title {
     font-size: 41px;
+    font-weight: normal;
     color: var(--profile-text-dark);
 }
 
+.recommended-section-wrapper {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+ }
 .recommended-card {
     position: relative;
     display: flex;
@@ -66,15 +78,22 @@
 }
 
 .recommended-game-image-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 100%;
     max-width: 530px;
+    padding: 0;
+    margin: 0;
+
 }
 
 .recommended-game-image {
     width: 100%;
     max-width: 530px;
-    min-width: 100%;
     border-radius: 10px;
+    object-fit: cover   ;
+    overflow: hidden;
 }
 
 .recommended-game-info-wrapper {
@@ -88,10 +107,18 @@
     align-items: center;
 }
 
+
 .recommended-text-description {
     font-size: 24px;
+    font-weight: normal;
     color: var(--recommended-text-description);
 }
+
+.recommended-text-content {
+    font-size: 26px;
+    font-weight: normal;
+}
+
 
 .recommended-card.dark-mode {
     color: var(--game-card-text-dark);
@@ -112,17 +139,13 @@
     justify-content: space-between;
 }
 
-.recommended-section-inner {
-    display: flex;
-    flex-direction: column;
-}
-
 .recommended-pagination {
     display: flex;
     justify-content: center;
     column-gap: 30px;
     align-items: center;
     width: 50%;
+    filter: drop-shadow(0px 4px 5px rgba(0, 0, 0, 0.50));
 }
 
 .recommended-pagination-other {
@@ -134,6 +157,7 @@
     min-height: 20px;
     background-color: var(--recommended-pagination-other-game);
     border-radius: 7px;
+    cursor: pointer;
 }
 
 .recommended-pagination-other.currently-selected {
@@ -153,12 +177,26 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-content: center;
 }
+.sorting-filter-wrapper.state-one {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    z-index: 3;
 
+    top: 50%;
+    left: 0;
 
+}
 
+.sorting-filter-wrapper.state-two {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    column-gap: 160px;
+}
 
 /* state two */
 @media all and (max-width: 1130px) {
