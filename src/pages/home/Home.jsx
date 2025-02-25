@@ -22,14 +22,12 @@ function Home () {
     const { authData } = useContext(AuthContext)
 
     return(
-        <main className='main-section'>
+        <main className={`page-container ${selectedTheme} home-page-container`}>
 
-
-            <section className={`section-outer-container recommended-section-outer`}>
-                <div className={`section-inner-container recommended-section-inner ${selectedTheme}`}>
-
-
-                    <span className={"recommended-section-wrapper"}>
+            { authData.user &&
+                <section className={`section-outer-container recommended-section-outer`}>
+                    <div className={`section-inner-container recommended-section-inner ${selectedTheme}`}>
+                        <span className={"recommended-section-wrapper"}>
 
                             <span className={"section-title-wrapper"}>
                                 <h2 className={`section-title recommended-title`}>Aanbevolen voor jou</h2>
@@ -72,9 +70,10 @@ function Home () {
                                 <span className={`recommended-pagination-other`} aria-label={"game 6"}></span>
                             </nav>
                         </span>
-                </div>
+                    </div>
 
-            </section>
+                </section>
+            }
 
 
             <section className={`section-outer-container trending-games-outer-container`}>
@@ -104,14 +103,10 @@ function Home () {
                         <GameCard/>
                         <GameCard/>
                         <GameCard/>
-
                     </div>
                     <Pagination/>
                 </div>
             </section>
-
-
-
         </main>
 
     );

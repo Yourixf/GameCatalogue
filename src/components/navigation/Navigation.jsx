@@ -52,7 +52,7 @@ function Navigation () {
                 </NavLink>
 
                 <span className={"navbar-light-mode-wrapper" + " state-one"}>
-                     <CircleIcon onClick={changeTheme} className={`light-mode-icon`} iconPictureSource={lightmode} />
+                     <CircleIcon onClick={changeTheme} className={`light-mode-icon`} iconPictureSource={lightmode} title={"Thema wijzigen"}/>
                 </span>
 
                 <div className="nav-searchbar">
@@ -66,17 +66,17 @@ function Navigation () {
                 <ul className="state-one">
                     <li>
                         <NavLink to="/">
-                            <CircleIcon className="home-icon" iconPictureSource={home}/>
+                            <CircleIcon className="home-icon" iconPictureSource={home} title={"Home pagina"}/>
                         </NavLink>
                     </li>
                     <li>
                         <NavLink to="/recommendations">
-                            <CircleIcon className="recommended-icon" iconPictureSource={recommended}/>
+                            <CircleIcon className="recommended-icon" iconPictureSource={recommended} title={"Aanbevelingen pagina"}/>
                         </NavLink>
                     </li>
                     <li>
                         <NavLink to="/favorites">
-                            <CircleIcon className="favorite-icon" iconPictureSource={favorite}/>
+                            <CircleIcon className="favorite-icon" iconPictureSource={favorite} title={"Favorieten pagina"}/>
                         </NavLink>
                     </li>
                 </ul>
@@ -86,12 +86,11 @@ function Navigation () {
                 {authData.user ?
                     <div className={"profile-section"}>
                         <p className={`user-username ${selectedTheme} state-one`}>{authData.user.username}</p>
-                        <CircleIcon className={"profile-icon state-one"} onClick={profileButton}
-                                    iconPictureSource={defaultProfile}/>
+                        <CircleIcon className={"profile-icon state-one"} onClick={profileButton} iconPictureSource={defaultProfile} title={"Profiel pagina"} />
                     </div>
                     :
                     <div className={"profile-section"}>
-                        <Button onClick={handleClick} className={"navbar-login-button" + " state-one"} content="login" shadow={false}/>
+                        <Button onClick={handleClick} className={"navbar-login-button" + " state-one"} content="inloggen" shadow={false}/>
                     </div>
 
                 }
@@ -105,38 +104,37 @@ function Navigation () {
                 <div className={`${dropdown ? "navbar-dropdown-active" : "navbar-dropdown-inactive"} ${selectedTheme}` }>
                     <li className={dropdown ? "state-two" : ""}>
                         <span className={"navbar-light-mode-wrapper"}>
-                     <CircleIcon onClick={changeTheme} className={`light-mode-icon`} iconPictureSource={lightmode} />
+                     <CircleIcon onClick={changeTheme} className={`light-mode-icon`} iconPictureSource={lightmode} title={"Thema wijzigen"} />
                         </span>
                     </li>
                     <li className={dropdown ? "state-two" : ""}>
                         <NavLink to="/">
-                            <CircleIcon className="home-icon" iconPictureSource={home}/>
+                            <CircleIcon className="home-icon" iconPictureSource={home} title={"Home pagina"}/>
                         </NavLink>
                     </li>
                     <li className={dropdown ? "state-two" : ""}>
                         <NavLink to="/recommendations">
-                            <CircleIcon className="recommended-icon" iconPictureSource={recommended}/>
+                            <CircleIcon className="recommended-icon" iconPictureSource={recommended} title={"Aanbevelingen pagina"}/>
                         </NavLink>
                     </li>
                     <li className={dropdown ? "state-two" : ""}>
                         <NavLink to="/favorites">
-                            <CircleIcon className="favorite-icon" iconPictureSource={favorite}/>
+                            <CircleIcon className="favorite-icon" iconPictureSource={favorite} title={"Favorieten pagina"}/>
                         </NavLink>
                     </li>
                     {authData.user ?
                         <div className={"profile-section"}>
-                            <CircleIcon className={"profile-icon state-two"} onClick={profileButton}
-                                        iconPictureSource={defaultProfile}/>
+                            <CircleIcon className={"profile-icon state-two"} onClick={profileButton} iconPictureSource={defaultProfile} title={"Profiel pagina"}/>
 
                             <li className={dropdown ? "state-two" : ""}>
                                 <Button onClick={authData.logout} className={"navbar-logout-button" + " state-two"}
-                                        content="logout"/>
+                                        content="uitloggen"/>
                             </li>
                         </div>
 
                         :
                         <div className={"profile-section"}>
-                            <Button onClick={handleClick} className={"navbar-login-button" + " state-two"} content="login" shadow={false}/>
+                            <Button onClick={handleClick} className={"navbar-login-button" + " state-two"} content="inloggen" shadow={false}/>
                         </div>
 
                     }

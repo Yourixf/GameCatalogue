@@ -29,7 +29,7 @@ import {ThemeContext} from "../../context/ThemeProvider.jsx";
 *  */
 
 // when adding API data, i will add the code for the dynamic part.
-function GameCard ({className="" }) {
+function GameCard ({className="", gameTitle="", gameImage="" }) {
     const { selectedTheme } = useContext(ThemeContext)
 
 
@@ -39,9 +39,9 @@ function GameCard ({className="" }) {
 
             <figure className={"game-card-picture"}>
                 <span className={"game-text-label"}>favoriet</span>
-                <img className={"game-image"} src={pubgImg} alt="game-image"/>
+                <img className={"game-image"} src={gameImage} alt="game-image"/>
             </figure>
-            <div className={`game-card-title`}>PlayerUnknown’s Battlegrounds</div>
+            <div className={`game-card-title`}>{gameTitle}</div>
             <figure className={"game-card-platforms"}>
                 <img className={"platform-icon"}  src={windwows} alt="windows-icon"/>
                 <img className={"platform-icon"} src={playstation} alt="playstation-icon"/>

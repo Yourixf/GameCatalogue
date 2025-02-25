@@ -38,93 +38,95 @@ function Register () {
     }
 
     return (
-        <div className={"page-inner-container"}>
+        <main className={`page-container ${selectedTheme} register-page-container`}>
+            <div className={"page-inner-container"}>
 
-            <form onSubmit={handleSubmit(handleFormSubmit)}>
-                <div className={`register-card ${selectedTheme}`}>
-                    <h1 className={"register-title"}>Registreer</h1>
+                <form onSubmit={handleSubmit(handleFormSubmit)}>
+                    <article className={`register-card ${selectedTheme}`}>
+                        <h1 className={"register-title"}>Registreer</h1>
 
-                    <StatusMessage statusState={loading} type={"loading"} content={"Laden..."}/>
+                        <StatusMessage statusState={loading} type={"loading"} content={"Laden..."}/>
 
-                    <StatusMessage statusState={error} type={"error"} content={error ?  error.response.data : "er ging iets fout..."}/>
+                        <StatusMessage statusState={error} type={"error"} content={error ?  error.response.data : "er ging iets fout..."}/>
 
-                    <StatusMessage statusState={data} type={"succes"} content={"Account gemaakt"}/>
+                        <StatusMessage statusState={data} type={"succes"} content={"Account gemaakt"}/>
 
-                    <Label className={"label-email"} htmlFor={"email-field"}>
-                        Email:
-                        <Input className={"register-form-field"} id={"email-field"}
-                               validationRules={{
-                                   required: {
-                                       value: true,
-                                       message: `Email is verplicht`,
-                                   }
-                               }}
-                               register={register}
-                               errors={errors}
-                               type={"email"}
-                        />
-                    </Label>
+                        <Label className={"label-email"} htmlFor={"email-field"}>
+                            Email:
+                            <Input className={"register-form-field"} id={"email-field"}
+                                   validationRules={{
+                                       required: {
+                                           value: true,
+                                           message: `Email is verplicht`,
+                                       }
+                                   }}
+                                   register={register}
+                                   errors={errors}
+                                   type={"email"}
+                            />
+                        </Label>
 
-                    <Label className={"label-username"} htmlFor={"username-field"}>
-                        Gebruikersnaam:
-                        <Input className={"register-form-field"} id={"username-field"}
-                               validationRules={{
-                                   required: {
-                                       value: true,
-                                       message: 'Gebruikersnaam is verplicht',
-                                   }
-                               }}
-                               register={register}
-                               errors={errors}
-                        />
-                    </Label>
+                        <Label className={"label-username"} htmlFor={"username-field"}>
+                            Gebruikersnaam:
+                            <Input className={"register-form-field"} id={"username-field"}
+                                   validationRules={{
+                                       required: {
+                                           value: true,
+                                           message: 'Gebruikersnaam is verplicht',
+                                       }
+                                   }}
+                                   register={register}
+                                   errors={errors}
+                            />
+                        </Label>
 
-                    <Label className={"label-password"} htmlFor={"user-password-field"}>
-                        Wachtwoord:
-                        <Input className={"register-form-field"} id={"user-password-field"}
-                               validationRules={{
-                                   required: {
-                                       value: true,
-                                       message: 'Wachtwoord is verplicht',
-                                   },
-                                   minLength: {
-                                       value: 8,
-                                       message: "Wachtwoord moet minimaal uit 8 characters bestaan "
-                                   }
+                        <Label className={"label-password"} htmlFor={"user-password-field"}>
+                            Wachtwoord:
+                            <Input className={"register-form-field"} id={"user-password-field"}
+                                   validationRules={{
+                                       required: {
+                                           value: true,
+                                           message: 'Wachtwoord is verplicht',
+                                       },
+                                       minLength: {
+                                           value: 8,
+                                           message: "Wachtwoord moet minimaal uit 8 characters bestaan "
+                                       }
 
-                               }}
-                               register={register}
-                               errors={errors}
-                               type={"password"}
-                        />
-                    </Label>
+                                   }}
+                                   register={register}
+                                   errors={errors}
+                                   type={"password"}
+                            />
+                        </Label>
 
-                    <Label className={"label-confirm-password"} htmlFor={"user-confirm-password-field"}>
-                        Bevestig wachtwoord:
-                        <Input className={"login-form-field"} id={"user-confirm-password-field"}
-                               validationRules={{
-                                   required: {
-                                       value: true,
-                                       message: 'Bevestigings wachtwoord is verplicht',
-                                   },
-                                   validate: {
+                        <Label className={"label-confirm-password"} htmlFor={"user-confirm-password-field"}>
+                            Bevestig wachtwoord:
+                            <Input className={"login-form-field"} id={"user-confirm-password-field"}
+                                   validationRules={{
+                                       required: {
+                                           value: true,
+                                           message: 'Bevestigings wachtwoord is verplicht',
+                                       },
+                                       validate: {
 
-                                   }
-                               }}
-                               register={register}
-                               errors={errors}
-                               type={"password"}/>
-                    </Label>
+                                       }
+                                   }}
+                                   register={register}
+                                   errors={errors}
+                                   type={"password"}/>
+                        </Label>
 
-                    <Button className={"register-button"} content={"Registreer"} type={"submit"}></Button>
+                        <Button className={"register-button"} content={"Registreer"} type={"submit"}></Button>
 
-                    <div className={"login-section"}>
-                        <p>Heb je al een account?</p>
-                        <Button onClick={handleClick} className={"login-button"} content={"login"}></Button>
-                    </div>
-                </div>
-            </form>
-        </div>
+                        <div className={"login-section"}>
+                            <p>Heb je al een account?</p>
+                            <Button onClick={handleClick} className={"login-button"} content={"login"}></Button>
+                        </div>
+                    </article>
+                </form>
+            </div>
+        </main>
     );
 }
 

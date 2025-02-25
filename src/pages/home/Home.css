@@ -1,11 +1,10 @@
-.main-section {
+.home-page-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     width: 100%;
     height: 100%;
-
 }
 
 .section-outer-container {
@@ -44,6 +43,11 @@
 
 .section-title-wrapper{
     display: flex;
+    width: 100%;
+}
+
+.recommended-title {
+    margin: 0 20px;
 }
 
 .section-title {
@@ -115,7 +119,6 @@
     align-items: center;
 }
 
-
 .recommended-text-description {
     font-size: 24px;
     font-weight: normal;
@@ -126,7 +129,6 @@
     font-size: 26px;
     font-weight: normal;
 }
-
 
 .recommended-card.dark-mode {
     color: var(--game-card-text-dark);
@@ -195,13 +197,6 @@
     gap: 10px;
 }
 
-.section-game-header.section-title {
-
-}
-.sorting-filter-wrapper {
-
-}
-
 .hidden-item {
     width: 206px;
 }
@@ -230,6 +225,10 @@
 
 /* state two */
 @media all and (max-width: 1130px) {
+    .recommended-title {
+        margin: 0 10px;
+    }
+
     .section-game-header {
         flex-direction: column;
     }
