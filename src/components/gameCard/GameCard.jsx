@@ -49,16 +49,16 @@ function GameCard ({className="", gameTitle="", gameImage="", gamePlatforms="", 
             </figure>
             <div className={`game-card-title`}>{gameTitle}</div>
             <figure className={"game-card-platforms"}>
-                {gamePlatforms && gamePlatforms.length > 0 ? gamePlatforms.map(platform => (
-                    console.log(platform.platform.id),
-                    console.log(platformIdList.playstation),
-                    console.log(
-                    platformIdList.pc.includes(platform.platform.id))
+                {/*{gamePlatforms && gamePlatforms.length > 0 ? gamePlatforms.map(platform => (*/}
+                {/*    console.log(platform.platform.id),*/}
+                {/*    console.log(platformIdList.playstation),*/}
+                {/*    console.log(*/}
+                {/*    platformIdList.pc.includes(platform.platform.id))*/}
 
-                )) :
-                    <h3>geen platform</h3>
+                {/*)) :*/}
+                {/*    <h3>geen platform</h3>*/}
 
-                }
+                {/*}*/}
 
                 <img className={"platform-icon"}  src={windwows} alt="windows-icon"/>
                 <img className={"platform-icon"} src={playstation} alt="playstation-icon"/>

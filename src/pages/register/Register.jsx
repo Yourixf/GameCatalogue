@@ -21,7 +21,7 @@ function Register () {
         navigate('/login');
     }
 
-    function handleFormSubmit(data) {
+    async function handleFormSubmit(data) {
         let formData =
             {
             username: `${data["username-field"]}`,
@@ -34,7 +34,7 @@ function Register () {
                 }
             ]
         }
-        registerUser(formData)
+        await registerUser(formData)
     }
 
     return (

@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import './Home.css';
 
 import Button from '../../components/button/Button';
@@ -16,10 +16,29 @@ import apple from "../../assets/platforms/apple.png";
 import android from "../../assets/platforms/android.png";
 import nitendoswitch from "../../assets/platforms/nitendoswitch.png";
 import pubgImg from '../../assets/TEMPGAMEBACKGROUND.png'
+import {useGetGameList} from "../../hooks/useGames.js";
+import {useNavigate} from "react-router-dom";
+import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 
 function Home () {
     const { selectedTheme } = useContext(ThemeContext)
     const { authData } = useContext(AuthContext)
+    const navigate = useNavigate()
+
+
+    const { getGameList, data, loading, error } = useGetGameList();
+
+    useEffect(() => {
+        getGameList().then(result => {
+            console.log(result)
+        })
+    }, [])
+
+
+    function openDetails (id) {
+        navigate('/game/' + id)
+    }
+
 
     return(
         <main className={`page-container ${selectedTheme} home-page-container`}>
@@ -90,20 +109,24 @@ function Home () {
                         <span className={"hidden-item"}></span>
                     </div>
 
+                    <StatusMessage statusState={loading} type={"loading"} content={"Laden..."}/>
 
-                    <div className={`game-card-wrapper`}>
-                        <GameCard/>
-                        <GameCard/>
-                        <GameCard/>
-                        <GameCard/>
-                        <GameCard/>
-                        <GameCard/>
-                        <GameCard/>
-                        <GameCard/>
-                        <GameCard/>
-                        <GameCard/>
-                        <GameCard/>
-                    </div>
+                    <StatusMessage statusState={error} type={"error"} content={error ?  error.response.data : "er ging iets fout..."}/>
+
+                    { data && <section className={"game-card-wrapper"}>
+                        {data && data.results.length > 0 ? data.results.map(game => (
+                            <GameCard
+                                key={game.id}
+                                gameTitle={game.name}
+                                gameImage={game.background_image}
+                                gamePlatforms={game.platforms}
+                                onClick={() => openDetails(game.id)}
+                            />
+
+                        )) : <h1>niks</h1> }
+                    </section>}
+
+
                     <Pagination/>
                 </div>
             </section>
