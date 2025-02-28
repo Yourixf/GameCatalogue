@@ -54,30 +54,30 @@ function Home () {
                             <article className={`recommended-card ${selectedTheme}`}>
                                 <figure className={`recommended-game-image-wrapper`}>
                                 <img className={`recommended-game-image`} src={pubgImg} alt="game-image"/>
-                            </figure>
-                            <span className={`recommended-game-info-wrapper`}>
-                                <div className={`recommended-text-info`}>
-                                    <h3 className={`recommended-text-description`}>Titel</h3>
-                                    <h3 className={`recommended-text-content`}>Pubg</h3>
-                                </div>
-
-                                <div className={`recommended-text-info`}>
-                                    <h3 className={`recommended-text-description`}>Uitgifte datum</h3>
-                                    <h3 className={`recommended-text-content`}>23 maart 2017</h3>
-                                </div>
-                                <div className={`recommended-text-info`}>
-                                    <h3 className={`recommended-text-description`}>Metascore</h3>
-                                    <h3 className={`recommended-text-content`}>81</h3>
-                                </div>
-                                <figure className={"recommended-game-card-platforms"}>
-                                    <img className={"platform-icon"} src={windwows} alt="windows-icon"/>
-                                    <img className={"platform-icon"} src={playstation} alt="playstation-icon"/>
-                                    <img className={"platform-icon"} src={xbox} alt="xbox-icon"/>
-                                    <img className={"platform-icon"} src={apple} alt="apple-icon"/>
-                                    <img className={"platform-icon"} src={android} alt="android-icon"/>
-                                    <img className={"platform-icon"} src={nitendoswitch} alt="nitendoswitch-icon"/>
                                 </figure>
-                            </span>
+                                <span className={`recommended-game-info-wrapper`}>
+                                    <div className={`recommended-text-info`}>
+                                        <h3 className={`recommended-text-description`}>Titel</h3>
+                                        <h3 className={`recommended-text-content`}>Pubg</h3>
+                                    </div>
+
+                                    <div className={`recommended-text-info`}>
+                                        <h3 className={`recommended-text-description`}>Uitgifte datum</h3>
+                                        <h3 className={`recommended-text-content`}>23 maart 2017</h3>
+                                    </div>
+                                    <div className={`recommended-text-info`}>
+                                        <h3 className={`recommended-text-description`}>Metascore</h3>
+                                        <h3 className={`recommended-text-content`}>81</h3>
+                                    </div>
+                                    <figure className={"recommended-game-card-platforms"}>
+                                        <img className={"platform-icon"} src={windwows} alt="windows-icon"/>
+                                        <img className={"platform-icon"} src={playstation} alt="playstation-icon"/>
+                                        <img className={"platform-icon"} src={xbox} alt="xbox-icon"/>
+                                        <img className={"platform-icon"} src={apple} alt="apple-icon"/>
+                                        <img className={"platform-icon"} src={android} alt="android-icon"/>
+                                        <img className={"platform-icon"} src={nitendoswitch} alt="nitendoswitch-icon"/>
+                                    </figure>
+                                </span>
                             </article>
                             <nav className={`recommended-pagination`} aria-label={"recommended games pagination"}>
                                 <span className={`recommended-pagination-other currently-selected`}
