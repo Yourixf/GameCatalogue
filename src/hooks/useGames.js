@@ -27,10 +27,9 @@ export function useGetGameDetails () {
             `GET`,
             null
         );
-        console.log(response)
         return response;
     };
-    return { getGameDetails, data, gameDetailLoading: loading, gameDetailError: error }
+    return { getGameDetails, data, loading, error }
 }
 
 export function useGetGameScreenshots () {
@@ -42,9 +41,22 @@ export function useGetGameScreenshots () {
             `GET`,
             null
         );
-        console.log("sreenshot response:")
-        console.log(response)
+
         return response
     }
     return { getGameScreenshots, data, loading, error }
+}
+
+export function useGetGameSearchList () {
+    const { fetchData, data, loading, error } = useApiCall();
+
+    async function getGameSearchList (title) {
+        const response = await fetchData(
+        `${BASE_URL}/games?search=${title}&${API_KEY}`,
+        `GET`,
+        null
+        );
+        return response
+    };
+    return { getGameSearchList, data, loading, error }
 }

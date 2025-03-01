@@ -12,6 +12,7 @@ import xbox from "../../assets/platforms/xbox.png";
 import apple from "../../assets/platforms/apple.png";
 import android from "../../assets/platforms/android.png";
 import nitendoswitch from "../../assets/platforms/nitendoswitch.png";
+import Button from "../../components/button/Button.jsx";
 
 
 function GameDetails () {
@@ -25,13 +26,9 @@ function GameDetails () {
     id = parseInt(id);
 
     useEffect(() => {
-        getGameDetails(id).then(() => {
-            console.log("data", gameDetailData)
-        })
+        getGameDetails(id)
+        getGameScreenshots(id)
 
-        getGameScreenshots(id).then(() => {
-            console.log("screenshot data", gameScreenshotData)
-        })
 
     }, [id])
 
@@ -40,6 +37,11 @@ function GameDetails () {
             setMainGamePicture(gameDetailData.background_image)
         }
     }, [gameDetailData])
+
+    useEffect(() => {
+        console.log("data updated:", gameDetailData);
+    }, [gameDetailData]);
+
 
     function replaceMainGamePicture (image) {
         setMainGamePicture(image)
@@ -73,9 +75,18 @@ function GameDetails () {
                                 </figure>
 
                                 <span className={`game-screenshots-wrapper`}>
-                                    { gameScreenshotData  ? gameScreenshotData.results.map(screenshot => (
-                                        <figure onClick={() => replaceMainGamePicture(screenshot.image)} className={`game-screenshot-figure`} key={screenshot.id}>
-                                            <img className={`game-screenshot`} src={screenshot.image} alt={`${gameDetailData.name} screenshot`}/>
+
+                                    <figure onClick={() => replaceMainGamePicture(gameDetailData.background_image)}
+                                            className={`game-screenshot-figure`}>
+                                            <img className={`game-screenshot`} src={gameDetailData.background_image}
+                                                 alt="test"/>
+                                    </figure>
+                                    {gameScreenshotData ? gameScreenshotData.results.map(screenshot => (
+
+                                        <figure onClick={() => replaceMainGamePicture(screenshot.image)}
+                                                className={`game-screenshot-figure`} key={screenshot.id}>
+                                            <img className={`game-screenshot`} src={screenshot.image}
+                                                 alt={`${gameDetailData.name} screenshot`}/>
                                         </figure>
                                     )) : <h3>Geen screenshots</h3>
 
@@ -106,9 +117,10 @@ function GameDetails () {
                                 </div>
 
                                 <div className={`game-detail-text-info`}>
-                                    <h3 className={`game-detail-text-description`}>creators</h3>
-                                    {gameDetailData.developers.map (developer => (
-                                        <h3 key={developer.id} className={`game-detail-text-content`}> {developer.name} </h3>
+                                    <h3 className={`game-detail-text-description`}>Makers</h3>
+                                    {gameDetailData.developers.map(developer => (
+                                        <h3 key={developer.id}
+                                            className={`game-detail-text-content`}> {developer.name} </h3>
                                     ))}
 
                                 </div>
@@ -116,7 +128,7 @@ function GameDetails () {
                                 <div className={`game-detail-text-info`}>
                                     <h3 className={`game-detail-text-description`}>genre</h3>
 
-                                    {gameDetailData.genres.map (genre => (
+                                    {gameDetailData.genres.map(genre => (
                                         <h3 key={genre.id} className={`game-detail-text-content`}>{genre.name}</h3>
                                     ))}
 
@@ -133,6 +145,9 @@ function GameDetails () {
                                 </figure>
                             </span>
                         </article>
+                        <span className={"section-footer-wrapper"}>
+                            <Button className={`section-favorite-button`} content={"Voeg to aan favorieten"}/>
+                        </span>
                     </span>
                 </section>
             }

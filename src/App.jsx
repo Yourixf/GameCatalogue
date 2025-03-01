@@ -12,7 +12,6 @@ import Profile from "./pages/profile/Profile.jsx";
 import NotFound from './pages/404/404';
 import Test from './pages/test/Test.jsx'
 import {Routes, Route, Navigate} from 'react-router-dom';
-import { ThemeContext } from "./context/ThemeProvider.jsx";
 import {AuthContext} from "./context/AuthProvider.jsx";
 import GameDetails from "./pages/gameDetails/GameDetails.jsx";
 
@@ -21,10 +20,6 @@ import GameDetails from "./pages/gameDetails/GameDetails.jsx";
 
 function App() {
   const { authData } = useContext(AuthContext)
-
-  console.log("app console")
-  console.log(authData)
-
 
   return (
       <>
