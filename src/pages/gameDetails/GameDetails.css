@@ -41,6 +41,8 @@
      justify-content: center;
 
     height: 100%;
+
+    min-width: 1000px;
     max-height: inherit;
  }
 
@@ -52,11 +54,11 @@
     text-align: center;
 
     width: 100%;
-    max-width: 842px;
+    /*max-width: 842px;*/
     min-width: 300px;
 
     height: 100%;
-    max-height: 431px;
+    /*max-height: 431px;*/
 
     row-gap: 50px;
     margin: 20px;
@@ -67,22 +69,50 @@
     z-index: 1;
 }
 
+.game-detail-card-image-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 750px;
+}
+
 .game-detail-game-image-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100%;
-    max-width: 530px;
+    /*height: 100%;*/
+    width: 100%;
     padding: 0;
     margin: 0;
 
 }
 
+.game-screenshots-wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: center;
+    align-items: center;
+    flex-direction: row;
+
+    overflow: auto;
+}
+
+.game-screenshot-figure {
+    max-width: 175px;
+    width: 100%;
+    min-width: 150px;
+    cursor: pointer;
+}
+
+.game-screenshot {
+    width: 100%;
+}
+
 .game-detail-game-image {
     width: 100%;
-    max-width: 530px;
-    border-radius: 10px;
-    object-fit: cover   ;
+    border-top-left-radius: 10px;
+    object-fit: cover;
     overflow: hidden;
 }
 

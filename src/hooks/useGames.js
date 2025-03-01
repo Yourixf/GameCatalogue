@@ -19,7 +19,7 @@ export function useGetGameList () {
 }
 
 export function useGetGameDetails () {
-    const { fetchData, data, loading, error } = useApiCall()
+    const { fetchData, data, loading, error } = useApiCall();
 
     async function getGameDetails (id) {
         const response = await fetchData(
@@ -30,5 +30,21 @@ export function useGetGameDetails () {
         console.log(response)
         return response;
     };
-    return { getGameDetails, data, loading, error }
+    return { getGameDetails, data, gameDetailLoading: loading, gameDetailError: error }
+}
+
+export function useGetGameScreenshots () {
+    const { fetchData, data, loading, error } = useApiCall();
+
+    async function getGameScreenshots (id) {
+        const response = await fetchData(
+            `${BASE_URL}/games/${id}/screenshots?${API_KEY}`,
+            `GET`,
+            null
+        );
+        console.log("sreenshot response:")
+        console.log(response)
+        return response
+    }
+    return { getGameScreenshots, data, loading, error }
 }
