@@ -3,12 +3,12 @@
 }
 
 .game-detail-section-wrapper {
-    display: flex    ;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-        max-height: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    max-height: inherit;
 }
 
 .game-detail-section-inner-container {
@@ -116,6 +116,13 @@
     gap: 5px;
 }
 
+.description-expended.game-screenshots-wrapper {
+    flex-wrap: wrap;
+    align-content: stretch;
+    justify-content: space-evenly;
+
+}
+
 .game-screenshot-figure {
     max-width: 175px;
     width: 100%;
@@ -123,8 +130,13 @@
     cursor: pointer;
 }
 
+.description-expended .game-screenshot-figure {
+    max-width: 265px;
+}
+
 .game-screenshot {
     width: 100%;
+    border-radius: 5px;
 }
 
 .game-detail-game-image {
@@ -144,19 +156,61 @@
     max-width: 365px;
     min-width: 365px;
     padding: 0 5px;
-
-
+    gap: 5px;
 }
 
-.game-detail-text-description {
-    font-size: 24px;
+.game-detail-game-info-wrapper.description-expended {
+    max-width: 500px;
+    min-width: 500px;
+}
+
+.game-detail-text-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+}
+
+.game-detail-text-name {
+    font-size: 18px;
     font-weight: normal;
     color: var(--recommended-text-description);
 }
 
+.game-detail-text-name::first-letter {
+    text-transform: capitalize;
+}
+
+
 .game-detail-text-content {
-    font-size: 26px;
+    font-size: 18px;
     font-weight: normal;
+}
+
+.game-description-wrapper {
+    width: 100%;
+    max-width: 100%;
+}
+
+.game-description-text {
+    cursor: pointer;
+}
+
+.game-description-text.description-unextended {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 7;
+    overflow: hidden;
+    max-height: 250px;
+    text-overflow: ellipsis;
+
+}
+
+
+.game-description-text.description-expended {
+    overflow: visible;
+
 }
 
 .game-detail-card.dark-mode {

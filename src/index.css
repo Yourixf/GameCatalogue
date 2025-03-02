@@ -138,9 +138,18 @@ body{
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--secondary-background-color-dark);
   border-radius: 10px;
   margin: 40px;
+
+}
+
+.dark-mode ::-webkit-scrollbar-track  {
+  background: var(--secondary-background-color-dark);
+
+}
+
+.light-mode ::-webkit-scrollbar-track  {
+  background: var(--secondary-background-color-light);
 
 }
 

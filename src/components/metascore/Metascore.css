@@ -1,0 +1,23 @@
+.metascore {
+    padding: 2px 7px;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 4px;
+    border: 1px solid;
+
+    max-width: fit-content;
+
+}
+
+
+.metascore.green {
+    color: green;
+}
+
+.metascore.orange {
+    color: orange;
+}
+
+.metascore.red {
+    color: red;
+}

@@ -13,6 +13,7 @@ import apple from "../../assets/platforms/apple.png";
 import android from "../../assets/platforms/android.png";
 import nitendoswitch from "../../assets/platforms/nitendoswitch.png";
 import Button from "../../components/button/Button.jsx";
+import Metascore from "../../components/metascore/Metascore.jsx";
 
 
 function GameDetails () {
@@ -21,6 +22,7 @@ function GameDetails () {
     const { getGameScreenshots, data:gameScreenshotData, loading:gameScreenshotLoading, error:gameScreenshotError } = useGetGameScreenshots()
 
     const [mainGamePicture, setMainGamePicture] = useState();
+    const [descriptionView, setDesccriptionView] = useState(false);
 
     let {id} = useParams();
     id = parseInt(id);
@@ -28,8 +30,6 @@ function GameDetails () {
     useEffect(() => {
         getGameDetails(id)
         getGameScreenshots(id)
-
-
     }, [id])
 
     useEffect(() => {
@@ -38,6 +38,7 @@ function GameDetails () {
         }
     }, [gameDetailData])
 
+
     useEffect(() => {
         console.log("data updated:", gameDetailData);
     }, [gameDetailData]);
@@ -45,6 +46,10 @@ function GameDetails () {
 
     function replaceMainGamePicture (image) {
         setMainGamePicture(image)
+    }
+
+    function changeDescriptionView () {
+        setDesccriptionView(!descriptionView)
     }
 
     // for the game pictures : https://api.rawg.io/docs/#operation/games_screenshots_list
@@ -74,11 +79,29 @@ function GameDetails () {
                                     <img className={`game-detail-game-image`} src={mainGamePicture} alt="game-image"/>
                                 </figure>
 
-                                <span className={`game-screenshots-wrapper`}>
+                                <span
+                                    className={`game-screenshots-wrapper ${descriptionView ? `description-expended` : `description-unextended`}`}>
 
                                     <figure onClick={() => replaceMainGamePicture(gameDetailData.background_image)}
                                             className={`game-screenshot-figure`}>
                                             <img className={`game-screenshot`} src={gameDetailData.background_image}
+                                                 alt="test"/>
+                                    </figure>
+
+                                    {gameDetailData && gameDetailData.background_image_additional [
+                                        <figure onClick={() => replaceMainGamePicture(gameDetailData.background_image_additional)}
+                                        className={`game-screenshot-figure`}>
+                                        <img className={`game-screenshot`} src={gameDetailData.background_image_additional}
+                                        alt="test"/>
+                                        </figure>
+                                        ]
+                                    }
+
+                                    <figure
+                                        onClick={() => replaceMainGamePicture(gameDetailData.background_image_additional)}
+                                        className={`game-screenshot-figure`}>
+                                            <img className={`game-screenshot`}
+                                                 src={gameDetailData.background_image_additional}
                                                  alt="test"/>
                                     </figure>
                                     {gameScreenshotData ? gameScreenshotData.results.map(screenshot => (
@@ -97,27 +120,29 @@ function GameDetails () {
 
 
 
-                            <span className={`game-detail-game-info-wrapper`}>
-                                <div className={`game-detail-text-info`}>
-                                    <h3 className={`game-detail-text-description`}>omschrijving</h3>
-                                    <h3 className={`game-detail-text-content`}></h3>
+                            <span
+                                className={`game-detail-game-info-wrapper ${descriptionView ? `description-expended` : `description-unextended`}`}>
+                                <div className={`game-detail-text-info game-description-wrapper`}>
+                                    <h3 className={`game-detail-text-name`}>omschrijving</h3>
+                                    <h3 onClick={changeDescriptionView} className={`game-detail-text-content game-description-text ${descriptionView? `description-expended`:`description-unextended`}`}>{gameDetailData.description_raw}</h3>
                                 </div>
 
                                 <div className={`game-detail-text-info`}>
-                                    <h3 className={`game-detail-text-description`}>Uitgifte datum</h3>
+                                    <h3 className={`game-detail-text-name`}>uitgifte datum</h3>
                                     <h3 className={`game-detail-text-content`}>{gameDetailData.released}</h3>
                                 </div>
                                 <div className={`game-detail-text-info`}>
-                                    <h3 className={`game-detail-text-description`}>Metascore</h3>
-                                    <h3 className={`game-detail-text-content`}>{gameDetailData.metacritic}</h3>
+                                    <h3 className={`game-detail-text-name`}>metascore</h3>
+
+                                    <Metascore className={`game-detail-text-content`} value={gameDetailData.metacritic} />
                                 </div>
                                 <div className={`game-detail-text-info`}>
-                                    <h3 className={`game-detail-text-description`}>Gemiddelde speeltijd</h3>
+                                    <h3 className={`game-detail-text-name`}>gemiddelde speeltijd</h3>
                                     <h3 className={`game-detail-text-content`}>{gameDetailData.playtime} uur</h3>
                                 </div>
 
                                 <div className={`game-detail-text-info`}>
-                                    <h3 className={`game-detail-text-description`}>Makers</h3>
+                                    <h3 className={`game-detail-text-name`}>makers</h3>
                                     {gameDetailData.developers.map(developer => (
                                         <h3 key={developer.id}
                                             className={`game-detail-text-content`}> {developer.name} </h3>
@@ -126,7 +151,7 @@ function GameDetails () {
                                 </div>
 
                                 <div className={`game-detail-text-info`}>
-                                    <h3 className={`game-detail-text-description`}>genre</h3>
+                                    <h3 className={`game-detail-text-name`}>genre</h3>
 
                                     {gameDetailData.genres.map(genre => (
                                         <h3 key={genre.id} className={`game-detail-text-content`}>{genre.name}</h3>
