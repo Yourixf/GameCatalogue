@@ -1,11 +1,9 @@
 import './GameDetails.css'
 import {useParams} from "react-router-dom";
-import React, {useContext, useEffect, useState} from "react";
+import  {useContext, useEffect, useState} from "react";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
 import {useGetGameDetails, useGetGameScreenshots} from "../../hooks/useGames.js";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
-import GameCard from "../../components/gameCard/GameCard.jsx";
-import pubgImg from "../../assets/TEMPGAMEBACKGROUND.png";
 import windwows from "../../assets/platforms/windows.png";
 import playstation from "../../assets/platforms/playstation.png";
 import xbox from "../../assets/platforms/xbox.png";
@@ -14,6 +12,7 @@ import android from "../../assets/platforms/android.png";
 import nitendoswitch from "../../assets/platforms/nitendoswitch.png";
 import Button from "../../components/button/Button.jsx";
 import Metascore from "../../components/metascore/Metascore.jsx";
+import GamePlatformIcons from "../../components/gamePlatformIcons/GamePlatformIcons.jsx";
 
 
 function GameDetails () {
@@ -36,6 +35,7 @@ function GameDetails () {
         if (gameDetailData && gameDetailData.background_image) {
             setMainGamePicture(gameDetailData.background_image)
         }
+
     }, [gameDetailData])
 
 
@@ -52,6 +52,49 @@ function GameDetails () {
         setDesccriptionView(!descriptionView)
     }
 
+    const platformIdList = {
+        pc: [1],
+        apple: [5, 4],
+        playstation: [2],
+        xbox: [3],
+        android: [8],
+        nitendo: [7]
+    };
+
+    const platformIconList = {
+        pc: windwows,
+        apple: apple,
+        playstation: playstation,
+        xbox: xbox,
+        android: android,
+        nitendo: nitendoswitch
+    };
+
+
+    // async function platformApiCall() {
+    //     try{
+    //         const response = await axios.get(`https://api.rawg.io/api/platforms/lists/parents?key=${import.meta.env.VITE_RAWG_API_KEY}`)
+    //
+    //         console.log(response)
+    //     } catch (e) {
+    //         console.error(e)
+    //     }
+    // }
+
+//platform.platform.id
+    function getPlatforms (gamePlatform) {
+        const matchedPlatforms = gamePlatform.filter(platform =>
+            Object.values(platformIdList).some(list => list.includes(platform.platform.id))
+        );
+
+        console.log(matchedPlatforms)
+    }
+
+
+
+
+
+
     // for the game pictures : https://api.rawg.io/docs/#operation/games_screenshots_list
 
     return (
@@ -67,7 +110,6 @@ function GameDetails () {
             { gameDetailData &&
 
                 <section className={`section-inner-container game-detail-section-inner-container ${selectedTheme}`}>
-
                     <span className={"game-detail-section-wrapper"}>
 
                         <span className={"section-title-wrapper"}>
@@ -160,14 +202,9 @@ function GameDetails () {
 
                                 </div>
 
-                                <figure className={"game-detail-game-card-platforms"}>
-                                    <img className={"platform-icon"} src={windwows} alt="windows-icon"/>
-                                    <img className={"platform-icon"} src={playstation} alt="playstation-icon"/>
-                                    <img className={"platform-icon"} src={xbox} alt="xbox-icon"/>
-                                    <img className={"platform-icon"} src={apple} alt="apple-icon"/>
-                                    <img className={"platform-icon"} src={android} alt="android-icon"/>
-                                    <img className={"platform-icon"} src={nitendoswitch} alt="nitendoswitch-icon"/>
-                                </figure>
+
+                                {gameDetailData && <GamePlatformIcons platforms={gameDetailData.parent_platforms} className={`game-detail-game-card-platforms`} />}
+
                             </span>
                         </article>
                         <span className={"section-footer-wrapper"}>

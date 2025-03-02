@@ -29,11 +29,13 @@ function Home () {
     const { getGameList, data, loading, error } = useGetGameList();
 
     useEffect(() => {
-        getGameList().then(result => {
-            console.log(result)
-        })
+        getGameList()
     }, [])
 
+    useEffect(() => {
+        if (data)
+        console.log(data.next);
+    }, [data]);
 
     function openDetails (id) {
         navigate('/game/' + id)
@@ -94,42 +96,45 @@ function Home () {
                 </section>
             }
 
-
-            <section className={`section-outer-container trending-games-outer-container`}>
-                <div className={`section-inner-container trending-games-inner-container`}>
-                    <div className={"section-game-header"}>
-                        <h2 className={`section-title`}>
-                            Uitgelicht
-                        </h2>
-                        <span className={"sorting-filter-wrapper state-two"}>
+            {data &&
+                <section className={`section-outer-container trending-games-outer-container`}>
+                    <div className={`section-inner-container trending-games-inner-container`}>
+                        <div className={"section-game-header"}>
+                            <h2 className={`section-title`}>
+                                Uitgelicht
+                            </h2>
+                            <span className={"sorting-filter-wrapper state-two"}>
                             <SortingFilter content={"Sorteer op:"} type={'sorting'}/>
                             <SortingFilter content={"Filter op:"} type={"filter"}/>
                         </span>
 
-                        <span className={"hidden-item"}></span>
+                            <span className={"hidden-item"}></span>
+                        </div>
+
+                        <StatusMessage statusState={loading} type={"loading"} content={"Laden..."}/>
+
+                        <StatusMessage statusState={error} type={"error"}
+                                       content={error ? error.response.data : "er ging iets fout..."}/>
+
+                        {data && <section className={"game-card-wrapper"}>
+                            {data && data.results.length > 0 ? data.results.map(game => (
+                                <GameCard
+                                    key={game.id}
+                                    gameTitle={game.name}
+                                    gameImage={game.background_image}
+                                    gamePlatforms={game.parent_platforms}
+                                    onClick={() => openDetails(game.id)}
+                                />
+
+                            )) : <h1>niks</h1>}
+                        </section>}
+
+
+                        <Pagination data={data}/>
                     </div>
+                </section>
+            }
 
-                    <StatusMessage statusState={loading} type={"loading"} content={"Laden..."}/>
-
-                    <StatusMessage statusState={error} type={"error"} content={error ?  error.response.data : "er ging iets fout..."}/>
-
-                    { data && <section className={"game-card-wrapper"}>
-                        {data && data.results.length > 0 ? data.results.map(game => (
-                            <GameCard
-                                key={game.id}
-                                gameTitle={game.name}
-                                gameImage={game.background_image}
-                                gamePlatforms={game.platforms}
-                                onClick={() => openDetails(game.id)}
-                            />
-
-                        )) : <h1>niks</h1> }
-                    </section>}
-
-
-                    <Pagination/>
-                </div>
-            </section>
         </main>
 
     );

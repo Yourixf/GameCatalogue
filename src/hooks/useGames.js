@@ -60,3 +60,17 @@ export function useGetGameSearchList () {
     };
     return { getGameSearchList, data, loading, error }
 }
+
+export function useGetNextPreviousPage () {
+    const {fetchData, data, loading, error } = useApiCall();
+
+    async function getNextPreviousPage (url) {
+        const response = await fetchData(
+            `${url}`,
+            `GET`,
+            null
+        );
+        return response
+    };
+    return { getNextPreviousPage, data, loading, error}
+}
