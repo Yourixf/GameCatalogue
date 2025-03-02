@@ -6,7 +6,7 @@ import xbox from "../../assets/platforms/xbox.png";
 import android from "../../assets/platforms/android.png";
 import nitendoswitch from "../../assets/platforms/nitendoswitch.png";
 
-function GamePlatformIcons ({platforms, className}) {
+function GamePlatformIcons ({platforms, className=""}) {
 
     const platformIdList = {
         pc: [1],

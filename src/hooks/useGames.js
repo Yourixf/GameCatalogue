@@ -74,3 +74,17 @@ export function useGetNextPreviousPage () {
     };
     return { getNextPreviousPage, data, loading, error}
 }
+
+export function useGetLastPage () {
+    const {fetchData, data, loading, error } = useApiCall();
+
+    async function getLastPage (lastPageNumber) {
+        const response = await fetchData(
+            `${BASE_URL}/games?${API_KEY}&page=${lastPageNumber}`,
+            `GET`,
+            null
+        );
+        return response
+    };
+    return { getLastPage, data, loading, error}
+}
