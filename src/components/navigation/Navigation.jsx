@@ -63,7 +63,7 @@ function Navigation () {
                     </button>
                 </div>
 
-                <ul className="state-one">
+                <ul className="navbar-ul state-one">
                     <li>
                         <NavLink to="/">
                             <CircleIcon className="home-icon" iconPictureSource={home} title={"Home pagina"}/>

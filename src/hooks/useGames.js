@@ -1,8 +1,10 @@
 import {useApiCall } from "./useApiCall.js";
+import {useEffect, useState} from "react";
 
 // For cleaner code view
 const BASE_URL = import.meta.env.VITE_RAWG_API_BASE_URL;
 const API_KEY = `key=${import.meta.env.VITE_RAWG_API_KEY}`;
+
 
 export function useGetGameList () {
     const { fetchData, data, loading, error } = useApiCall();
@@ -87,4 +89,116 @@ export function useGetLastPage () {
         return response
     };
     return { getLastPage, data, loading, error}
+}
+
+export function useGetCurrentGameList () {
+    const [currentGameListData, setCurrentGameListData ] = useState()
+    const [currentGameListLoading, setCurrentGameListLoading ] = useState()
+    const [currentGameListError, setCurrentGameListError ] = useState()
+
+    const { getGameList, data:gameListData, loading:gameListLoading, error:gameListError } = useGetGameList();
+    const { getNextPreviousPage, data:nextPreviousPageData, loading:nextPreviousPageLoading, error:nextPreviousPageError } = useGetNextPreviousPage()
+    const { getLastPage, data:lastPageData, loading:lastPageLoading, error:lastPageError } = useGetLastPage()
+
+    useEffect(() => {
+        getGameList()
+    }, [])
+
+    // for the data state
+    useEffect(() => {
+        if (gameListData)
+            console.log(gameListData.next);
+        setCurrentGameListData(gameListData)
+        console.log(currentGameListData)
+    }, [gameListData]);
+
+    useEffect(() => {
+        console.log(nextPreviousPageData)
+        setCurrentGameListData(nextPreviousPageData)
+    }, [nextPreviousPageData])
+
+    useEffect(() => {
+        console.log(lastPageData)
+        setCurrentGameListData(lastPageData)
+    }, [lastPageData])
+
+
+    // for the loading state
+    useEffect(() => {
+        console.log(gameListLoading)
+        setCurrentGameListLoading(gameListLoading)
+    }, [gameListLoading])
+
+    useEffect(() => {
+        console.log(nextPreviousPageLoading)
+        setCurrentGameListLoading(nextPreviousPageLoading)
+    }, [nextPreviousPageLoading])
+
+    useEffect(() => {
+        console.log(lastPageLoading)
+        setCurrentGameListLoading(lastPageLoading)
+    }, [lastPageLoading])
+
+
+    // for the error state
+    useEffect(() => {
+        console.log(gameListError)
+        setCurrentGameListError(gameListError)
+    }, [gameListError])
+
+    useEffect(() => {
+        console.log(nextPreviousPageError)
+        setCurrentGameListError(nextPreviousPageError)
+    }, [nextPreviousPageError])
+
+    useEffect(() => {
+        console.log(lastPageError)
+        setCurrentGameListError(lastPageError)
+    }, [lastPageError])
+
+    function loadNextPage (url) {
+        getNextPreviousPage(url)
+    }
+
+    function loadFirstPage () {
+        getGameList()
+    }
+
+    function getLastPageNumber () {
+        return Math.floor(currentGameListData?.count / 20)
+
+    }
+
+    function loadLastPage () {
+        const lastPageNumber = getLastPageNumber()
+        getLastPage(lastPageNumber)
+    }
+
+    function getCurrentPageNumber () {
+        let currentPage = ""
+
+        if (currentGameListData?.next) {
+            const nextPageUrl = currentGameListData.next.split("&")
+            currentPage = nextPageUrl[1].split("=")[1] - 1
+        } else if (currentGameListData?.previous) {
+            const previousPageUrl = currentGameListData.previous.split("&")
+            currentPage = previousPageUrl[1].split("=")[1]
+        }
+
+        console.log(currentPage)
+
+        return currentPage
+    }
+
+    return {
+        currentGameListData,
+        currentGameListLoading,
+        currentGameListError,
+        loadNextPage,
+        loadFirstPage,
+        getLastPageNumber,
+        loadLastPage,
+        getCurrentPageNumber
+    }
+
 }

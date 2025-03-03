@@ -80,6 +80,10 @@
     cursor: pointer;
 }
 
+.pagination-pages.other-pages {
+    cursor: default;
+}
+
 .pagination.dark-mode .pagination-pages {
     background-color: var(--pagination-main-background-dark);
 }

@@ -12,6 +12,7 @@ export function deleteToken () {
     localStorage.removeItem("token");
 }
 
+// TO DO, IMPORTANT
 export function validateToken (token) {
     console.log("test")
 }

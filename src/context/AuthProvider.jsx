@@ -7,6 +7,8 @@ import {useGetUserInfo} from "../hooks/useUser.js";
 export const AuthContext = createContext(null)
 
 function AuthContextProvider ({ children }) {
+    // make an useffect that checks if token data has been altered
+
     const [authState, setAuthState] = useState({
         user: null,
         status: 'pending',

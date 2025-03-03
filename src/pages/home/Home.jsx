@@ -1,9 +1,5 @@
-import React, {useContext, useEffect, useState} from 'react';
+import {useContext } from 'react';
 import './Home.css';
-
-import Button from '../../components/button/Button';
-import recommended from "../../assets/navbar/recommended.png";
-import CircleIcon from '../../components/circleIcon/CircleIcon';
 import GameCard from "../../components/gameCard/GameCard.jsx";
 import Pagination from "../../components/pagination/Pagination.jsx";
 import SortingFilter from "../../components/sortingFilter/SortingFilter.jsx";
@@ -16,79 +12,24 @@ import apple from "../../assets/platforms/apple.png";
 import android from "../../assets/platforms/android.png";
 import nitendoswitch from "../../assets/platforms/nitendoswitch.png";
 import pubgImg from '../../assets/TEMPGAMEBACKGROUND.png'
-import {useGetGameList, useGetLastPage, useGetNextPreviousPage} from "../../hooks/useGames.js";
-import {useNavigate} from "react-router-dom";
+import {useGetCurrentGameList} from "../../hooks/useGames.js";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 
 function Home () {
     const { selectedTheme } = useContext(ThemeContext)
     const { authData } = useContext(AuthContext)
-    const navigate = useNavigate()
 
-    const [ currentGameList, setCurrentGameList ] = useState()
-    const [ lastPageNumber, setLastPageNumebr ] = useState()
+    const {
+        currentGameListData,
+        currentGameListLoading,
+        currentGameListError,
+        loadNextPage,
+        loadFirstPage,
+        getLastPageNumber,
+        loadLastPage,
+        getCurrentPageNumber
+    } = useGetCurrentGameList()
 
-    const { getGameList, data:gameListData, loading:gameListLoading, error:gameListError } = useGetGameList();
-    const { getNextPreviousPage, data:nextPreviousPageData, loading:nextPreviousPageLoading, error:nextPreviousPageError } = useGetNextPreviousPage()
-    const { getLastPage, data:lastPageData, loading:lastPageLoading, error:lastPageError } = useGetLastPage()
-
-
-    useEffect(() => {
-        getGameList()
-    }, [])
-
-    useEffect(() => {
-        if (gameListData)
-        console.log(gameListData.next);
-        setCurrentGameList(gameListData)
-        console.log(currentGameList)
-    }, [gameListData]);
-
-    useEffect(() => {
-        console.log(nextPreviousPageData)
-        setCurrentGameList(nextPreviousPageData)
-    }, [nextPreviousPageData])
-
-    useEffect(() => {
-        console.log(lastPageData)
-        setCurrentGameList(lastPageData)
-    }, [lastPageData])
-
-    function openDetails (id) {
-        navigate('/game/' + id)
-    }
-
-    function nextPreviousPage (url) {
-        getNextPreviousPage(url)
-    }
-
-    function loadFirstPage () {
-        getGameList()
-    }
-
-    function getLastPageNumber () {
-        return Math.ceil(currentGameList.count / currentGameList.results.length)
-    }
-
-    function getLastPageData () {
-        const lastPageNumber = getLastPageNumber()
-        getLastPage(lastPageNumber)
-    }
-
-    function getCurrentPageNumber () {
-        let currentPage = ""
-
-        if (currentGameList.next) {
-            const nextPageUrl = currentGameList.next.split("&")
-            currentPage = nextPageUrl[1].split("=")[1] - 1
-        } else if (currentGameList.previous) {
-            const previousPageUrl = currentGameList.previous.split("&")
-            currentPage = previousPageUrl[1].split("=")[1] + 1
-        }
-
-
-        console.log(currentPage)
-    }
 
     return(
         <main className={`page-container ${selectedTheme} home-page-container`}>
@@ -143,11 +84,11 @@ function Home () {
 
                 </section>
             }
-            <StatusMessage statusState={gameListLoading} type={"loading"} content={"Laden..."}/>
+            <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden..."}/>
 
-            <StatusMessage statusState={gameListError} type={"error"}
-                           content={gameListError ? gameListError.response.data : "er ging iets fout..."}/>
-            {currentGameList &&
+            <StatusMessage statusState={currentGameListError} type={"error"}
+                           content={currentGameListError ? currentGameListError?.message : "er ging iets fout..."}/>
+            {currentGameListData &&
                 <section className={`section-outer-container trending-games-outer-container`}>
                     <div className={`section-inner-container trending-games-inner-container`}>
                         <div className={"section-game-header"}>
@@ -162,41 +103,38 @@ function Home () {
                             <span className={"hidden-item"}></span>
                         </div>
 
-                        <h1>
-
-                            {getCurrentPageNumber()}
-                        </h1>
-
-
-                        {currentGameList && <section className={"game-card-wrapper"}>
-                            {currentGameList && currentGameList.results.length > 0 ? currentGameList.results.map(game => (
+                        {currentGameListData &&  <section className={"game-card-wrapper"}>
+                            {currentGameListData && currentGameListData?.results.length > 0 ? currentGameListData?.results.map(game => (
                                 <GameCard
-                                    key={game.id}
-                                    gameTitle={game.name}
-                                    gameImage={game.background_image}
-                                    gamePlatforms={game.parent_platforms}
-                                    onClick={() => openDetails(game.id)}
+                                    key={game?.id}
+                                    gameTitle={game?.name}
+                                    gameImage={game?.background_image}
+                                    gamePlatforms={game?.parent_platforms}
+                                    gameId={game?.id}
                                 />
 
                             )) : <h1>niks</h1>}
                         </section>}
-                        <StatusMessage statusState={nextPreviousPageLoading} type={"loading"} content={"Laden..."}/>
+                        {/*<StatusMessage statusState={nextPreviousPageLoading} type={"loading"} content={"Laden..."}/>*/}
 
-                        <StatusMessage statusState={nextPreviousPageError} type={"error"}
-                                       content={nextPreviousPageError ? nextPreviousPageError.response.data : "er ging iets fout..."}/>
+                        {/*<StatusMessage statusState={nextPreviousPageError} type={"error"}*/}
+                        {/*               content={nextPreviousPageError ? nextPreviousPageError.response.data : "er ging iets fout..."}/>*/}
 
-                        <StatusMessage statusState={lastPageLoading} type={"loading"} content={"Laden..."}/>
+                        {/*<StatusMessage statusState={lastPageLoading} type={"loading"} content={"Laden..."}/>*/}
 
-                        <StatusMessage statusState={lastPageError} type={"error"}
-                                       content={lastPageError ? lastPageError.response.data : "er ging iets fout..."}/>
+                        {/*<StatusMessage statusState={lastPageError} type={"error"}*/}
+                        {/*               content={lastPageError ? lastPageError.response.data : "er ging iets fout..."}/>*/}
                         <Pagination
-                            loadNextPage={currentGameList.next ? () => nextPreviousPage(currentGameList.next): null}
-                            loadPreviousPage={currentGameList.previous ? () => nextPreviousPage(currentGameList.previous): null}
+                            loadNextPage={currentGameListData?.next ? () => loadNextPage(currentGameListData?.next): null}
+                            loadPreviousPage={currentGameListData?.previous ? () => loadNextPage(currentGameListData?.previous): null}
                             loadFirstPage={loadFirstPage}
                             lastPageValue={getLastPageNumber()}
-                            loadLastPage={getLastPageData}
+                            loadLastPage={loadLastPage}
+                            currentPageValue={getCurrentPageNumber()}
 
                         />
+
+
                     </div>
                 </section>
             }
