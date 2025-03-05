@@ -10,7 +10,7 @@
     border: none;
 }
 
-.button-text::first-letter {
+.button-content::first-letter {
     text-transform: capitalize;
 }
 

@@ -47,57 +47,59 @@ function Login () {
     }
 
     return (
-        <div className={"page-inner-container"}>
-            <form onSubmit={handleSubmit(handleFormSubmit)}>
-                <div className={`login-card ${selectedTheme}`}>
-                    <h1 className={"login-title"}>Login</h1>
+        <main className={`page-container ${selectedTheme} login-page-container`}>
+            <div className={"page-inner-container"}>
+                <form onSubmit={handleSubmit(handleFormSubmit)}>
+                    <article className={`login-card ${selectedTheme}`}>
+                        <h1 className={"login-title"}>Login</h1>
 
-                    <StatusMessage statusState={loading} type={"loading"} content={"Laden..."}/>
+                        <StatusMessage statusState={loading} type={"loading"} content={"Laden..."}/>
 
-                    <StatusMessage statusState={error} type={"error"} content={error ?  error.response.data : "er ging iets fout..."}/>
+                        <StatusMessage statusState={error} type={"error"} content={error ?  error.response.data : "er ging iets fout..."}/>
 
-                    <StatusMessage statusState={data} type={"succes"} content={"Ingelogd"}/>
+                        <StatusMessage statusState={data} type={"succes"} content={"Ingelogd"}/>
 
-                    <Label className={"label-username"} htmlFor={"username-field"}>
-                        Gebruikersnaam:
-                        <Input className={"login-form-field"} id={"username-field"}
-                               validationRules={{
-                                   required: {
-                                       value: true,
-                                       message: `Gebruikersnaam is verplicht`,
-                                   }
-                               }}
-                               register={register}
-                               errors={errors}
-                               type={"username"}
-                        />
-                    </Label>
+                        <Label className={"label-username"} htmlFor={"username-field"}>
+                            Gebruikersnaam:
+                            <Input className={"login-form-field"} id={"username-field"}
+                                   validationRules={{
+                                       required: {
+                                           value: true,
+                                           message: `Gebruikersnaam is verplicht`,
+                                       }
+                                   }}
+                                   register={register}
+                                   errors={errors}
+                                   type={"username"}
+                            />
+                        </Label>
 
-                    <Label className={"label-password"} htmlFor={"user-password-field"}>
-                        Wachtwoord:
-                        <Input className={"login-form-field"} id={"user-password-field"}
-                               validationRules={{
-                                   required: {
-                                       value: true,
-                                       message: 'Wachtwoord is verplicht',
-                                   }
-                               }}
-                               register={register}
-                               errors={errors}
-                               type={"password"}
-                        />
-                    </Label>
+                        <Label className={"label-password"} htmlFor={"user-password-field"}>
+                            Wachtwoord:
+                            <Input className={"login-form-field"} id={"user-password-field"}
+                                   validationRules={{
+                                       required: {
+                                           value: true,
+                                           message: 'Wachtwoord is verplicht',
+                                       }
+                                   }}
+                                   register={register}
+                                   errors={errors}
+                                   type={"password"}
+                            />
+                        </Label>
 
-                    <Button className={"login-button"} content={"login"} type={"submit"}></Button>
+                        <Button className={"login-button"} content={"login"} type={"submit"}></Button>
 
-                    <div className={"register-section"}>
-                        <p>Geen account?</p>
-                        <Button onClick={registerButton} className={"register-button"}
-                                content={"maak een account"}></Button>
-                    </div>
-                </div>
-            </form>
-        </div>
+                        <div className={"register-section"}>
+                            <p>Geen account?</p>
+                            <Button onClick={registerButton} className={"register-button"}
+                                    content={"maak een account"}></Button>
+                        </div>
+                    </article>
+                </form>
+            </div>
+        </main>
     )
     ;
 }

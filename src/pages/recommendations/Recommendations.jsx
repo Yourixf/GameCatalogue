@@ -1,14 +1,18 @@
-import React from 'react';
+import {useContext} from 'react';
 import './Recommendations.css';
+import {ThemeContext} from "../../context/ThemeProvider.jsx";
 
 function Recommendations () {
-    return(
-        <> 
-        <div>
-            <h1>RECOMMENDATIONS PAGINA</h1>
-        </div>
-        </>
-    
+    const { selectedTheme } = useContext(ThemeContext)
+
+
+    return (
+        <main className={`page-container ${selectedTheme} recommendations-page-container`}>
+            <div>
+                <h1>recommendations PAGINA</h1>
+            </div>
+        </main>
+
     );
 }
 

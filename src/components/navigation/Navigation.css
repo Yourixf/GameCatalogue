@@ -7,6 +7,7 @@
     align-items: center;
     justify-content: space-between;
     column-gap: 10px;
+
 }
 
 .navbar.dark-mode {
@@ -76,21 +77,21 @@ a {
     padding: 20px;
     width: 100%;
     height: 100%;
-    border-top-left-radius: 25px;
-    border-bottom-left-radius: 25px;
+    border-radius: 25px 0 0 25px;
+
     background-color: var(--navbar-secondary);
     border: none;
     font-size: 25px;
 }
 
-.navbar-search-icon-button {
+
+.nav-searchbar .navbar-search-icon-button {
     display: flex;
     align-items: center;
     padding: 0 12px 0 5px;
     height: 100%;
     width: fit-content;
-    border-top-right-radius: 25px;
-    border-bottom-right-radius: 25px;
+    border-radius: 0 25px 25px 0;
     background-color: var(--navbar-secondary);
     border: none;
 }
@@ -108,7 +109,7 @@ a {
     max-height: 38px;
 }
 
-ul {
+.navbar-ul {
     display: flex;
     align-items: center;
     list-style-type: none;

@@ -11,13 +11,14 @@ function Profile () {
     const { selectedTheme } = useContext(ThemeContext)
 
 
-    return(
-        <div className={"inner-page-container"}>
-            <div className={`profile-card ${selectedTheme}`}>
+    return (
+        <main className={`page-container ${selectedTheme} profile-page-container`}>
+            <div className={"inner-page-container"}>
+                <article className={`profile-card ${selectedTheme}`}>
 
-                <div className={"profile-picture"}>
-                    <CircleIcon iconPictureSource={defaultProfile}/>
-                </div>
+                    <div className={"profile-picture"}>
+                        <CircleIcon iconPictureSource={defaultProfile}/>
+                    </div>
 
                     <div className={"profile-content"}>
                         <h1 className={"profile-username"}>{authData.user.username}</h1>
@@ -30,14 +31,14 @@ function Profile () {
                     </div>
 
                     <div className={"profile-buttons"}>
-                        <Button content={"verander profiel foto"} />
-                        <Button content={"verander wachtwoord"} />
-                        <Button onClick={authData.logout} content={"uitloggen"} />
+                        <Button content={"verander profiel foto"}/>
+                        <Button content={"verander wachtwoord"}/>
+                        <Button onClick={authData.logout} content={"uitloggen"}/>
                     </div>
+                </article>
             </div>
-        </div>
-    
+        </main>
     );
 }
 
-export default Profile;
+            export default Profile;
