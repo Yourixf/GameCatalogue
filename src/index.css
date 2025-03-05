@@ -49,7 +49,7 @@
   --game-card-text-dark: #FFFFFF;
   --game-card-text-light: #000000;
 
-  --recommended-text-description: #4B4B4B ;
+  --recommended-text-description: #4B4B4B;
   --recommended-pagination-other-game: #AEAEAE ;
   --recommended-pagination-selected-game: #4B4B4B ;
 
@@ -108,13 +108,14 @@ body{
   min-height: calc(100vh - 80px);
   padding: 10px;
 
+
   @media (max-width: 758px) {
     min-height: calc(100vh - 58px);
 
   }
 }
 
-.page-container.dark-mode {
+  .page-container.dark-mode {
   background: linear-gradient(45deg, var(--main-background-color-dark) 0%, var(--secondary-background-color-dark) 100%);
 
 }

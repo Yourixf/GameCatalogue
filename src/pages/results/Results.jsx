@@ -1,80 +1,81 @@
 import {useContext, useState} from 'react';
 import './Results.css';
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
-import axios from "axios";
-import Button from "../../components/button/Button.jsx";
 import GameCard from "../../components/gameCard/GameCard.jsx";
-import {useNavigate} from "react-router-dom";
-import {useGetGameList} from "../../hooks/useGames.js";
+import {useGetCurrentGameList, } from "../../hooks/useGames.js";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
+import SortingFilter from "../../components/sortingFilter/SortingFilter.jsx";
+import Pagination from "../../components/pagination/Pagination.jsx";
+import {useParams} from "react-router-dom";
 
 function Results () {
     const { selectedTheme } = useContext(ThemeContext)
-    const [gameData, setGameData] = useState(null)
 
-    const { getGameList, data, loading, error } = useGetGameList()
+    let {query} = useParams();
 
-    const navigate = useNavigate()
+    const {
+        currentGameListData,
+        currentGameListLoading,
+        currentGameListError,
+        loadNextPage,
+        loadFirstPage,
+        getLastPageNumber,
+        loadLastPage,
+        getCurrentPageNumber
+    } = useGetCurrentGameList(query)
 
-    const BASE_URL = import.meta.env.VITE_RAWG_API_BASE_URL;
-    const RAWG_API_KEY = `key=${import.meta.env.VITE_RAWG_API_KEY}`;
 
-    const RAWG_BASE_HEADERS = {
-        'Content-type': 'application/json',
-    }
-
-    function openDetails (id) {
-        navigate('/game/' + id)
-    }
-
-    async function getGames () {
-        await getGameList()
-    }
-
-    async function getPlatforms () {
-        try {
-            const result = await axios.get(
-                `${BASE_URL}/platforms?${RAWG_API_KEY}`,
-                {headers:RAWG_BASE_HEADERS}
-            )
-            console.log("Resultaat")
-            console.log(result)
-            setGameData(result.data)
-            console.log(gameData)
-        } catch (e) {
-            console.log("Resultaat error")
-            console.error(e)
-
-        }
-    }
     return (
-        <main className={`page-container ${selectedTheme} recommendations-page-container`}>
-            <div>
-                <h1>results PAGINA</h1>
-                <Button onClick={getGames} content={"alle games"}/>
-                <Button onClick={getPlatforms} content={"alle platforms"}/>
+        <main className={`page-container ${selectedTheme} results-page-container`}>
 
-                <StatusMessage statusState={loading} type={"loading"} content={"Laden..."}/>
+            <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden..."}/>
 
-                <StatusMessage statusState={error} type={"error"} content={error ?  error.response.data : "er ging iets fout..."}/>
+            <StatusMessage statusState={currentGameListError} type={"error"}
+                           content={currentGameListError ? currentGameListError?.message : "er ging iets fout..."}/>
 
+            {currentGameListData &&
+                <section className={`section-outer-container trending-games-outer-container`}>
+                    <div className={`section-inner-container trending-games-inner-container`}>
+                        <div className={"section-game-header"}>
+                            <span className={`result-section-title-wrapper`}>
+                                <h2 className={`section-title section-title-description `}>resultaten voor:</h2>
+                                <h2 className={`section-title section-title-query`}>{query}</h2>
+                            </span>
+                            <span className={"sorting-filter-wrapper state-two"}>
+                        <SortingFilter content={"Sorteer op:"} type={'sorting'}/>
+                        <SortingFilter content={"Filter op:"} type={"filter"}/>
+                    </span>
 
-                { data && <section className={"temp-game-section"}>
-                    {data && data.results.length > 0 ? data.results.map(game => (
-                        <GameCard
-                            key={game.id}
-                            gameTitle={game.name}
-                            gameImage={game.background_image}
-                            gamePlatforms={game.platforms}
-                            onClick={() => openDetails(game.id)}
+                            <span className={"hidden-item"}></span>
+                        </div>
+
+                        {currentGameListData && <section className={"game-card-wrapper"}>
+                            {currentGameListData && currentGameListData?.results.length > 0 ? currentGameListData?.results.map(game => (
+                                <GameCard
+                                    key={game?.id}
+                                    gameTitle={game?.name}
+                                    gameImage={game?.background_image}
+                                    gamePlatforms={game?.parent_platforms}
+                                    gameId={game?.id}
+                                />
+
+                            )) : <h1>niks</h1>}
+                        </section>}
+                        <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden..."}/>
+
+                        <Pagination
+                            loadNextPage={currentGameListData?.next ? () => loadNextPage(currentGameListData?.next): null}
+                            loadPreviousPage={currentGameListData?.previous ? () => loadNextPage(currentGameListData?.previous): null}
+                            loadFirstPage={loadFirstPage}
+                            lastPageValue={getLastPageNumber()}
+                            loadLastPage={loadLastPage}
+                            currentPageValue={getCurrentPageNumber()}
+
                         />
 
-                    )) : <h1>niks</h1> }
-                </section>}
-
-
-
-            </div>
+                    </div>
+                </section>
+            }
         </main>
 
     );

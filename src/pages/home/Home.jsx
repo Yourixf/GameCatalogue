@@ -115,15 +115,10 @@ function Home () {
 
                             )) : <h1>niks</h1>}
                         </section>}
-                        {/*<StatusMessage statusState={nextPreviousPageLoading} type={"loading"} content={"Laden..."}/>*/}
 
-                        {/*<StatusMessage statusState={nextPreviousPageError} type={"error"}*/}
-                        {/*               content={nextPreviousPageError ? nextPreviousPageError.response.data : "er ging iets fout..."}/>*/}
+                        <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden..."}/>
 
-                        {/*<StatusMessage statusState={lastPageLoading} type={"loading"} content={"Laden..."}/>*/}
 
-                        {/*<StatusMessage statusState={lastPageError} type={"error"}*/}
-                        {/*               content={lastPageError ? lastPageError.response.data : "er ging iets fout..."}/>*/}
                         <Pagination
                             loadNextPage={currentGameListData?.next ? () => loadNextPage(currentGameListData?.next): null}
                             loadPreviousPage={currentGameListData?.previous ? () => loadNextPage(currentGameListData?.previous): null}

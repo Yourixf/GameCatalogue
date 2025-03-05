@@ -9,9 +9,9 @@ const API_KEY = `key=${import.meta.env.VITE_RAWG_API_KEY}`;
 export function useGetGameList () {
     const { fetchData, data, loading, error } = useApiCall();
 
-    async function getGameList () {
+    async function getGameList (query='') {
         const response = await fetchData(
-            `${BASE_URL}/games?${API_KEY}`,
+            `${BASE_URL}/games?${API_KEY}${query && `&search=${query}`}`,
             `GET`,
             null
         );
@@ -43,24 +43,9 @@ export function useGetGameScreenshots () {
             `GET`,
             null
         );
-
         return response
     }
     return { getGameScreenshots, data, loading, error }
-}
-
-export function useGetGameSearchList () {
-    const { fetchData, data, loading, error } = useApiCall();
-
-    async function getGameSearchList (title) {
-        const response = await fetchData(
-        `${BASE_URL}/games?search=${title}&${API_KEY}`,
-        `GET`,
-        null
-        );
-        return response
-    };
-    return { getGameSearchList, data, loading, error }
 }
 
 export function useGetNextPreviousPage () {
@@ -80,9 +65,9 @@ export function useGetNextPreviousPage () {
 export function useGetLastPage () {
     const {fetchData, data, loading, error } = useApiCall();
 
-    async function getLastPage (lastPageNumber) {
+    async function getLastPage (lastPageNumber, query='') {
         const response = await fetchData(
-            `${BASE_URL}/games?${API_KEY}&page=${lastPageNumber}`,
+            `${BASE_URL}/games?${API_KEY}&page=${lastPageNumber}${query && `&search=${query}`}`,
             `GET`,
             null
         );
@@ -91,7 +76,7 @@ export function useGetLastPage () {
     return { getLastPage, data, loading, error}
 }
 
-export function useGetCurrentGameList () {
+export function useGetCurrentGameList (query='') {
     const [currentGameListData, setCurrentGameListData ] = useState()
     const [currentGameListLoading, setCurrentGameListLoading ] = useState()
     const [currentGameListError, setCurrentGameListError ] = useState()
@@ -101,8 +86,8 @@ export function useGetCurrentGameList () {
     const { getLastPage, data:lastPageData, loading:lastPageLoading, error:lastPageError } = useGetLastPage()
 
     useEffect(() => {
-        getGameList()
-    }, [])
+        getGameList(query)
+    }, [query,])
 
     // for the data state
     useEffect(() => {
@@ -166,12 +151,11 @@ export function useGetCurrentGameList () {
 
     function getLastPageNumber () {
         return Math.floor(currentGameListData?.count / 20)
-
     }
 
     function loadLastPage () {
         const lastPageNumber = getLastPageNumber()
-        getLastPage(lastPageNumber)
+        getLastPage(lastPageNumber, query)
     }
 
     function getCurrentPageNumber () {

@@ -5,6 +5,7 @@ import playstation from "../../assets/platforms/playstation.png";
 import xbox from "../../assets/platforms/xbox.png";
 import android from "../../assets/platforms/android.png";
 import nitendoswitch from "../../assets/platforms/nitendoswitch.png";
+import web from "../../assets/platforms/web.png";
 
 function GamePlatformIcons ({platforms, className=""}) {
 
@@ -14,7 +15,8 @@ function GamePlatformIcons ({platforms, className=""}) {
         playstation: [2],
         xbox: [3],
         android: [8],
-        nitendo: [7]
+        nitendo: [7],
+        web: [14]
     };
 
     const platformIconList = {
@@ -23,9 +25,9 @@ function GamePlatformIcons ({platforms, className=""}) {
         playstation: playstation,
         xbox: xbox,
         android: android,
-        nitendo: nitendoswitch
+        nitendo: nitendoswitch,
+        web: web
     };
-
 
     function getMatchedPlatforms() {
         if (!platforms) return [];
@@ -40,7 +42,7 @@ function GamePlatformIcons ({platforms, className=""}) {
 
                 if (category && !addedCategories.has(category)) {
                     addedCategories.add(category);
-                    return { category, icon: platformIconList[category] };
+                    return { category, icon: platformIconList[category]};
                 }
                 return null;
             })
@@ -56,6 +58,5 @@ function GamePlatformIcons ({platforms, className=""}) {
         </figure>
     );
 }
-
 
 export default GamePlatformIcons;

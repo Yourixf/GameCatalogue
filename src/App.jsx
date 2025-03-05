@@ -28,7 +28,7 @@ function App() {
           <Route path='/' element={<Home/>}/>
           <Route path='/favorites' element={authData.user ? <Favorites/> : <Navigate to="/login"/>}/>
           <Route path='/recommendations' element={authData.user ? <Recommendations/> : <Navigate to="/login"/>}/>
-          <Route path='/results' element={<Results/>}/>
+          <Route path='/results/:query' element={<Results/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/register' element={<Register/>}/>
           <Route path='/profile' element={authData.user ? <Profile/> : <Navigate to="/login"/>}/>

@@ -1,9 +1,28 @@
-.temp-game-section {
-    display: flex
-;
-    max-width: 90%;
-    flex-wrap: wrap;
-    align-content: center;
-    justify-content: center;
+.results-page-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
+    width: 100%;
+    height: 100%;
 }
+
+.result-section-title-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    min-width: fit-content;
+}
+
+.section-title-description::first-letter {
+    text-transform: capitalize;
+}
+
+.result-section-title-wrapper .section-title {
+}
+
+.result-section-title-wrapper .section-title-query {
+    color: var(--recommended-text-description);
+}
+
