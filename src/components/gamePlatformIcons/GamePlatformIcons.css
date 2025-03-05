@@ -1,0 +1,25 @@
+.game-platforms {
+    display: flex;
+    width: 100%;
+    padding: 10px 15px 5px 15px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.platform-icon {
+    max-width: 30px;
+}
+
+/* state two */
+@media all and (max-width: 1130px) {
+
+}
+
+/* state three */
+@media all and (max-width: 758px) {
+     .platform-icon {
+        max-width: 20px;
+    }
+
+}

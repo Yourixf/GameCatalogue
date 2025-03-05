@@ -44,6 +44,29 @@
   --button-text-color-light: #000000;
   --button-hover-dark: #c1c1c1;
 
+  --game-card-main-dark: #351313;
+  --game-card-main-light: #EAEAEA;
+  --game-card-text-dark: #FFFFFF;
+  --game-card-text-light: #000000;
+
+  --recommended-text-description: #4B4B4B;
+  --recommended-pagination-other-game: #AEAEAE ;
+  --recommended-pagination-selected-game: #4B4B4B ;
+
+  --pagination-main-background-dark: #351313;
+  --pagination-main-background-light: #EAEAEA;
+  --pagination-secondary-background-dark: #692727;
+  --pagination-secondary-background-light: #BA7878;
+  --pagination-selected-page-dark: #281212;
+  --pagination-selected-page-light: #FFFFFF;
+  --pagination-text-dark: #FFFFFF;
+  --pagination-text-light: #000000;
+
+  --filter-sort-background-color-dark: #692727;
+  --filter-sort-background-color-light: #EAEAEA;
+  --filter-sort-text-color-dark: #FFFFFF;
+  --filter-sort-text-color-light: #000000;
+
   --loading-text-color-dark: orange;
   --error-text-color-dark: red;
   --succes-text-color-dark: green;
@@ -83,6 +106,8 @@ body{
   align-items: center;
   width: 100%;
   min-height: calc(100vh - 80px);
+  padding: 10px;
+
 
   @media (max-width: 758px) {
     min-height: calc(100vh - 58px);
@@ -90,7 +115,7 @@ body{
   }
 }
 
-.page-container.dark-mode {
+  .page-container.dark-mode {
   background: linear-gradient(45deg, var(--main-background-color-dark) 0%, var(--secondary-background-color-dark) 100%);
 
 }
@@ -100,11 +125,41 @@ body{
 
 }
 
-
 .page-inner-container {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  margin: 40px;
+
+}
+
+.dark-mode ::-webkit-scrollbar-track  {
+  background: var(--secondary-background-color-dark);
+
+}
+
+.light-mode ::-webkit-scrollbar-track  {
+  background: var(--secondary-background-color-light);
+
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

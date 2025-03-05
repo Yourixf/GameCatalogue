@@ -1,0 +1,118 @@
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: fit-content;
+    height: 40px;
+
+    font-size: 24px;
+
+    border-radius: 10px;
+    border-bottom: 1px solid var(--main-stroke-color);
+}
+
+.pagination.dark-mode {
+    color: var(--pagination-text-dark);
+    background-color: var(--pagination-secondary-background-dark);
+}
+
+.pagination.light-mode {
+    color: var(--pagination-text-light);
+    background-color: var(--pagination-secondary-background-light);
+}
+
+.pagination-list {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    list-style-type: none;
+    column-gap: 5px;
+    flex: 1 2 300px;
+    justify-content: space-between;
+}
+
+.pagination-previous-next {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+.pagination-previous-next:first-of-type{
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.pagination-previous-next:last-of-type{
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.pagination-previous-next::first-letter {
+    text-transform: capitalize;
+}
+
+.pagination.dark-mode .pagination-previous-next {
+    background-color: var(--pagination-main-background-dark);
+}
+
+.pagination.light-mode .pagination-previous-next {
+    background-color: var(--pagination-main-background-light);
+}
+
+.pagination-pages {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    max-width: fit-content;
+    width: 100%;
+    min-width: 40px;
+
+    height: 85%;
+
+    padding: 0 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.pagination-pages.other-pages {
+    cursor: default;
+}
+
+.pagination.dark-mode .pagination-pages {
+    background-color: var(--pagination-main-background-dark);
+}
+
+.pagination.light-mode .pagination-pages {
+    background-color: var(--pagination-main-background-light);
+}
+
+.pagination.dark-mode .pagination-pages.current-page {
+    background-color: var(--pagination-selected-page-dark);
+}
+.pagination.light-mode .pagination-pages.current-page {
+    background-color: var(--pagination-selected-page-light);
+}
+
+/* state two */
+@media all and (max-width: 1130px) {
+    .pagination {
+        font-size: 17px;
+        height: 30px;
+
+    }
+
+    .pagination-pages {
+        min-width: 25px;
+    }
+}
+
+/* state three */
+@media all and (max-width: 758px) {
+
+}

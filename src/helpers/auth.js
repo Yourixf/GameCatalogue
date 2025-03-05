@@ -12,6 +12,7 @@ export function deleteToken () {
     localStorage.removeItem("token");
 }
 
+// TO DO, IMPORTANT
 export function validateToken (token) {
     // youri van beuzekom expired: eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJ1c2VySWQiOjg1NSwiYXBwbGljYXRpb25OYW1lIjoiZ2FtZWNhdGFsb2d1ZSIsInN1YiI6IllvdXJpIHZhbiBCZXV6ZWtvbSIsImlhdCI6MTc0MDA2NjczMSwiZXhwIjoxNzQwOTMwNzMxfQ.ylmADKQ0orKoAsyEhF_PlE2I4WseJtGymNbg00tX-2k
     const decodedExp = jwtDecode(token);

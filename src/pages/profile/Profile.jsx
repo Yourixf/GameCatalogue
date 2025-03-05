@@ -17,13 +17,14 @@ function Profile () {
     }
 
 
-    return(
-        <div className={"inner-page-container"}>
-            <div className={`profile-card ${selectedTheme}`}>
+    return (
+        <main className={`page-container ${selectedTheme} profile-page-container`}>
+            <div className={"inner-page-container"}>
+                <article className={`profile-card ${selectedTheme}`}>
 
-                <div className={"profile-picture"}>
-                    <CircleIcon iconPictureSource={defaultProfile}/>
-                </div>
+                    <div className={"profile-picture"}>
+                        <CircleIcon iconPictureSource={defaultProfile}/>
+                    </div>
 
                     <div className={"profile-content"}>
                         <h1 className={"profile-username"}>{authData.user.username}</h1>
@@ -40,9 +41,9 @@ function Profile () {
                         <Button onClick={changePassword} content={"verander wachtwoord"} />
                         <Button onClick={authData.logout} content={"uitloggen"} />
                     </div>
+                </article>
             </div>
-        </div>
-    
+        </main>
     );
 }
 
