@@ -14,6 +14,7 @@ export function useRegisterUser () {
             userData,
             { "X-Api-Key": `${API_KEY}` }
         );
+
         return response;
     };
 
@@ -68,6 +69,7 @@ export function useUpdateUserInfo () {
                 "Authorization": `Bearer ${currentToken}`
             }
         );
+        console.log(response)
         return response;
     };
     return { updateUserInfo, data, loading, error };

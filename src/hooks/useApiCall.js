@@ -10,6 +10,7 @@ export function useApiCall () {
     async function fetchData (url, method = "GET", body = null, headers = {}) {
         setLoading(true);
         setError(null);
+        setData(null)
 
         try {            
             const options = {
@@ -21,11 +22,11 @@ export function useApiCall () {
             const response = await axios(options);
             // console.log("Options zijn")
             // console.log(options);
-            setData(response.data);
+            setData(response.data ? response.data : response);
             // console.log(response)
             return response
         } catch (e) {
-            // console.log(e)
+            console.log(e)
             setError(e);
         } finally {
             setLoading(false);

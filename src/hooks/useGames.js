@@ -15,6 +15,8 @@ export function useGetGameList () {
             `GET`,
             null
         );
+
+        console.warn(response)
         return response;
     };
     return { getGameList, data, loading, error }
@@ -92,8 +94,8 @@ export function useGetCurrentGameList (query='') {
     // for the data state
     useEffect(() => {
         if (gameListData)
-            console.log(gameListData.next);
-        setCurrentGameListData(gameListData)
+            console.log(gameListData);
+            setCurrentGameListData(gameListData)
         console.log(currentGameListData)
     }, [gameListData]);
 

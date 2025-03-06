@@ -31,6 +31,7 @@ function Home () {
     } = useGetCurrentGameList()
 
 
+
     return(
         <main className={`page-container ${selectedTheme} home-page-container`}>
 
