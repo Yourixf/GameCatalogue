@@ -9,8 +9,8 @@ function Input ({className="", type='text', name='', id, placeholder, disabled, 
                        placeholder={placeholder}
                        {...(register ? register(id, validationRules) : {})}
 
-                        {/*onChange={onChange}*/}
-                        {/*onClick={onClick}*/}
+                    // {/*onChange={onChange}*/}
+                      //  {/*onClick={onClick}*/}
                 />
                 {register && errors[id] && <p className={"input-error"}>{errors[id].message}</p>}
             </>

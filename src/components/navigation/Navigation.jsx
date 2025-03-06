@@ -49,6 +49,8 @@ function Navigation () {
 
     function handleFormSubmit(data) {
         console.log(data)
+
+        
         navigate(`/results/` + data['game-search-field'])
     }
 
@@ -73,12 +75,11 @@ function Navigation () {
                         id="game-search-field"
                         placeholder={fieldMessage}
 
-                        // validationRules={{
-                        //     required: {
-                        //         value: true,
-                        //         message: 'Zoekveld is verplicht',
-                        //     }
-                        // }}
+                        validationRules={{
+                            required: {
+                                value: true,
+                            }
+                        }}
                         register={register}
                         errors={errors}
                     />
