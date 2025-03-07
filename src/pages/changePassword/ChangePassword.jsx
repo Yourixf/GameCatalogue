@@ -31,18 +31,15 @@ function ChangePassword () {
         let confirmationPassword = data['user-confirm-password-field']
 
         let formData = {
-            password: `${newPassword}`
+            password: `${newPassword}`,
         }
 
         if (confirmationPassword === newPassword) {
             setPasswordConflict(false)
             const currentToken = getToken()
             const tokenUsername = getTokenUsername(currentToken)
-            const token = updateUserInfo(formData, currentToken, tokenUsername)
+            updateUserInfo(formData, currentToken, tokenUsername)
 
-            if (!token) {
-                throw new Error("ChangePassword.jsx - 39 - wachtwoord wijzigen mislukt")
-            }
         } else {
             setPasswordConflict(true)
         }
@@ -69,21 +66,6 @@ function ChangePassword () {
 
 
                     <StatusMessage statusState={passwordConflict} type={"error"} content={"Wachtwoorden komen niet overheen"}/>
-
-                    {/*<Label className={"label-current-password"} htmlFor={"current-user-password-field"}>*/}
-                    {/*    Huidig wachtwoord:*/}
-                    {/*    <Input className={"change-password-form-field"} id={"current-user-password-field"}*/}
-                    {/*           validationRules={{*/}
-                    {/*               required: {*/}
-                    {/*                   value: true,*/}
-                    {/*                   message: 'Huidig wachtwoord is verplicht',*/}
-                    {/*               }*/}
-                    {/*           }}*/}
-                    {/*           register={register}*/}
-                    {/*           errors={errors}*/}
-                    {/*           type={"password"}*/}
-                    {/*    />*/}
-                    {/*</Label>*/}
 
                     <Label className={"label-new-password"} htmlFor={"user-new-password-field"}>
                         Nieuw wachtwoord:
@@ -113,9 +95,6 @@ function ChangePassword () {
                                        value: true,
                                        message: 'Bevestigings wachtwoord is verplicht',
                                    },
-                                   validate: {
-
-                                   }
                                }}
                                register={register}
                                errors={errors}

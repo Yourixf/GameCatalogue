@@ -23,7 +23,7 @@ export function useApiCall () {
                 url,
             };
             const response = await axios(options);
-            console.log(response);
+            // console.log(response);
             setData(response.data ? response.data : response);
             // console.log(response)
             return response

@@ -27,13 +27,15 @@ function Register () {
         let email = data['email-field']
         let password = data['user-password-field']
         let confirmationPassword = data['user-confirm-password-field']
+        let userInfo = {favorite_games: []}
+        let userInfoString = JSON.stringify(userInfo)
 
         let formData =
             {
                 username: `${username}`,
                 email: `${email}`,
                 password: `${password}`,
-                info: "",
+                info: `${userInfoString}`,
                 authorities: [
                     {
                         authority: "USER"
