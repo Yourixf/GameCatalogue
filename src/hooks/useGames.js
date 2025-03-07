@@ -13,7 +13,7 @@ export function useGetGameList () {
         const response = await fetchData(
             `${BASE_URL}/games?${API_KEY}${query && `&search=${query}`}`,
             `GET`,
-            null
+            null,
         );
 
         console.warn(response)
@@ -152,7 +152,7 @@ export function useGetCurrentGameList (query='') {
     }
 
     function getLastPageNumber () {
-        return Math.floor(currentGameListData?.count / 20)
+        return Math.floor(currentGameListData.count / 20)
     }
 
     function loadLastPage () {
@@ -164,11 +164,11 @@ export function useGetCurrentGameList (query='') {
         let currentPage = ""
 
         if (currentGameListData?.next) {
-            const nextPageUrl = currentGameListData.next.split("&")
-            currentPage = nextPageUrl[1].split("=")[1] - 1
+            const nextPageUrl = currentGameListData?.next?.split("&")
+            currentPage = nextPageUrl[1]?.split("=")[1] - 1
         } else if (currentGameListData?.previous) {
-            const previousPageUrl = currentGameListData.previous.split("&")
-            currentPage = previousPageUrl[1].split("=")[1]
+            const previousPageUrl = currentGameListData?.previous?.split("&")
+            currentPage = previousPageUrl[1]?.split("=")[1]
         }
 
         console.log(currentPage)

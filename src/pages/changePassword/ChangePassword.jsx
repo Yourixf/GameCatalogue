@@ -1,4 +1,4 @@
-import {useContext, useEffect} from "react";
+import {useContext, useEffect, useState} from "react";
 import './ChangePassword.css';
 import Button from "../../components/button/Button.jsx";
 import Label from "../../components/label/Label.jsx";
@@ -20,34 +20,38 @@ function ChangePassword () {
     const { selectedTheme } = useContext(ThemeContext)
     const { authData } = useContext(AuthContext)
 
+    const [ passwordConflict, setPasswordConflict ] = useState(false)
+
     function cancelButton () {
         navigate('/profile');
     }
 
     function handleFormSubmit(data) {
-        console.log("inital data")
-        console.log(data)
+        let newPassword = data['user-new-password-field']
+        let confirmationPassword = data['user-confirm-password-field']
 
         let formData = {
-            password: `${data["user-new-password-field"]}`
+            password: `${newPassword}`
         }
 
-        const currentToken = getToken()
-        const tokenUsername = getTokenUsername(currentToken)
-        console.log(data)
+        if (confirmationPassword === newPassword) {
+            setPasswordConflict(false)
+            const currentToken = getToken()
+            const tokenUsername = getTokenUsername(currentToken)
+            const token = updateUserInfo(formData, currentToken, tokenUsername)
 
-        const token = updateUserInfo(formData, currentToken, tokenUsername)
-
-        if (!token) {
-            throw new Error("ChangePassword.jsx - 39 - wachtwoord wijzigen mislukt")
+            if (!token) {
+                throw new Error("ChangePassword.jsx - 39 - wachtwoord wijzigen mislukt")
+            }
+        } else {
+            setPasswordConflict(true)
         }
-
     }
 
 
-    useEffect(() => {
-        console.log("testing data status " , data)
-    }, [data])
+    // useEffect(() => {
+    //     // console.log("testing data status " , data)
+    // }, [data])
 
 
     return (
@@ -64,22 +68,22 @@ function ChangePassword () {
 
 
 
+                    <StatusMessage statusState={passwordConflict} type={"error"} content={"Wachtwoorden komen niet overheen"}/>
 
-
-                    <Label className={"label-current-password"} htmlFor={"current-user-password-field"}>
-                        Huidig wachtwoord:
-                        <Input className={"change-password-form-field"} id={"current-user-password-field"}
-                               validationRules={{
-                                   required: {
-                                       value: true,
-                                       message: 'Huidig wachtwoord is verplicht',
-                                   }
-                               }}
-                               register={register}
-                               errors={errors}
-                               type={"password"}
-                        />
-                    </Label>
+                    {/*<Label className={"label-current-password"} htmlFor={"current-user-password-field"}>*/}
+                    {/*    Huidig wachtwoord:*/}
+                    {/*    <Input className={"change-password-form-field"} id={"current-user-password-field"}*/}
+                    {/*           validationRules={{*/}
+                    {/*               required: {*/}
+                    {/*                   value: true,*/}
+                    {/*                   message: 'Huidig wachtwoord is verplicht',*/}
+                    {/*               }*/}
+                    {/*           }}*/}
+                    {/*           register={register}*/}
+                    {/*           errors={errors}*/}
+                    {/*           type={"password"}*/}
+                    {/*    />*/}
+                    {/*</Label>*/}
 
                     <Label className={"label-new-password"} htmlFor={"user-new-password-field"}>
                         Nieuw wachtwoord:

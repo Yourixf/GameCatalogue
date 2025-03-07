@@ -14,10 +14,8 @@ export function useRegisterUser () {
             userData,
             { "X-Api-Key": `${API_KEY}` }
         );
-
         return response;
     };
-
     return { registerUser, data, loading, error};
 }
 
@@ -33,13 +31,11 @@ export function useLoginUser () {
         );
         return response;
     };
-
     return { loginUser, data, loading, error };
 }
 
 export function useGetUserInfo () {
     const { fetchData, data, loading, error } = useApiCall();
-
 
     async function getUserInfo (currentToken, tokenUsername) {
         const response = await fetchData(
@@ -50,7 +46,6 @@ export function useGetUserInfo () {
                 "Authorization": `Bearer ${currentToken}`
             }
         );
-
         return response;
     };
 

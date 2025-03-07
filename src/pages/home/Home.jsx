@@ -104,8 +104,8 @@ function Home () {
                             <span className={"hidden-item"}></span>
                         </div>
 
-                        {currentGameListData &&  <section className={"game-card-wrapper"}>
-                            {currentGameListData && currentGameListData?.results.length > 0 ? currentGameListData?.results.map(game => (
+                        {currentGameListData && <section className={"game-card-wrapper"}>
+                            {currentGameListData && currentGameListData?.results?.length > 0 ? currentGameListData?.results.map(game => (
                                 <GameCard
                                     key={game?.id}
                                     gameTitle={game?.name}

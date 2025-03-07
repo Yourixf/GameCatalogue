@@ -4,7 +4,7 @@ import Label from "../../components/label/Label.jsx";
 import Input from "../../components/input/Input.jsx";
 import {useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
-import { useContext } from "react";
+import {useContext, useState} from "react";
 import { useRegisterUser } from "../../hooks/useUser.js";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
@@ -12,29 +12,44 @@ import {ThemeContext} from "../../context/ThemeProvider.jsx";
 
 function Register () {
     const navigate = useNavigate();
-    const { register, handleSubmit, formState: { errors } } = useForm({mode:'onSubmit'});
+    const { register, handleSubmit, reset , formState: { errors } } = useForm({mode:'onSubmit'});
 
     const { registerUser, data, loading, error } = useRegisterUser();
     const { selectedTheme } = useContext(ThemeContext)
+    const [ passwordConflict, setPasswordConflict ] = useState(false)
 
     function handleClick () {
         navigate('/login');
     }
 
-    async function handleFormSubmit(data) {
+    function handleFormSubmit(data) {
+        let username = data['username-field']
+        let email = data['email-field']
+        let password = data['user-password-field']
+        let confirmationPassword = data['user-confirm-password-field']
+
         let formData =
             {
-            username: `${data["username-field"]}`,
-            email: `${data["email-field"]}`,
-            password: `${data["user-password-field"]}`,
-            info: "",
-            authorities: [
-                {
-                    authority: "ADMIN"
-                }
-            ]
+                username: `${username}`,
+                email: `${email}`,
+                password: `${password}`,
+                info: "",
+                authorities: [
+                    {
+                        authority: "USER"
+                    }
+                ]
+            }
+
+        if (confirmationPassword === password) {
+            setPasswordConflict(false)
+            registerUser(formData)
+            reset()
+        } else {
+            setPasswordConflict(true)
         }
-        await registerUser(formData)
+
+
     }
 
     return (
@@ -47,9 +62,11 @@ function Register () {
 
                         <StatusMessage statusState={loading} type={"loading"} content={"Laden..."}/>
 
-                        <StatusMessage statusState={error} type={"error"} content={error ?  error.response.data : "er ging iets fout..."}/>
+                        <StatusMessage statusState={error} type={"error"} content={error ? error?.message : "er ging iets fout..."}/>
 
                         <StatusMessage statusState={data} type={"succes"} content={"Account gemaakt"}/>
+
+                        <StatusMessage statusState={passwordConflict} type={"error"} content={"Wachtwoorden komen niet overheen"}/>
 
                         <Label className={"label-email"} htmlFor={"email-field"}>
                             Email:
@@ -108,9 +125,6 @@ function Register () {
                                            value: true,
                                            message: 'Bevestigings wachtwoord is verplicht',
                                        },
-                                       validate: {
-
-                                       }
                                    }}
                                    register={register}
                                    errors={errors}

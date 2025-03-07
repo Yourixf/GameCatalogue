@@ -24,13 +24,12 @@ function Login () {
         navigate('/register');
     }
 
-    async function handleFormSubmit(data) {
+    async function handleFormSubmit(data){
         let formData = {
             username: `${data["username-field"]}`,
             password: `${data["user-password-field"]}`
         }
 
-            
         try {
             console.log("login.jsx - 34")
             const token = await loginUser(formData)
@@ -57,7 +56,7 @@ function Login () {
 
                         <StatusMessage statusState={loading} type={"loading"} content={"Laden..."}/>
 
-                        <StatusMessage statusState={error} type={"error"} content={error ?  error.response.data : "er ging iets fout..."}/>
+                        <StatusMessage statusState={error} type={"error"} content={error ? error?.message : "er ging iets fout..."}/>
 
                         <StatusMessage statusState={data} type={"succes"} content={"Ingelogd"}/>
 

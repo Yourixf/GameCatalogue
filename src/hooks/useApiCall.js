@@ -15,13 +15,15 @@ export function useApiCall () {
         try {            
             const options = {
                 method,
-                headers: { "Content-Type": "application/json", ...headers },
+                headers: {
+                    "Content-Type": "application/json",
+                    "accept": "application/json",
+                    ...headers },
                 data: body || null,
                 url,
             };
             const response = await axios(options);
-            // console.log("Options zijn")
-            // console.log(options);
+            console.log(response);
             setData(response.data ? response.data : response);
             // console.log(response)
             return response
