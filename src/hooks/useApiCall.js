@@ -21,11 +21,11 @@ export function useApiCall () {
             const response = await axios(options);
             // console.log("Options zijn")
             // console.log(options);
-            setData(response.data);
+            setData(response);
             // console.log(response)
             return response
         } catch (e) {
-            // console.log(e)
+            console.log(e)
             setError(e);
         } finally {
             setLoading(false);

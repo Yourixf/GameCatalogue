@@ -1,4 +1,4 @@
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
 import './ChangePassword.css';
 import Button from "../../components/button/Button.jsx";
 import Label from "../../components/label/Label.jsx";
@@ -24,7 +24,7 @@ function ChangePassword () {
         navigate('/profile');
     }
 
-    async function handleFormSubmit(data) {
+    function handleFormSubmit(data) {
         console.log("inital data")
         console.log(data)
 
@@ -36,31 +36,36 @@ function ChangePassword () {
         const tokenUsername = getTokenUsername(currentToken)
         console.log(data)
 
-        try {
-            const token = await updateUserInfo(formData, currentToken, tokenUsername)
+        const token = updateUserInfo(formData, currentToken, tokenUsername)
 
-            if (!token) {
-                throw new Error("ChangePassword.jsx - 39 - wachtwoord wijzigen mislukt")
-            }
-            console.log(data)
-            //datislekker
-
-        } catch (e) {
-            console.log("ChangePassword.jsx - 44 - er ging wat mis...")
-            console.log(e)
+        if (!token) {
+            throw new Error("ChangePassword.jsx - 39 - wachtwoord wijzigen mislukt")
         }
+
     }
 
+
+    useEffect(() => {
+        console.log("testing data status " , data)
+    }, [data])
+
+
     return (
-        <div className={"page-inner-container"}>
+        <main className={`page-container ${selectedTheme}`}>
             <form onSubmit={handleSubmit(handleFormSubmit)}>
-                <div className={`change-password-card ${selectedTheme}`}>
+                <article className={`change-password-card ${selectedTheme}`}>
                     <h1 className={"change-password-title"}>Verander wachtwoord</h1>
 
                     <StatusMessage statusState={loading} type={"loading"} content={"Laden..."}/>
 
-                    <StatusMessage statusState={error} type={"error"} content={error ?  error.response.data : "er ging iets fout..."}/>
-                    <StatusMessage statusState={data} type={"succes"} content={"Wachtwoord veranderd"}/>
+                    <StatusMessage statusState={error} type={"error"} content={"er ging iets fout..."}/>
+
+
+                    <StatusMessage statusState={data} type={"success"} content={"Laden..."}/>
+
+                    {/*<StatusMessage statusState={data} type={"succes"} content={"Wachtwoord veranderd"}/>*/}
+
+
 
 
                     <Label className={"label-current-password"} htmlFor={"current-user-password-field"}>
@@ -121,9 +126,9 @@ function ChangePassword () {
                             content={data? 'Terug naar profiel' : "Annuleren"}></Button>
 
 
-                </div>
+                </article>
             </form>
-        </div>
+        </main>
     );
 }
 
