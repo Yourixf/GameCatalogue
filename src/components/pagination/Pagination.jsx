@@ -23,7 +23,10 @@ function Pagination ({loadNextPage=null, loadPreviousPage=null, loadFirstPage=nu
                     ]
                 }
 
+                {console.warn(currentPageValue)}
+
                 {lastPageValue && lastPageValue > 3 && lastPageValue !== currentPageValue &&
+                    currentPageValue !== "NaN" &&
                     [
                         [lastPageValue - 1 === currentPageValue ?
                             null : <li key={3} className={`pagination-pages other-pages`}>...</li>

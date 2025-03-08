@@ -7,18 +7,25 @@ import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";;
 import Button from "../../components/button/Button.jsx";
 import Metascore from "../../components/metascore/Metascore.jsx";
 import GamePlatformIcons from "../../components/gamePlatformIcons/GamePlatformIcons.jsx";
+import {getToken, getTokenUsername} from "../../helpers/auth.js";
+import {useGetUserFavorites, useUpdateUserInfo} from "../../hooks/useUser.js";
 
 
 function GameDetails () {
     const { selectedTheme } = useContext(ThemeContext)
     const { getGameDetails, data:gameDetailData, loading:gameDetailLoading, error:gameDetailError } = useGetGameDetails();
     const { getGameScreenshots, data:gameScreenshotData, loading:gameScreenshotLoading, error:gameScreenshotError } = useGetGameScreenshots()
+    const { updateUserInfo, data:updateUserInfoData, loading:updateUserInfoLoading, error:updateUserInfoError } = useUpdateUserInfo();
+    const { getUserFavorites, data:getUserFavoritesData, loading:getUserFavoritesLoading, error:getUserFavoritesError } = useGetUserFavorites();
+
 
     const [mainGamePicture, setMainGamePicture] = useState();
     const [descriptionView, setDesccriptionView] = useState(false);
 
+
     let {id} = useParams();
     id = parseInt(id);
+    console.log(id);
 
     useEffect(() => {
         getGameDetails(id)
@@ -44,6 +51,41 @@ function GameDetails () {
         setDesccriptionView(!descriptionView)
     }
 
+    async function handleFavoriteClick() {
+        let favoriteGames = []
+
+        const currentToken = getToken()
+        const tokenUsername = getTokenUsername(currentToken)
+        await getUserFavorites(tokenUsername, currentToken)
+
+        console.log("regel61")
+
+        if (getUserFavoritesData?.favorite_games) {
+            try {
+                console.log(getUserFavoritesData?.favorite_games)
+                favoriteGames = JSON.parse(getUserFavoritesData?.favorite_games);
+                console.log(favoriteGames)
+            }
+            catch(e) {
+                console.error(e)
+                favoriteGames = []
+            }
+        }
+
+        if (!favoriteGames.includes(id)) {
+            console.log("BEVAT NIET")
+            favoriteGames.push(Number(id))
+            favoriteGames = JSON.stringify(favoriteGames)
+
+            let formData = {
+                info: `${favoriteGames}`
+            }
+            await updateUserInfo(formData, currentToken, tokenUsername)
+        } else {
+            console.log("BEVAT welof error")
+        }
+    }
+
     return (
         <main className={`page-container ${selectedTheme} game-detail-page-outer-container`}>
             <section className={"section-inner-container related-games-section-outer-container"}>
@@ -53,8 +95,8 @@ function GameDetails () {
             <StatusMessage statusState={gameDetailLoading} type={"loading"} content={"Game info laden..."}/>
             <StatusMessage statusState={gameScreenshotLoading} type={"loading"} content={"Game screenshot laden..."}/>
 
-            <StatusMessage statusState={gameDetailError} type={"error"} content={gameDetailError ?  gameDetailError.response.data : "er ging iets fout bij het ophalen van de game data..."}/>
-            <StatusMessage statusState={gameScreenshotError} type={"error"} content={gameDetailError ?  gameDetailError.response.data : "er ging iets fout bij het ophalen van de game screenshot..."}/>
+            <StatusMessage statusState={gameDetailError} type={"error"} content={gameDetailError ?  gameDetailError?.response?.data : "er ging iets fout bij het ophalen van de game data..."}/>
+            <StatusMessage statusState={gameScreenshotError} type={"error"} content={gameDetailError ?  gameDetailError?.response?.data : "er ging iets fout bij het ophalen van de game screenshot..."}/>
 
             { gameDetailData &&
 
@@ -165,7 +207,7 @@ function GameDetails () {
                             </span>
                         </article>
                         <span className={"section-footer-wrapper"}>
-                            <Button className={`section-favorite-button`} content={"Voeg to aan favorieten"}/>
+                            <Button onClick={handleFavoriteClick} className={`section-favorite-button`} content={"Voeg to aan favorieten"}/>
                         </span>
                     </span>
                 </section>

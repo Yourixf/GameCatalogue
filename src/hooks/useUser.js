@@ -16,7 +16,6 @@ export function useRegisterUser () {
         );
         return response;
     };
-
     return { registerUser, data, loading, error};
 }
 
@@ -32,13 +31,11 @@ export function useLoginUser () {
         );
         return response;
     };
-
     return { loginUser, data, loading, error };
 }
 
 export function useGetUserInfo () {
     const { fetchData, data, loading, error } = useApiCall();
-
 
     async function getUserInfo (currentToken, tokenUsername) {
         const response = await fetchData(
@@ -49,7 +46,6 @@ export function useGetUserInfo () {
                 "Authorization": `Bearer ${currentToken}`
             }
         );
-
         return response;
     };
 
@@ -68,7 +64,7 @@ export function useUpdateUserInfo () {
                 "Authorization": `Bearer ${currentToken}`
             }
         );
-        console.log(response)
+        console.warn(response);
         return response;
     };
     return { updateUserInfo, data, loading, error };
@@ -78,7 +74,6 @@ export function useUploadProfilePicture () {
     const { fetchData, data, loading, error } = useApiCall();
 
     async function uploadProfilePicture (profilePicture, currentToken, tokenUsername) {
-        
         const formData = new FormData();
         formData.append("file", profilePicture); 
         
@@ -98,7 +93,6 @@ export function useUploadProfilePicture () {
     return { uploadProfilePicture, data, loading, error};
 }
 
-
 export function useDownloadProfilePicture () {
     const { fetchData, data, loading, error } = useApiCall();
 
@@ -116,4 +110,24 @@ export function useDownloadProfilePicture () {
         return response;
     };
     return { downloadProfilePicture, data, loading, error};
+}
+
+
+
+export function useGetUserFavorites () {
+    const { fetchData, data, loading, error } = useApiCall();
+
+    async function getUserFavorites (tokenUsername, currentToken) {
+        const response = await fetchData(
+            `${BASE_URL}/users/${tokenUsername}/info`,
+            "GET",
+            null,
+            { "X-Api-Key": `${API_KEY}`,
+                "Authorization": `Bearer ${currentToken}`
+            }
+        );
+        console.warn(response)
+        return response;
+    };
+    return { getUserFavorites, data, loading, error };
 }
