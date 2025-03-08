@@ -5,7 +5,7 @@ import GamePlatformIcons from "../gamePlatformIcons/GamePlatformIcons.jsx";
 import {useNavigate} from "react-router-dom";
 
 
-function GameCard ({className="", gameTitle="", gameImage="", gamePlatforms="", gameId=null }) {
+function GameCard ({className="", gameTitle="", gameImage="", gamePlatforms="", gameId=null, favorite=false }) {
     const { selectedTheme } = useContext(ThemeContext)
     const navigate = useNavigate()
 
@@ -17,7 +17,8 @@ function GameCard ({className="", gameTitle="", gameImage="", gamePlatforms="", 
 
         <article onClick={() => openDetails(gameId)} className={`game-card-main ${className} ${selectedTheme}`}>
             <figure className={"game-card-picture"}>
-                <span className={"game-text-label"}>favoriet</span>
+
+                {favorite && <span className={"game-text-label"}>favoriet</span>}
                 <img className={"game-image"} src={gameImage} alt="game-image"/>
             </figure>
             <div className={`game-card-title`}>{gameTitle}</div>

@@ -27,7 +27,8 @@ function Home () {
         loadFirstPage,
         getLastPageNumber,
         loadLastPage,
-        getCurrentPageNumber
+        getCurrentPageNumber,
+        checkFavorite
     } = useGetCurrentGameList()
 
 
@@ -112,6 +113,7 @@ function Home () {
                                     gameImage={game?.background_image}
                                     gamePlatforms={game?.parent_platforms}
                                     gameId={game?.id}
+                                    favorite={() => checkFavorite(game?.id)}
                                 />
 
                             )) : <h1>niks</h1>}

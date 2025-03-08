@@ -16,24 +16,22 @@ function Profile () {
 
     const { getUserFavorites, data:getUserFavoritesData, loading:getUserFavoritesLoading, error:getUserFavoritesError } = useGetUserFavorites();
 
+
+    const currentToken = getToken()
+    const tokenUsername = getTokenUsername(currentToken)
+
+    useEffect(() => {
+        getUserFavorites(tokenUsername, currentToken);
+    }, []);
+
+
     function changePassword () {
         navigate("/profile/changepassword")
     }
-    // const currentToken = getToken();
-    // const tokenUsername = getTokenUsername(currentToken);
-    //
-    // useEffect(() => {
-    //     getUserFavorites(tokenUsername, currentToken);
-    // }, []);
-    //
-    //
-    // console.log(getUserFavoritesData)
-    // console.log(getUserFavoritesData.value)
 
-    const favoriteGames =  0;
-    //
-    // console.log("Favorieten in profiel:", favoriteGames);
-
+    function favoriteClick () {
+        navigate("/favorites")
+    }
 
     return (
         <main className={`page-container ${selectedTheme} profile-page-container`}>
@@ -48,8 +46,8 @@ function Profile () {
                         <h1 className={"profile-username"}>{authData.user.username}</h1>
                         <h2 className={"profile-email"}>{authData.user.email}</h2>
 
-                        <span className={`profile-favorite-games-section`}>
-                            <h2 className={"profile-favorite-amount"}>{} {favoriteGames}</h2>
+                        <span onClick={favoriteClick} className={`profile-favorite-games-section`}>
+                            <h2 className={"profile-favorite-amount"}>{} {getUserFavoritesData?.favorite_games?.length ? getUserFavoritesData?.favorite_games?.length : 0 }</h2>
                             <p className={"profile-favorite-text"}>Favorieten games</p>
                         </span>
                     </div>

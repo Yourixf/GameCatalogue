@@ -81,6 +81,13 @@
     row-gap: 15px;
 }
 
+.profile-favorite-games-section {
+    cursor: pointer;
+}
+
+.profile-username, .profile-email, .profile-favorite-amount, .profile-favorite-text {
+    font-size: 27px;
+}
 
 
 /* state two */

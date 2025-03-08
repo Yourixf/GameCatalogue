@@ -3,7 +3,12 @@ import './Test.css';
 import axios from "axios";
 import Button from "../../components/button/Button.jsx";
 import {getToken, getTokenUserId, getTokenUsername, saveToken, validateToken} from "../../helpers/auth.js";
-import {useGetUserInfo, useUploadProfilePicture, useDownloadProfilePicture} from "../../hooks/useUser.js";
+import {
+    useGetUserInfo,
+    useUploadProfilePicture,
+    useDownloadProfilePicture,
+    useUpdateUserInfo
+} from "../../hooks/useUser.js";
 import {AuthContext} from "../../context/AuthProvider.jsx";
 import lightmode from "../../assets/navbar/lightmode.png";
 import testProfile from "../../assets/testProfile.jpg"
@@ -18,8 +23,6 @@ function Test () {
     const {downloadProfilePicture } = useDownloadProfilePicture()
     const { authData } = useContext(AuthContext)
     const autoHeaderToken = getToken()
-
-
 
     const noviBaseHeaders = {
         'Content-type': 'application/json',
@@ -178,9 +181,24 @@ function Test () {
         console.log(file)
     }
 
+    const { updateUserInfo} = useUpdateUserInfo();
+
+    function resetFavorites () {
+        let userInfo = {favorite_games: []}
+        let userInfoString = JSON.stringify(userInfo)
+
+        let formData = {
+            info: userInfoString
+        }
+
+        updateUserInfo(formData, getToken(), getTokenUsername(getToken()))
+
+
+    }
+
     return(
         <>
-            <div>
+            <main>
                 <h1>Test PAGINA</h1>
                 <CircleIcon iconPictureSource={testProfile}/>
                 <CircleIcon iconPictureSource={profilePicture}/>
@@ -197,8 +215,10 @@ function Test () {
                 <input onChange={onChangeTest} type="input" />
                 <Input type='file' className='file-test' onChange={handleFileClick} />
 
+                <Button onClick={resetFavorites} content={"reset favorites"}/>
+
                 <p className={"tokenTest"}>{jwtToken}</p>
-            </div>
+            </main>
         </>
 
     );

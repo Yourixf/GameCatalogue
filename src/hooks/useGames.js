@@ -1,5 +1,7 @@
 import {useApiCall } from "./useApiCall.js";
 import {useEffect, useState} from "react";
+import {useGetUserFavorites} from "./useUser.js";
+import {getToken, getTokenUsername} from "../helpers/auth.js";
 
 // For cleaner code view
 const BASE_URL = import.meta.env.VITE_RAWG_API_BASE_URL;
@@ -86,9 +88,12 @@ export function useGetCurrentGameList (query='') {
     const { getGameList, data:gameListData, loading:gameListLoading, error:gameListError } = useGetGameList();
     const { getNextPreviousPage, data:nextPreviousPageData, loading:nextPreviousPageLoading, error:nextPreviousPageError } = useGetNextPreviousPage()
     const { getLastPage, data:lastPageData, loading:lastPageLoading, error:lastPageError } = useGetLastPage()
+    const { getUserFavorites, data:userFavoritesData, loading:userFavoritesLoading, error:userFavoritesError} = useGetUserFavorites();
+
 
     useEffect(() => {
         getGameList(query)
+        getUserFavorites(getTokenUsername(getToken()), getToken())
     }, [query,])
 
     // for the data state
@@ -97,7 +102,9 @@ export function useGetCurrentGameList (query='') {
             console.log(gameListData);
             setCurrentGameListData(gameListData)
         console.log(currentGameListData)
-    }, [gameListData]);
+        if (userFavoritesData)
+            console.log(userFavoritesData)
+    }, [gameListData, userFavoritesData]);
 
     useEffect(() => {
         console.log(nextPreviousPageData)
@@ -108,6 +115,7 @@ export function useGetCurrentGameList (query='') {
         console.log(lastPageData)
         setCurrentGameListData(lastPageData)
     }, [lastPageData])
+
 
 
     // for the loading state
@@ -126,6 +134,10 @@ export function useGetCurrentGameList (query='') {
         setCurrentGameListLoading(lastPageLoading)
     }, [lastPageLoading])
 
+    useEffect(() => {
+        console.log(userFavoritesLoading)
+        setCurrentGameListLoading(userFavoritesLoading)
+    }, [userFavoritesLoading])
 
     // for the error state
     useEffect(() => {
@@ -142,6 +154,11 @@ export function useGetCurrentGameList (query='') {
         console.log(lastPageError)
         setCurrentGameListError(lastPageError)
     }, [lastPageError])
+
+    useEffect(() => {
+        console.log(userFavoritesError)
+        setCurrentGameListError(userFavoritesError)
+    }, [userFavoritesError])
 
     function loadNextPage (url) {
         getNextPreviousPage(url)
@@ -176,6 +193,14 @@ export function useGetCurrentGameList (query='') {
         return currentPage
     }
 
+    // IN PROGRESS
+
+    function checkFavorite (gameId) {
+        console.error(!!userFavoritesData?.favorite_games?.includes(Number(gameId)))
+        return !!userFavoritesData?.favorite_games?.includes(Number(gameId))
+    }
+
+
     return {
         currentGameListData,
         currentGameListLoading,
@@ -184,7 +209,8 @@ export function useGetCurrentGameList (query='') {
         loadFirstPage,
         getLastPageNumber,
         loadLastPage,
-        getCurrentPageNumber
+        getCurrentPageNumber,
+        checkFavorite
     }
 
 }

@@ -15,12 +15,13 @@ function GameDetails () {
     const { selectedTheme } = useContext(ThemeContext)
     const { getGameDetails, data:gameDetailData, loading:gameDetailLoading, error:gameDetailError } = useGetGameDetails();
     const { getGameScreenshots, data:gameScreenshotData, loading:gameScreenshotLoading, error:gameScreenshotError } = useGetGameScreenshots()
-    const { updateUserInfo, data:updateUserInfoData, loading:updateUserInfoLoading, error:updateUserInfoError } = useUpdateUserInfo();
-    const { getUserFavorites, data:getUserFavoritesData, loading:getUserFavoritesLoading, error:getUserFavoritesError } = useGetUserFavorites();
+    const { updateUserInfo, data:updateUserInfoData} = useUpdateUserInfo();
+    const { getUserFavorites, data:getUserFavoritesData} = useGetUserFavorites();
 
 
     const [mainGamePicture, setMainGamePicture] = useState();
     const [descriptionView, setDesccriptionView] = useState(false);
+
 
     const currentToken = getToken()
     const tokenUsername = getTokenUsername(currentToken)
@@ -60,9 +61,6 @@ function GameDetails () {
         setDesccriptionView(!descriptionView)
     }
 
-
-
-
     async function handleFavoriteClick() {
         let favoriteGames = { favorite_games: []}
 
@@ -80,14 +78,18 @@ function GameDetails () {
             console.log("BEVAT INDERDAAD")
 
             console.log(favoriteGames)
-            const testlist = favoriteGames.favorite_games.filter((game) => {
+            favoriteGames.favorite_games = favoriteGames.favorite_games.filter((game) => {
                 console.log(game)
-                game !== Number(id)
-                console.log(game !== 3498)
+                return game !== Number(id)
             })
-            console.log(testlist)
+            // console.log(testlist)
             console.log(favoriteGames)
 
+            let favoriteGamesString = JSON.stringify(favoriteGames)
+            let formData = {
+                info: favoriteGamesString
+            }
+            await updateUserInfo(formData, currentToken, tokenUsername)
         } else if (!favoriteGames?.favorite_games?.includes(Number(id))) {
             console.log("BEVAT NIET")
             favoriteGames.favorite_games.push(Number(id))
@@ -102,6 +104,10 @@ function GameDetails () {
     }
 
 
+    function checkFavorite () {
+        return !!getUserFavoritesData?.favorite_games?.includes(Number(id))
+    }
+
 
     return (
         <main className={`page-container ${selectedTheme} game-detail-page-outer-container`}>
@@ -114,6 +120,7 @@ function GameDetails () {
 
             <StatusMessage statusState={gameDetailError} type={"error"} content={gameDetailError ?  gameDetailError?.response?.data : "er ging iets fout bij het ophalen van de game data..."}/>
             <StatusMessage statusState={gameScreenshotError} type={"error"} content={gameDetailError ?  gameDetailError?.response?.data : "er ging iets fout bij het ophalen van de game screenshot..."}/>
+
 
             { gameDetailData &&
 
@@ -226,7 +233,8 @@ function GameDetails () {
                         <span className={"section-footer-wrapper"}>
                             <Button onClick={handleFavoriteClick}
                                     className={`section-favorite-button`}
-                                    content={"Voeg to aan favorieten"}
+                                    // content={"Voeg to aan favorieten"}
+                                    content={checkFavorite() ? 'Verwijder van favorieten' : 'Voeg toe aan favorieten'}
                             />
                         </span>
                     </span>
