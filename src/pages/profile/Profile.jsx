@@ -1,4 +1,4 @@
-import {useContext} from 'react';
+import {useContext, useEffect} from 'react';
 import './Profile.css';
 import CircleIcon from "../../components/circleIcon/CircleIcon.jsx";
 import defaultProfile from "../../assets/navbar/defaultProfile.png";
@@ -7,6 +7,7 @@ import {ThemeContext} from "../../context/ThemeProvider.jsx";
 import Button from "../../components/button/Button.jsx";
 import {useNavigate} from "react-router-dom";
 import {useGetUserFavorites} from "../../hooks/useUser.js";
+import {getToken, getTokenUsername} from "../../helpers/auth.js";
 
 function Profile () {
     const navigate = useNavigate()
@@ -18,8 +19,21 @@ function Profile () {
     function changePassword () {
         navigate("/profile/changepassword")
     }
+    // const currentToken = getToken();
+    // const tokenUsername = getTokenUsername(currentToken);
+    //
+    // useEffect(() => {
+    //     getUserFavorites(tokenUsername, currentToken);
+    // }, []);
+    //
+    //
+    // console.log(getUserFavoritesData)
+    // console.log(getUserFavoritesData.value)
 
-    console.log(authData.user.info)
+    const favoriteGames =  0;
+    //
+    // console.log("Favorieten in profiel:", favoriteGames);
+
 
     return (
         <main className={`page-container ${selectedTheme} profile-page-container`}>
@@ -35,7 +49,7 @@ function Profile () {
                         <h2 className={"profile-email"}>{authData.user.email}</h2>
 
                         <span className={`profile-favorite-games-section`}>
-                            <h2 className={"profile-favorite-amount"}>{authData.user.info}</h2>
+                            <h2 className={"profile-favorite-amount"}>{} {favoriteGames}</h2>
                             <p className={"profile-favorite-text"}>Favorieten games</p>
                         </span>
                     </div>

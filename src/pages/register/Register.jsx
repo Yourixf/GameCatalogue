@@ -35,7 +35,7 @@ function Register () {
                 username: `${username}`,
                 email: `${email}`,
                 password: `${password}`,
-                info: `${userInfoString}`,
+                info: userInfoString,
                 authorities: [
                     {
                         authority: "USER"

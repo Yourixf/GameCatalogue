@@ -22,10 +22,12 @@ function GameDetails () {
     const [mainGamePicture, setMainGamePicture] = useState();
     const [descriptionView, setDesccriptionView] = useState(false);
 
+    const currentToken = getToken()
+    const tokenUsername = getTokenUsername(currentToken)
 
     let {id} = useParams();
     id = parseInt(id);
-    console.log(id);
+    // console.log(id);
 
     useEffect(() => {
         getGameDetails(id)
@@ -41,7 +43,14 @@ function GameDetails () {
 
     useEffect(() => {
         console.log(gameDetailData)
-    }, [])
+    }, [gameDetailData])
+
+    useEffect(() => {
+        console.log("updateUserInfoData veranderd:", updateUserInfoData, getUserFavoritesData);
+
+        getUserFavorites(tokenUsername, currentToken)
+    }, [updateUserInfoData,])
+
 
     function replaceMainGamePicture (image) {
         setMainGamePicture(image)
@@ -51,40 +60,48 @@ function GameDetails () {
         setDesccriptionView(!descriptionView)
     }
 
+
+
+
     async function handleFavoriteClick() {
-        let favoriteGames = []
+        let favoriteGames = { favorite_games: []}
 
-        const currentToken = getToken()
-        const tokenUsername = getTokenUsername(currentToken)
-        await getUserFavorites(tokenUsername, currentToken)
+        //kijk of game in lijst staat.
+        // indien niet erin, voeg toe, en update de lijst
+        // indien wel, melding staat er al in.
 
-        console.log("regel61")
+        console.log(getUserFavoritesData)
 
-        if (getUserFavoritesData?.favorite_games) {
-            try {
-                console.log(getUserFavoritesData?.favorite_games)
-                favoriteGames = JSON.parse(getUserFavoritesData?.favorite_games);
-                console.log(favoriteGames)
-            }
-            catch(e) {
-                console.error(e)
-                favoriteGames = []
-            }
-        }
+        favoriteGames = getUserFavoritesData
+        console.log(favoriteGames.favorite_games)
+        console.log(favoriteGames.favorite_games.includes(Number(id)))
 
-        if (!favoriteGames.includes(id)) {
+        if (favoriteGames?.favorite_games?.includes(Number(id))) {
+            console.log("BEVAT INDERDAAD")
+
+            console.log(favoriteGames)
+            const testlist = favoriteGames.favorite_games.filter((game) => {
+                console.log(game)
+                game !== Number(id)
+                console.log(game !== 3498)
+            })
+            console.log(testlist)
+            console.log(favoriteGames)
+
+        } else if (!favoriteGames?.favorite_games?.includes(Number(id))) {
             console.log("BEVAT NIET")
-            favoriteGames.push(Number(id))
-            favoriteGames = JSON.stringify(favoriteGames)
-
+            favoriteGames.favorite_games.push(Number(id))
+            let favoriteGamesString = JSON.stringify(favoriteGames)
             let formData = {
-                info: `${favoriteGames}`
+                info: favoriteGamesString
             }
             await updateUserInfo(formData, currentToken, tokenUsername)
         } else {
-            console.log("BEVAT welof error")
+            console.log("ER GING WAT FOUT")
         }
     }
+
+
 
     return (
         <main className={`page-container ${selectedTheme} game-detail-page-outer-container`}>
@@ -207,7 +224,10 @@ function GameDetails () {
                             </span>
                         </article>
                         <span className={"section-footer-wrapper"}>
-                            <Button onClick={handleFavoriteClick} className={`section-favorite-button`} content={"Voeg to aan favorieten"}/>
+                            <Button onClick={handleFavoriteClick}
+                                    className={`section-favorite-button`}
+                                    content={"Voeg to aan favorieten"}
+                            />
                         </span>
                     </span>
                 </section>

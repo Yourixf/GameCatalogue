@@ -56,7 +56,10 @@ function Login () {
 
                         <StatusMessage statusState={loading} type={"loading"} content={"Laden..."}/>
 
-                        <StatusMessage statusState={error} type={"error"} content={error ? error?.message : "er ging iets fout..."}/>
+                        <StatusMessage
+                            statusState={error} type={"error"}
+                            content={error ? error?.response.data || error?.message : "er ging iets fout..."}
+                        />
 
                         <StatusMessage statusState={data} type={"succes"} content={"Ingelogd"}/>
 
