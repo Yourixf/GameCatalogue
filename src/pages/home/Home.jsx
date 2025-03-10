@@ -106,14 +106,14 @@ function Home () {
                         </div>
 
                         {currentGameListData && <section className={"game-card-wrapper"}>
-                            {currentGameListData && currentGameListData?.results?.length > 0 ? currentGameListData?.results.map(game => (
+                            {currentGameListData && currentGameListData?.results?.length > 0 ? currentGameListData?.results?.map(game => (
                                 <GameCard
                                     key={game?.id}
                                     gameTitle={game?.name}
                                     gameImage={game?.background_image}
                                     gamePlatforms={game?.parent_platforms}
                                     gameId={game?.id}
-                                    favorite={() => checkFavorite(game?.id)}
+                                    favorite={checkFavorite(game?.id)}
                                 />
 
                             )) : <h1>niks</h1>}

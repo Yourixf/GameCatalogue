@@ -1,7 +1,8 @@
 import {useApiCall } from "./useApiCall.js";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {useGetUserFavorites} from "./useUser.js";
 import {getToken, getTokenUsername} from "../helpers/auth.js";
+import {AuthContext} from "../context/AuthProvider.jsx";
 
 // For cleaner code view
 const BASE_URL = import.meta.env.VITE_RAWG_API_BASE_URL;
@@ -85,6 +86,9 @@ export function useGetCurrentGameList (query='') {
     const [currentGameListLoading, setCurrentGameListLoading ] = useState()
     const [currentGameListError, setCurrentGameListError ] = useState()
 
+    const { authData } = useContext(AuthContext)
+
+
     const { getGameList, data:gameListData, loading:gameListLoading, error:gameListError } = useGetGameList();
     const { getNextPreviousPage, data:nextPreviousPageData, loading:nextPreviousPageLoading, error:nextPreviousPageError } = useGetNextPreviousPage()
     const { getLastPage, data:lastPageData, loading:lastPageLoading, error:lastPageError } = useGetLastPage()
@@ -93,7 +97,7 @@ export function useGetCurrentGameList (query='') {
 
     useEffect(() => {
         getGameList(query)
-        getUserFavorites(getTokenUsername(getToken()), getToken())
+        authData.user && getUserFavorites(getTokenUsername(getToken()), getToken())
     }, [query,])
 
     // for the data state
@@ -164,8 +168,8 @@ export function useGetCurrentGameList (query='') {
         getNextPreviousPage(url)
     }
 
-    function loadFirstPage () {
-        getGameList()
+    function loadFirstPage (query='') {
+        getGameList(query)
     }
 
     function getLastPageNumber () {
@@ -196,8 +200,13 @@ export function useGetCurrentGameList (query='') {
     // IN PROGRESS
 
     function checkFavorite (gameId) {
-        console.error(!!userFavoritesData?.favorite_games?.includes(Number(gameId)))
-        return !!userFavoritesData?.favorite_games?.includes(Number(gameId))
+        if (authData.user){
+            console.error(!!userFavoritesData?.favorite_games?.includes(Number(gameId)))
+            return !!userFavoritesData?.favorite_games?.includes(Number(gameId))
+        } else {
+            return false
+        }
+
     }
 
 

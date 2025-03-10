@@ -21,7 +21,8 @@ function Results () {
         loadFirstPage,
         getLastPageNumber,
         loadLastPage,
-        getCurrentPageNumber
+        getCurrentPageNumber,
+        checkFavorite
     } = useGetCurrentGameList(query)
 
 
@@ -38,40 +39,50 @@ function Results () {
                     <div className={`section-inner-container trending-games-inner-container`}>
                         <div className={"section-game-header"}>
                             <span className={`result-section-title-wrapper`}>
-                                <h2 className={`section-title section-title-description `}>resultaten voor:</h2>
+                                <h2 className={`section-title section-title-description `}>{currentGameListData?.count !== 0 ? "resultaten" : "Geen resultaten"} voor:</h2>
                                 <h2 className={`section-title section-title-query`}>{query}</h2>
                             </span>
-                            <span className={"sorting-filter-wrapper state-two"}>
-                        <SortingFilter content={"Sorteer op:"} type={'sorting'}/>
-                        <SortingFilter content={"Filter op:"} type={"filter"}/>
-                    </span>
 
+                            {currentGameListData?.count !== 0 ?
+                            <span className={"sorting-filter-wrapper state-two"}>
+                                <SortingFilter content={"Sorteer op:"} type={'sorting'}/>
+                                <SortingFilter content={"Filter op:"} type={"filter"}/>
+                            </span>
+                            : null
+                             }
                             <span className={"hidden-item"}></span>
                         </div>
 
                         {currentGameListData && <section className={"game-card-wrapper"}>
-                            {currentGameListData && currentGameListData?.results.length > 0 ? currentGameListData?.results.map(game => (
+                            {currentGameListData && currentGameListData?.results.length > 0 && currentGameListData?.results.map(game => (
                                 <GameCard
                                     key={game?.id}
                                     gameTitle={game?.name}
                                     gameImage={game?.background_image}
                                     gamePlatforms={game?.parent_platforms}
                                     gameId={game?.id}
+                                    favorite={checkFavorite(game.id)}
                                 />
 
-                            )) : <h1>niks</h1>}
+                            ))}
                         </section>}
                         <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden..."}/>
+                        {console.log(currentGameListData)}
 
-                        <Pagination
+                        { currentGameListData.count !== 0 ?
+                            <Pagination
                             loadNextPage={currentGameListData?.next ? () => loadNextPage(currentGameListData?.next): null}
                             loadPreviousPage={currentGameListData?.previous ? () => loadNextPage(currentGameListData?.previous): null}
-                            loadFirstPage={loadFirstPage}
+                            loadFirstPage={() => loadFirstPage(query)}
                             lastPageValue={getLastPageNumber()}
                             loadLastPage={loadLastPage}
                             currentPageValue={getCurrentPageNumber()}
+                            />
+                            :
+                            null
+                        }
 
-                        />
+
 
                     </div>
                 </section>
