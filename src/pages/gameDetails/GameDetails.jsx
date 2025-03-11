@@ -9,10 +9,13 @@ import Metascore from "../../components/metascore/Metascore.jsx";
 import GamePlatformIcons from "../../components/gamePlatformIcons/GamePlatformIcons.jsx";
 import {getToken, getTokenUsername} from "../../helpers/auth.js";
 import {useGetUserFavorites, useUpdateUserInfo} from "../../hooks/useUser.js";
+import {AuthContext} from "../../context/AuthProvider.jsx";
 
 
 function GameDetails () {
     const { selectedTheme } = useContext(ThemeContext)
+    const { authData } = useContext(AuthContext)
+
     const { getGameDetails, data:gameDetailData, loading:gameDetailLoading, error:gameDetailError } = useGetGameDetails();
     const { getGameScreenshots, data:gameScreenshotData, loading:gameScreenshotLoading, error:gameScreenshotError } = useGetGameScreenshots()
     const { updateUserInfo, data:updateUserInfoData} = useUpdateUserInfo();
@@ -23,8 +26,8 @@ function GameDetails () {
     const [descriptionView, setDesccriptionView] = useState(false);
 
 
-    const currentToken = getToken()
-    const tokenUsername = getTokenUsername(currentToken)
+    const currentToken = authData.user && getToken()
+    const tokenUsername = authData.user && getTokenUsername(currentToken)
 
     let {id} = useParams();
     id = parseInt(id);
@@ -112,14 +115,16 @@ function GameDetails () {
     return (
         <main className={`page-container ${selectedTheme} game-detail-page-outer-container`}>
             <section className={"section-inner-container related-games-section-outer-container"}>
- 
+
             </section>
 
-            <StatusMessage statusState={gameDetailLoading} type={"loading"} content={"Game info laden..."}/>
-            <StatusMessage statusState={gameScreenshotLoading} type={"loading"} content={"Game screenshot laden..."}/>
+            <span className={`status-message-wrapper`}>
+                 <StatusMessage statusState={gameDetailLoading} type={"loading"} content={"Game info laden..."}/>
+                <StatusMessage statusState={gameScreenshotLoading} type={"loading"} content={"Game screenshot laden..."}/>
+                <StatusMessage statusState={gameDetailError} type={"error"} content={gameDetailError ?  gameDetailError?.response?.data : "er ging iets fout bij het ophalen van de game data..."}/>
+                <StatusMessage statusState={gameScreenshotError} type={"error"} content={gameDetailError ?  gameDetailError?.response?.data : "er ging iets fout bij het ophalen van de game screenshot..."}/>
+            </span>
 
-            <StatusMessage statusState={gameDetailError} type={"error"} content={gameDetailError ?  gameDetailError?.response?.data : "er ging iets fout bij het ophalen van de game data..."}/>
-            <StatusMessage statusState={gameScreenshotError} type={"error"} content={gameDetailError ?  gameDetailError?.response?.data : "er ging iets fout bij het ophalen van de game screenshot..."}/>
 
 
             { gameDetailData &&
@@ -152,8 +157,8 @@ function GameDetails () {
 
                                             {gameDetailData?.background_image_additional && [
                                                 <figure key={1}
-                                                    onClick={() => replaceMainGamePicture(gameDetailData?.background_image_additional)}
-                                                    className={`game-screenshot-figure`}>
+                                                        onClick={() => replaceMainGamePicture(gameDetailData?.background_image_additional)}
+                                                        className={`game-screenshot-figure`}>
                                                     <img className={`game-screenshot`}
                                                          src={gameDetailData?.background_image_additional}
                                                          alt="game screenshot"/>
@@ -175,7 +180,7 @@ function GameDetails () {
 
                                             }
                                         </span>
-                                    :
+                                        :
                                         null
                                     }
                                 </span>
@@ -230,13 +235,15 @@ function GameDetails () {
 
                             </span>
                         </article>
-                        <span className={"section-footer-wrapper"}>
+
+                        {authData.user && <span className={"section-footer-wrapper"}>
                             <Button onClick={handleFavoriteClick}
                                     className={`section-favorite-button`}
-                                    // content={"Voeg to aan favorieten"}
+                                // content={"Voeg to aan favorieten"}
                                     content={checkFavorite() ? 'Verwijder van favorieten' : 'Voeg toe aan favorieten'}
                             />
-                        </span>
+                        </span>}
+
                     </span>
                 </section>
             }

@@ -88,7 +88,6 @@ export function useGetCurrentGameList (query='') {
 
     const { authData } = useContext(AuthContext)
 
-
     const { getGameList, data:gameListData, loading:gameListLoading, error:gameListError } = useGetGameList();
     const { getNextPreviousPage, data:nextPreviousPageData, loading:nextPreviousPageLoading, error:nextPreviousPageError } = useGetNextPreviousPage()
     const { getLastPage, data:lastPageData, loading:lastPageLoading, error:lastPageError } = useGetLastPage()
@@ -191,13 +190,9 @@ export function useGetCurrentGameList (query='') {
             const previousPageUrl = currentGameListData?.previous?.split("&")
             currentPage = previousPageUrl[1]?.split("=")[1]
         }
-
         console.log(currentPage)
-
         return currentPage
     }
-
-    // IN PROGRESS
 
     function checkFavorite (gameId) {
         if (authData.user){
@@ -208,7 +203,6 @@ export function useGetCurrentGameList (query='') {
         }
 
     }
-
 
     return {
         currentGameListData,
@@ -221,5 +215,4 @@ export function useGetCurrentGameList (query='') {
         getCurrentPageNumber,
         checkFavorite
     }
-
 }

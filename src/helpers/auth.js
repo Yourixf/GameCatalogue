@@ -5,7 +5,7 @@ export function saveToken (token) {
 }
 
 export function getToken () {
-    return localStorage.getItem("token");
+    return localStorage.getItem("token") ? localStorage.getItem("token") : "" ;
 }
 
 export function deleteToken () {
