@@ -121,24 +121,18 @@ function Home () {
 
                         <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden..."}/>
 
-
                         <Pagination
                             loadNextPage={currentGameListData?.next ? () => loadNextPage(currentGameListData?.next): null}
                             loadPreviousPage={currentGameListData?.previous ? () => loadNextPage(currentGameListData?.previous): null}
-                            loadFirstPage={loadFirstPage}
+                            loadFirstPage={() => loadFirstPage()}
                             lastPageValue={getLastPageNumber()}
                             loadLastPage={loadLastPage}
                             currentPageValue={getCurrentPageNumber()}
-
                         />
-
-
                     </div>
                 </section>
             }
-
         </main>
-
     );
 }
 

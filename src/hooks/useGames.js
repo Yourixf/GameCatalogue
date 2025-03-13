@@ -8,7 +8,6 @@ import {AuthContext} from "../context/AuthProvider.jsx";
 const BASE_URL = import.meta.env.VITE_RAWG_API_BASE_URL;
 const API_KEY = `key=${import.meta.env.VITE_RAWG_API_KEY}`;
 
-
 export function useGetGameList () {
     const { fetchData, data, loading, error } = useApiCall();
 
@@ -18,8 +17,6 @@ export function useGetGameList () {
             `GET`,
             null,
         );
-
-        console.warn(response)
         return response;
     };
     return { getGameList, data, loading, error }
@@ -102,64 +99,62 @@ export function useGetCurrentGameList (query='') {
     // for the data state
     useEffect(() => {
         if (gameListData)
-            console.log(gameListData);
+            // console.log(gameListData);
             setCurrentGameListData(gameListData)
-        console.log(currentGameListData)
-        if (userFavoritesData)
-            console.log(userFavoritesData)
+        // console.log(currentGameListData)
+        // if (userFavoritesData)
+        //     console.log(userFavoritesData)
     }, [gameListData, userFavoritesData]);
 
     useEffect(() => {
-        console.log(nextPreviousPageData)
+        // console.log(nextPreviousPageData)
         setCurrentGameListData(nextPreviousPageData)
     }, [nextPreviousPageData])
 
     useEffect(() => {
-        console.log(lastPageData)
+        // console.log(lastPageData)
         setCurrentGameListData(lastPageData)
     }, [lastPageData])
 
-
-
     // for the loading state
     useEffect(() => {
-        console.log(gameListLoading)
+        // console.log(gameListLoading)
         setCurrentGameListLoading(gameListLoading)
     }, [gameListLoading])
 
     useEffect(() => {
-        console.log(nextPreviousPageLoading)
+        // console.log(nextPreviousPageLoading)
         setCurrentGameListLoading(nextPreviousPageLoading)
     }, [nextPreviousPageLoading])
 
     useEffect(() => {
-        console.log(lastPageLoading)
+        // console.log(lastPageLoading)
         setCurrentGameListLoading(lastPageLoading)
     }, [lastPageLoading])
 
     useEffect(() => {
-        console.log(userFavoritesLoading)
+        // console.log(userFavoritesLoading)
         setCurrentGameListLoading(userFavoritesLoading)
     }, [userFavoritesLoading])
 
     // for the error state
     useEffect(() => {
-        console.log(gameListError)
+        // console.log(gameListError)
         setCurrentGameListError(gameListError)
     }, [gameListError])
 
     useEffect(() => {
-        console.log(nextPreviousPageError)
+        // console.log(nextPreviousPageError)
         setCurrentGameListError(nextPreviousPageError)
     }, [nextPreviousPageError])
 
     useEffect(() => {
-        console.log(lastPageError)
+        // console.log(lastPageError)
         setCurrentGameListError(lastPageError)
     }, [lastPageError])
 
     useEffect(() => {
-        console.log(userFavoritesError)
+        // console.log(userFavoritesError)
         setCurrentGameListError(userFavoritesError)
     }, [userFavoritesError])
 
@@ -190,13 +185,13 @@ export function useGetCurrentGameList (query='') {
             const previousPageUrl = currentGameListData?.previous?.split("&")
             currentPage = previousPageUrl[1]?.split("=")[1]
         }
-        console.log(currentPage)
+        // console.log(currentPage)
         return currentPage
     }
 
     function checkFavorite (gameId) {
         if (authData.user){
-            console.error(!!userFavoritesData?.favorite_games?.includes(Number(gameId)))
+            // console.error(!!userFavoritesData?.favorite_games?.includes(Number(gameId)))
             return !!userFavoritesData?.favorite_games?.includes(Number(gameId))
         } else {
             return false

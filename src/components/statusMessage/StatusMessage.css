@@ -8,10 +8,15 @@
 
 .status-error {
     color: var(--error-text-color-dark);
+    cursor: wait;
 }
 
 .status-succes {
     color: var(--succes-text-color-dark);
+}
+
+body .status-loading {
+    cursor: wait;
 }
 
 @media (max-width: 758px) {

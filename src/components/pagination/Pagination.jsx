@@ -22,11 +22,11 @@ function Pagination ({loadNextPage=null, loadPreviousPage=null, loadFirstPage=nu
                         <li key={2} className={`pagination-pages current-page`}>{currentPageValue}</li>
                     ]
                 }
-                {console.warn(loadFirstPage)}
+                {/*{console.warn(loadFirstPage)}*/}
 
-                {console.warn(currentPageValue)}
-                {console.warn(lastPageValue)}
-                {console.warn(typeof lastPageValue)}
+                {/*{console.warn(currentPageValue)}*/}
+                {/*{console.warn(lastPageValue)}*/}
+                {/*{console.warn(typeof lastPageValue)}*/}
 
                 {lastPageValue && lastPageValue > 3 && lastPageValue !== currentPageValue &&
                     currentPageValue !== "NaN" &&

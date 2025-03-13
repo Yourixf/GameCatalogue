@@ -62,7 +62,9 @@ function Favorites () {
                     <span className={"sorting-filter-wrapper state-two"}>
                                 <SortingFilter content={"Sorteer op:"} type={'sorting'}/>
                                 <SortingFilter content={"Filter op:"} type={"filter"}/>
-                            </span>
+                    </span>
+                    <span className={"hidden-item"}></span>
+
                 </span>
                 <StatusMessage statusState={loadingGames} type={"loading"} content={"Laden..."}/>
 
