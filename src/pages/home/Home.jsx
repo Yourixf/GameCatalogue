@@ -98,9 +98,9 @@ function Home () {
                                 Uitgelicht
                             </h2>
                             <span className={"sorting-filter-wrapper state-two"}>
-                            <SortingFilter content={"Sorteer op:"} type={'sorting'}/>
-                            <SortingFilter content={"Filter op:"} type={"filter"}/>
-                        </span>
+                                <SortingFilter content={"Sorteer op:"} type={'sorting'}/>
+                                <SortingFilter content={"Filter op:"} type={"filter"}/>
+                            </span>
 
                             <span className={"hidden-item"}></span>
                         </div>

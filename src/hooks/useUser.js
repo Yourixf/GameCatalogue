@@ -126,7 +126,6 @@ export function useGetUserFavorites () {
                 "Authorization": `Bearer ${currentToken}`
             }
         );
-        console.warn(response)
         return response;
     };
     return { getUserFavorites, data, loading, error };

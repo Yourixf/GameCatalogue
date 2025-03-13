@@ -9,6 +9,7 @@ import {set} from "react-hook-form";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 import GameCard from "../../components/gameCard/GameCard.jsx";
 import Pagination from "../../components/pagination/Pagination.jsx";
+import SortingFilter from "../../components/sortingFilter/SortingFilter.jsx";
 
 function Favorites () {
     const { selectedTheme } = useContext(ThemeContext)
@@ -25,11 +26,12 @@ function Favorites () {
     const tokenUsername = authData.user && getTokenUsername(currentToken)
 
     useEffect(() => {
+        // gets user favorites
         getUserFavorites(tokenUsername, currentToken)
-        console.log("INITIAL LOAD")
     }, [])
 
     useEffect(() => {
+        // loops through the favorites and gets the details from the API
         getUserFavoritesData?.favorite_games?.forEach(function (item) {
             getGameDetails(item)
             setLoadingGames(true);
@@ -37,8 +39,11 @@ function Favorites () {
     }, [getUserFavoritesData])
 
     useEffect(() => {
+        // checks if gameDetailData is truthy
         if (gameDetailData) {
+            // puts gameDetailData in gameList state
             setGameList(prevList => {
+                // checks
                 if (!prevList.some(game => game?.id === gameDetailData?.id)) {
                     return [...prevList, gameDetailData];
                 }
@@ -52,8 +57,13 @@ function Favorites () {
     return(
         <main className={`page-container ${selectedTheme} favorites-page-container`}>
             <section className={`section-inner-container favorite-games-section-inner-container`}>
-                <h1>Favorites PAGINA</h1>
-
+                <span className={"section-title-wrapper"}>
+                    <h2 className={`section-title recommended-title`}>Jouw favorieten</h2>
+                    <span className={"sorting-filter-wrapper state-two"}>
+                                <SortingFilter content={"Sorteer op:"} type={'sorting'}/>
+                                <SortingFilter content={"Filter op:"} type={"filter"}/>
+                            </span>
+                </span>
                 <StatusMessage statusState={loadingGames} type={"loading"} content={"Laden..."}/>
 
                 {loadingGames === false && gameList && <section className={"game-card-wrapper"}>
@@ -64,7 +74,7 @@ function Favorites () {
                                 gameImage={game?.background_image}
                                 gamePlatforms={game?.parent_platforms}
                                 gameId={game?.id}
-                                favorite={true}
+                                favorite={false}
                             />
                         ))}
                     </section>
