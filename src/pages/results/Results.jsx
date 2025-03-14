@@ -7,6 +7,7 @@ import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 import SortingFilter from "../../components/sortingFilter/SortingFilter.jsx";
 import Pagination from "../../components/pagination/Pagination.jsx";
 import {useParams} from "react-router-dom";
+import Button from "../../components/button/Button.jsx";
 
 function Results () {
     const { selectedTheme } = useContext(ThemeContext)
@@ -22,8 +23,15 @@ function Results () {
         getLastPageNumber,
         loadLastPage,
         getCurrentPageNumber,
-        checkFavorite
+        checkFavorite,
+        sortPage
     } = useGetCurrentGameList(query)
+
+    // WIP
+    function testSortClick() {
+        console.log("AANEROEPEN")
+        sortPage("name")
+    }
 
 
     return (
@@ -46,6 +54,8 @@ function Results () {
                             {currentGameListData?.count !== 0 ?
                             <span className={"sorting-filter-wrapper state-two"}>
                                 <SortingFilter content={"Sorteer op:"} type={'sorting'}/>
+                                                                <Button onClick={testSortClick} content={`Test Sort`} />
+
                                 <SortingFilter content={"Filter op:"} type={"filter"}/>
                             </span>
                             : null

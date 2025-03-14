@@ -14,6 +14,7 @@ import nitendoswitch from "../../assets/platforms/nitendoswitch.png";
 import pubgImg from '../../assets/TEMPGAMEBACKGROUND.png'
 import {useGetCurrentGameList} from "../../hooks/useGames.js";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
+import Button from "../../components/button/Button.jsx";
 
 function Home () {
     const { selectedTheme } = useContext(ThemeContext)
@@ -28,10 +29,15 @@ function Home () {
         getLastPageNumber,
         loadLastPage,
         getCurrentPageNumber,
-        checkFavorite
+        checkFavorite,
+        sortPage
     } = useGetCurrentGameList()
 
-
+// WIP
+    function testSortClick() {
+        console.log("AANEROEPEN")
+        sortPage("name")
+    }
 
     return(
         <main className={`page-container ${selectedTheme} home-page-container`}>
@@ -99,6 +105,7 @@ function Home () {
                             </h2>
                             <span className={"sorting-filter-wrapper state-two"}>
                                 <SortingFilter content={"Sorteer op:"} type={'sorting'}/>
+                                <Button onClick={testSortClick} content={`Test Sort`} />
                                 <SortingFilter content={"Filter op:"} type={"filter"}/>
                             </span>
 

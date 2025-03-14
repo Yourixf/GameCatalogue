@@ -11,9 +11,9 @@ const API_KEY = `key=${import.meta.env.VITE_RAWG_API_KEY}`;
 export function useGetGameList () {
     const { fetchData, data, loading, error } = useApiCall();
 
-    async function getGameList (query='') {
+    async function getGameList (query='', ordering='') {
         const response = await fetchData(
-            `${BASE_URL}/games?${API_KEY}${query && `&search=${query}`}`,
+            `${BASE_URL}/games?${API_KEY}${query && `&search=${query}`}${ordering && `&ordering=${ordering}`}`,
             `GET`,
             null,
         );
@@ -63,13 +63,13 @@ export function useGetNextPreviousPage () {
     };
     return { getNextPreviousPage, data, loading, error}
 }
-
+//WIP
 export function useGetLastPage () {
     const {fetchData, data, loading, error } = useApiCall();
 
-    async function getLastPage (lastPageNumber, query='') {
+    async function getLastPage (lastPageNumber, query='', ordering='') {
         const response = await fetchData(
-            `${BASE_URL}/games?${API_KEY}&page=${lastPageNumber}${query && `&search=${query}`}`,
+            `${BASE_URL}/games?${API_KEY}${ordering && `&ordering=${ordering}`}&page=${lastPageNumber}${query && `&search=${query}`}`,
             `GET`,
             null
         );
@@ -78,7 +78,7 @@ export function useGetLastPage () {
     return { getLastPage, data, loading, error}
 }
 
-export function useGetCurrentGameList (query='') {
+export function useGetCurrentGameList (query='', ordering=``) {
     const [currentGameListData, setCurrentGameListData ] = useState()
     const [currentGameListLoading, setCurrentGameListLoading ] = useState()
     const [currentGameListError, setCurrentGameListError ] = useState()
@@ -92,14 +92,14 @@ export function useGetCurrentGameList (query='') {
 
 
     useEffect(() => {
-        getGameList(query)
+        getGameList(query, ordering)
         authData.user && getUserFavorites(getTokenUsername(getToken()), getToken())
-    }, [query,])
+    }, [query, ordering])
 
     // for the data state
     useEffect(() => {
         if (gameListData)
-            // console.log(gameListData);
+            console.log(gameListData);
             setCurrentGameListData(gameListData)
         // console.log(currentGameListData)
         // if (userFavoritesData)
@@ -162,25 +162,33 @@ export function useGetCurrentGameList (query='') {
         getNextPreviousPage(url)
     }
 
-    function loadFirstPage (query='') {
-        getGameList(query)
+    function loadFirstPage (query='', ordering='') {
+        getGameList(query, ordering)
     }
-
+// WIP
     function getLastPageNumber () {
         return Math.floor(currentGameListData.count / 20)
     }
 
+    // WIP
     function loadLastPage () {
         const lastPageNumber = getLastPageNumber()
-        getLastPage(lastPageNumber, query)
+        getLastPage(lastPageNumber, query, ordering)
     }
 
+    // WIP
     function getCurrentPageNumber () {
         let currentPage = ""
 
         if (currentGameListData?.next) {
             const nextPageUrl = currentGameListData?.next?.split("&")
-            currentPage = nextPageUrl[1]?.split("=")[1] - 1
+            const hasPage = nextPageUrl.find(param => param.startsWith("page="))
+
+            if (hasPage) {
+                currentPage = parseInt(hasPage.replace("page=", "")) - 1;
+            } else {
+                currentPage = nextPageUrl[1]?.split("=")[1] - 1
+            }
         } else if (currentGameListData?.previous) {
             const previousPageUrl = currentGameListData?.previous?.split("&")
             currentPage = previousPageUrl[1]?.split("=")[1]
@@ -196,7 +204,12 @@ export function useGetCurrentGameList (query='') {
         } else {
             return false
         }
+    }
 
+    function sortPage (ordering) {
+        console.log(query)
+        console.log(ordering)
+        getGameList(query, ordering)
     }
 
     return {
@@ -208,6 +221,7 @@ export function useGetCurrentGameList (query='') {
         getLastPageNumber,
         loadLastPage,
         getCurrentPageNumber,
-        checkFavorite
+        checkFavorite,
+        sortPage
     }
 }

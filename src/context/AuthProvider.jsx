@@ -18,6 +18,7 @@ function AuthContextProvider ({ children }) {
         saveToken(token)
         const tokenUsername = getTokenUsername(token)
         const tokenUserId = getTokenUserId(token)
+        console.log(`tokeusernam: ${tokenUsername} en ${tokenUserId}`)
         // console.log("step 1")
         try{
             // console.log("step 2")
@@ -38,6 +39,7 @@ function AuthContextProvider ({ children }) {
                 },
                 status: 'done',
             });
+
             // console.log("step 4")
         } catch (e) {
             console.log("major error occured")

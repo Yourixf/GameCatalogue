@@ -21,6 +21,7 @@ export function useApiCall () {
                     ...headers },
                 data: body || null,
                 url,
+                mode: "cors",
             };
             const response = await axios(options);
             // console.log(response);
