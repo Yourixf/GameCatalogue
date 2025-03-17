@@ -1,21 +1,21 @@
 import {useContext, useEffect} from 'react';
-import './Profile.css';
 import CircleIcon from "../../components/circleIcon/CircleIcon.jsx";
-import defaultProfile from "../../assets/navbar/defaultProfile.png";
 import {AuthContext} from "../../context/AuthProvider.jsx";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
-import Button from "../../components/button/Button.jsx";
-import {useNavigate} from "react-router-dom";
 import {useGetUserFavorites} from "../../hooks/useUser.js";
 import {getToken, getTokenUsername} from "../../helpers/auth.js";
+import {useNavigate} from "react-router-dom";
+import Button from "../../components/button/Button.jsx";
+import defaultProfile from "../../assets/navbar/defaultProfile.png";
+import './Profile.css';
 
 function Profile () {
-    const navigate = useNavigate()
     const { authData } = useContext(AuthContext)
     const { selectedTheme } = useContext(ThemeContext)
 
-    const { getUserFavorites, data:getUserFavoritesData, loading:getUserFavoritesLoading, error:getUserFavoritesError } = useGetUserFavorites();
+    const navigate = useNavigate()
 
+    const { getUserFavorites, data:getUserFavoritesData, loading:getUserFavoritesLoading, error:getUserFavoritesError } = useGetUserFavorites();
 
     const currentToken = getToken()
     const tokenUsername = getTokenUsername(currentToken)
@@ -23,7 +23,6 @@ function Profile () {
     useEffect(() => {
         getUserFavorites(tokenUsername, currentToken);
     }, []);
-
 
     function changePassword () {
         navigate("/profile/changepassword")
@@ -37,11 +36,9 @@ function Profile () {
         <main className={`page-container ${selectedTheme} profile-page-container`}>
             <div className={"inner-page-container"}>
                 <article className={`profile-card ${selectedTheme}`}>
-
                     <div className={"profile-picture"}>
                         <CircleIcon iconPictureSource={defaultProfile}/>
                     </div>
-
                     <div className={"profile-content"}>
                         <h1 className={"profile-username"}>{authData.user.username}</h1>
                         <h2 className={"profile-email"}>{authData.user.email}</h2>
@@ -51,7 +48,6 @@ function Profile () {
                             <p className={"profile-favorite-text"}>Favorieten games</p>
                         </span>
                     </div>
-
                     <div className={"profile-buttons"}>
                         <Button content={"verander profiel foto"} />
                         <Button onClick={changePassword} content={"verander wachtwoord"} />

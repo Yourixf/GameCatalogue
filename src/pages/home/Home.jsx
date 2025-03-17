@@ -1,10 +1,11 @@
 import {useContext, useState} from 'react';
-import './Home.css';
+import {AuthContext} from "../../context/AuthProvider.jsx";
+import {ThemeContext} from "../../context/ThemeProvider.jsx";
 import GameCard from "../../components/gameCard/GameCard.jsx";
 import Pagination from "../../components/pagination/Pagination.jsx";
 import SortingFilter from "../../components/sortingFilter/SortingFilter.jsx";
-import {AuthContext} from "../../context/AuthProvider.jsx";
-import {ThemeContext} from "../../context/ThemeProvider.jsx";
+import {useGetCurrentGameList} from "../../hooks/useGames.js";
+import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 import windwows from "../../assets/platforms/windows.png";
 import playstation from "../../assets/platforms/playstation.png";
 import xbox from "../../assets/platforms/xbox.png";
@@ -12,22 +13,11 @@ import apple from "../../assets/platforms/apple.png";
 import android from "../../assets/platforms/android.png";
 import nitendoswitch from "../../assets/platforms/nitendoswitch.png";
 import pubgImg from '../../assets/TEMPGAMEBACKGROUND.png'
-import {useGetCurrentGameList} from "../../hooks/useGames.js";
-import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
-import Button from "../../components/button/Button.jsx";
+import './Home.css';
 
 function Home () {
     const { selectedTheme } = useContext(ThemeContext)
     const { authData } = useContext(AuthContext)
-
-    const [selectedSorting, setSelectedSorting] = useState('');
-    const [selectedFilter, setSelectedFilter] = useState('');
-
-    const [sortingFilters, setSortingFilters] = useState({
-        sort: '',
-        genres: []
-    })
-
 
     const {
         currentGameListData,
@@ -39,22 +29,12 @@ function Home () {
         loadLastPage,
         getCurrentPageNumber,
         checkFavorite,
-        sortPage,
-        filterPage,
-        applySortingFilters
+        handleFilterChange,
+        handleSortingChange,
+        sortingFilters
     } = useGetCurrentGameList()
 
 // WIP
-
-    function handleSortingChange(newSort) {
-        setSortingFilters(prevFilters => ({ ...prevFilters, sort: newSort }));
-        applySortingFilters({ ...sortingFilters, sort: newSort });
-    }
-
-    function handleFilterChange(newGenres) {
-        setSortingFilters(prevFilters => ({ ...prevFilters, genres: newGenres }));
-        applySortingFilters({ ...sortingFilters, genres: newGenres });
-    }
 
     return(
         <main className={`page-container ${selectedTheme} home-page-container`}>
@@ -114,22 +94,6 @@ function Home () {
             <StatusMessage statusState={currentGameListError} type={"error"}
                            content={currentGameListError ? currentGameListError?.message : "er ging iets fout..."}/>
 
-            <span className={"sorting-filter-wrapper state-two"}>
-                                <SortingFilter
-                                    onOptionChange={handleSortingChange}
-                                    sortType={selectedSorting}
-                                    content={"Sorteer op:"}
-                                    type={'sorting'}
-
-                                />
-                                <SortingFilter
-                                    onOptionChange={handleFilterChange}
-                                    sortType={selectedFilter}
-                                    content={"Filter op:"}
-                                    type={"filter"}/>
-                            </span>
-
-
             {currentGameListData &&
                 <section className={`section-outer-container trending-games-outer-container`}>
                     <div className={`section-inner-container trending-games-inner-container`}>
@@ -137,7 +101,20 @@ function Home () {
                             <h2 className={`section-title`}>
                                 Uitgelicht
                             </h2>
-
+                            <span className={"sorting-filter-wrapper state-two"}>
+                                <SortingFilter
+                                    onApplyFilters={handleSortingChange}
+                                    content={"Sorteer op:"}
+                                    type={'sorting'}
+                                    selectedFilters={sortingFilters?.sort}
+                                />
+                                <SortingFilter
+                                    onApplyFilters={handleFilterChange}
+                                    content={"Filter op:"}
+                                    type={"filter"}
+                                    selectedFilters={sortingFilters?.genres}
+                                />
+                            </span>
                             <span className={"hidden-item"}></span>
                         </div>
 

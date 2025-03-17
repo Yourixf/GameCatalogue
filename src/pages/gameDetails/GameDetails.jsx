@@ -1,37 +1,34 @@
-import './GameDetails.css'
 import {useParams} from "react-router-dom";
 import  {useContext, useEffect, useState} from "react";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
+import {AuthContext} from "../../context/AuthProvider.jsx";
 import {useGetGameDetails, useGetGameScreenshots} from "../../hooks/useGames.js";
+import {useGetUserFavorites, useUpdateUserInfo} from "../../hooks/useUser.js";
+import {getToken, getTokenUsername} from "../../helpers/auth.js";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";;
 import Button from "../../components/button/Button.jsx";
 import Metascore from "../../components/metascore/Metascore.jsx";
 import GamePlatformIcons from "../../components/gamePlatformIcons/GamePlatformIcons.jsx";
-import {getToken, getTokenUsername} from "../../helpers/auth.js";
-import {useGetUserFavorites, useUpdateUserInfo} from "../../hooks/useUser.js";
-import {AuthContext} from "../../context/AuthProvider.jsx";
+import './GameDetails.css'
 
 
 function GameDetails () {
     const { selectedTheme } = useContext(ThemeContext)
     const { authData } = useContext(AuthContext)
 
+    const [mainGamePicture, setMainGamePicture] = useState();
+    const [descriptionView, setDesccriptionView] = useState(false);
+
     const { getGameDetails, data:gameDetailData, loading:gameDetailLoading, error:gameDetailError } = useGetGameDetails();
     const { getGameScreenshots, data:gameScreenshotData, loading:gameScreenshotLoading, error:gameScreenshotError } = useGetGameScreenshots()
     const { updateUserInfo, data:updateUserInfoData} = useUpdateUserInfo();
     const { getUserFavorites, data:getUserFavoritesData} = useGetUserFavorites();
-
-
-    const [mainGamePicture, setMainGamePicture] = useState();
-    const [descriptionView, setDesccriptionView] = useState(false);
-
 
     const currentToken = authData.user && getToken()
     const tokenUsername = authData.user && getTokenUsername(currentToken)
 
     let {id} = useParams();
     id = parseInt(id);
-    // console.log(id);
 
     useEffect(() => {
         getGameDetails(id)
@@ -51,7 +48,6 @@ function GameDetails () {
 
     useEffect(() => {
         console.log("updateUserInfoData veranderd:", updateUserInfoData, getUserFavoritesData);
-
         getUserFavorites(tokenUsername, currentToken)
     }, [updateUserInfoData,])
 
@@ -66,10 +62,6 @@ function GameDetails () {
 
     async function handleFavoriteClick() {
         let favoriteGames = { favorite_games: []}
-
-        //kijk of game in lijst staat.
-        // indien niet erin, voeg toe, en update de lijst
-        // indien wel, melding staat er al in.
 
         console.log(getUserFavoritesData)
 
@@ -106,11 +98,9 @@ function GameDetails () {
         }
     }
 
-
     function checkFavorite () {
         return !!getUserFavoritesData?.favorite_games?.includes(Number(id))
     }
-
 
     return (
         <main className={`page-container ${selectedTheme} game-detail-page-outer-container`}>
@@ -125,10 +115,7 @@ function GameDetails () {
                 <StatusMessage statusState={gameScreenshotError} type={"error"} content={gameDetailError ?  gameDetailError?.response?.data : "er ging iets fout bij het ophalen van de game screenshot..."}/>
             </span>
 
-
-
             { gameDetailData &&
-
                 <section className={`section-inner-container game-detail-section-inner-container ${selectedTheme}`}>
                     <span className={"game-detail-section-wrapper"}>
 
@@ -153,7 +140,6 @@ function GameDetails () {
                                                     <img className={`game-screenshot`} src={gameDetailData.background_image}
                                                          alt="game screenshot"/>
                                             </figure>
-
 
                                             {gameDetailData?.background_image_additional && [
                                                 <figure key={1}
@@ -230,9 +216,7 @@ function GameDetails () {
 
                                 </div>
 
-
                                 {gameDetailData && <GamePlatformIcons platforms={gameDetailData.parent_platforms} className={`game-detail-game-card-platforms`} />}
-
                             </span>
                         </article>
 
@@ -243,13 +227,10 @@ function GameDetails () {
                                     content={checkFavorite() ? 'Verwijder van favorieten' : 'Voeg toe aan favorieten'}
                             />
                         </span>}
-
                     </span>
                 </section>
             }
-
         </main>
-
     )
 }
 

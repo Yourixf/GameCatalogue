@@ -1,26 +1,28 @@
-import {useContext, useEffect, useState} from "react";
-import './ChangePassword.css';
-import Button from "../../components/button/Button.jsx";
-import Label from "../../components/label/Label.jsx";
-import Input from "../../components/input/Input.jsx";
+import {useContext, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import { useForm } from "react-hook-form";
-import {useUpdateUserInfo} from "../../hooks/useUser.js";
-import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
 import {AuthContext} from "../../context/AuthProvider.jsx";
+import {useUpdateUserInfo} from "../../hooks/useUser.js";
+import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
+import Button from "../../components/button/Button.jsx";
 import {getToken, getTokenUsername} from "../../helpers/auth.js";
+import Label from "../../components/label/Label.jsx";
+import Input from "../../components/input/Input.jsx";
+import './ChangePassword.css';
 
 
 function ChangePassword () {
-    const navigate = useNavigate();
-    const { register, handleSubmit, formState: { errors } } = useForm({mode:'onSubmit'});
-
-    const { updateUserInfo, data, loading, error } = useUpdateUserInfo();
     const { selectedTheme } = useContext(ThemeContext)
     const { authData } = useContext(AuthContext)
 
     const [ passwordConflict, setPasswordConflict ] = useState(false)
+
+    const { register, handleSubmit, formState: { errors } } = useForm({mode:'onSubmit'});
+
+    const navigate = useNavigate();
+
+    const { updateUserInfo, data, loading, error } = useUpdateUserInfo();
 
     function cancelButton () {
         navigate('/profile');
@@ -45,12 +47,6 @@ function ChangePassword () {
         }
     }
 
-
-    // useEffect(() => {
-    //     // console.log("testing data status " , data)
-    // }, [data])
-
-
     return (
         <main className={`page-container ${selectedTheme}`}>
             <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -58,13 +54,8 @@ function ChangePassword () {
                     <h1 className={"change-password-title"}>Verander wachtwoord</h1>
 
                     <StatusMessage statusState={loading} type={"loading"} content={"Laden..."}/>
-
                     <StatusMessage statusState={error} type={"error"} content={error?.message ? error?.message : "er ging iets fout..."}/>
-
                     <StatusMessage statusState={data} type={"succes"} content={"Wachtwoord veranderd"}/>
-
-
-
                     <StatusMessage statusState={passwordConflict} type={"error"} content={"Wachtwoorden komen niet overheen"}/>
 
                     <Label className={"label-new-password"} htmlFor={"user-new-password-field"}>
@@ -101,11 +92,9 @@ function ChangePassword () {
                                type={"password"}/>
                     </Label>
 
-                    <Button className={"confirm-button"} content={"bevestig"} type={"submit"}></Button>
-
+                    <Button className={"confirm-button"} content={"bevestig"} type={"submit"}/>
                     <Button onClick={cancelButton} className={"cancel-button"}
-                            content={data? 'Terug naar profiel' : "Annuleren"}></Button>
-
+                            content={data? 'Terug naar profiel' : "Annuleren"}/>
 
                 </article>
             </form>

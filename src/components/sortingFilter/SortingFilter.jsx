@@ -1,15 +1,19 @@
-import './SortingFilter.css';
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
 import Label from "../label/Label.jsx";
 import Input from "../input/Input.jsx";
 import Button from "../button/Button.jsx";
+import './SortingFilter.css';
 
-function SortingFilter ({className="", type='sorting', content, onOptionChange, sortType}) {
+function SortingFilter ({className="", type='sorting', content, onApplyFilters, selectedFilters  }) {
     const { selectedTheme } = useContext(ThemeContext)
+
     const [dropdown, dropdownToggle ] = useState(false);
-    const [ sortOption, setSortOption ] = useState('');
-    const [ filterOption, setFilterOption ] = useState('');
+    const [tempSelection, setTempSelection] = useState(selectedFilters || (type === "sorting" ? "" : []));
+
+    useEffect(() => {
+        setTempSelection(selectedFilters || (type === "sorting" ? "" : []));
+    }, [selectedFilters]);
 
     function dropdownClick () {
         console.log(dropdown);
@@ -37,24 +41,23 @@ function SortingFilter ({className="", type='sorting', content, onOptionChange, 
     function handleOptionChange (option) {
         console.log(option)
         type === "sorting" ?
-            setSortOption(option) :
-            setFilterOption(prevFilters =>
+            setTempSelection(option) :
+            setTempSelection(prevFilters =>
                 prevFilters.includes(option)
-                    ? prevFilters.filter(f => f !== option)
-                    : [...prevFilters, option]
+                    ? prevFilters.filter(f => f !== option) : [...prevFilters, option]
             );
     }
 
     function handleApplyClick () {
         console.warn('32 jaajajajaj aangreopen')
-        // onOptionChange(sortOption)
-        onOptionChange(type === "sorting" ? sortOption : filterOption)
+        onApplyFilters(tempSelection);
     }
 
     function handleDeleteClick () {
         console.warn("handledeleteclick aangeroepen")
 
-        onOptionChange("")
+        setTempSelection(type === "sorting" ? "" : []);
+        onApplyFilters(type === "sorting" ? "" : []);
     }
 
     // filter: genres - publishers -
@@ -80,20 +83,15 @@ function SortingFilter ({className="", type='sorting', content, onOptionChange, 
                             name={type === "sorting" ? "sorting-options" : "filter-options"}
                             value={option.value}
                             checked={(type === "sorting" ?
-                                sortType === option.value :
-                                filterOption.includes(option.value))}
+                                tempSelection  === option.value :
+                                tempSelection.includes(option.value))}
                             onChange={() => handleOptionChange(option.value)}
-
                         />
                     </Label>
                 ))}
 
-
-
                 <Button onClick={handleApplyClick} className={"apply-options" } content={"Toepassen"}/>
                 <Button onClick={handleDeleteClick} className={"delete-options" } content={"Verwijderen"}/>
-
-
             </div>
         </div>
     )

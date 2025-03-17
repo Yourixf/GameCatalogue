@@ -1,5 +1,6 @@
 import {useContext} from 'react';
-import './App.css';
+import {Routes, Route, Navigate} from 'react-router-dom';
+import {AuthContext} from "./context/AuthProvider.jsx";
 import Navigation from './components/navigation/Navigation';
 import Home from './pages/home/Home';
 import Favorites from './pages/favorites/Favorites';
@@ -10,13 +11,9 @@ import Register from './pages/register/Register';
 import Profile from "./pages/profile/Profile.jsx";
 import NotFound from './pages/404/404';
 import Test from './pages/test/Test.jsx'
-import {Routes, Route, Navigate} from 'react-router-dom';
-import {AuthContext} from "./context/AuthProvider.jsx";
 import GameDetails from "./pages/gameDetails/GameDetails.jsx";
-
-
-
 import ChangePassword from "./pages/changePassword/ChangePassword.jsx";
+import './App.css';
 
 function App() {
   const { authData } = useContext(AuthContext)

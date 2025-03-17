@@ -1,13 +1,13 @@
 import {useContext, useState} from 'react';
-import './Results.css';
+import {useParams} from "react-router-dom";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
-import GameCard from "../../components/gameCard/GameCard.jsx";
 import {useGetCurrentGameList, } from "../../hooks/useGames.js";
+import GameCard from "../../components/gameCard/GameCard.jsx";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 import SortingFilter from "../../components/sortingFilter/SortingFilter.jsx";
 import Pagination from "../../components/pagination/Pagination.jsx";
-import {useParams} from "react-router-dom";
 import Button from "../../components/button/Button.jsx";
+import './Results.css';
 
 function Results () {
     const { selectedTheme } = useContext(ThemeContext)
@@ -24,15 +24,10 @@ function Results () {
         loadLastPage,
         getCurrentPageNumber,
         checkFavorite,
-        sortPage
+        handleFilterChange,
+        handleSortingChange,
+        sortingFilters
     } = useGetCurrentGameList(query)
-
-    // WIP
-    function testSortClick() {
-        console.log("AANEROEPEN")
-        sortPage("name")
-    }
-
 
     return (
         <main className={`page-container ${selectedTheme} results-page-container`}>
@@ -53,10 +48,18 @@ function Results () {
 
                             {currentGameListData?.count !== 0 ?
                             <span className={"sorting-filter-wrapper state-two"}>
-                                <SortingFilter content={"Sorteer op:"} type={'sorting'}/>
-                                                                <Button onClick={testSortClick} content={`Test Sort`} />
-
-                                <SortingFilter content={"Filter op:"} type={"filter"}/>
+                                 <SortingFilter
+                                     onApplyFilters={handleSortingChange}
+                                     content={"Sorteer op:"}
+                                     type={'sorting'}
+                                     selectedFilters={sortingFilters?.sort}
+                                 />
+                                <SortingFilter
+                                    onApplyFilters={handleFilterChange}
+                                    content={"Filter op:"}
+                                    type={"filter"}
+                                    selectedFilters={sortingFilters?.genres}
+                                />
                             </span>
                             : null
                              }
@@ -77,7 +80,6 @@ function Results () {
                             ))}
                         </section>}
                         <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden..."}/>
-                        {console.log(currentGameListData)}
 
                         { currentGameListData.count !== 0 ?
                             <Pagination

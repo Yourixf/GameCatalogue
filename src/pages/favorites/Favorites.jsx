@@ -1,15 +1,14 @@
 import {useContext, useEffect, useState} from 'react';
-import './Favorites.css';
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
+import {AuthContext} from "../../context/AuthProvider.jsx";
 import {useGetGameDetails} from "../../hooks/useGames.js";
 import {useGetUserFavorites} from "../../hooks/useUser.js";
 import {getToken, getTokenUsername} from "../../helpers/auth.js";
-import {AuthContext} from "../../context/AuthProvider.jsx";
-import {set} from "react-hook-form";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 import GameCard from "../../components/gameCard/GameCard.jsx";
 import Pagination from "../../components/pagination/Pagination.jsx";
 import SortingFilter from "../../components/sortingFilter/SortingFilter.jsx";
+import './Favorites.css';
 
 function Favorites () {
     const { selectedTheme } = useContext(ThemeContext)

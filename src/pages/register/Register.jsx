@@ -1,22 +1,24 @@
-import './Register.css';
+import {useContext, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {useForm} from "react-hook-form";
+import {ThemeContext} from "../../context/ThemeProvider.jsx";
+import { useRegisterUser } from "../../hooks/useUser.js";
 import Button from "../../components/button/Button.jsx";
 import Label from "../../components/label/Label.jsx";
 import Input from "../../components/input/Input.jsx";
-import {useNavigate} from "react-router-dom";
-import {useForm} from "react-hook-form";
-import {useContext, useState} from "react";
-import { useRegisterUser } from "../../hooks/useUser.js";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
-import {ThemeContext} from "../../context/ThemeProvider.jsx";
+import './Register.css';
 
 
 function Register () {
-    const navigate = useNavigate();
-    const { register, handleSubmit, reset , formState: { errors } } = useForm({mode:'onSubmit'});
-
-    const { registerUser, data, loading, error } = useRegisterUser();
     const { selectedTheme } = useContext(ThemeContext)
+
     const [ passwordConflict, setPasswordConflict ] = useState(false)
+
+    const { register, handleSubmit, reset , formState: { errors } } = useForm({mode:'onSubmit'});
+    const { registerUser, data, loading, error } = useRegisterUser();
+
+    const navigate = useNavigate();
 
     function handleClick () {
         navigate('/login');
@@ -50,8 +52,6 @@ function Register () {
         } else {
             setPasswordConflict(true)
         }
-
-
     }
 
     return (
@@ -63,11 +63,8 @@ function Register () {
                         <h1 className={"register-title"}>Registreer</h1>
 
                         <StatusMessage statusState={loading} type={"loading"} content={"Laden..."}/>
-
                         <StatusMessage statusState={error} type={"error"} content={error ? error?.message : "er ging iets fout..."}/>
-
                         <StatusMessage statusState={data} type={"succes"} content={"Account gemaakt"}/>
-
                         <StatusMessage statusState={passwordConflict} type={"error"} content={"Wachtwoorden komen niet overheen"}/>
 
                         <Label className={"label-email"} htmlFor={"email-field"}>
@@ -133,11 +130,11 @@ function Register () {
                                    type={"password"}/>
                         </Label>
 
-                        <Button className={"register-button"} content={"Registreer"} type={"submit"}></Button>
+                        <Button className={"register-button"} content={"Registreer"} type={"submit"}/>
 
                         <div className={"login-section"}>
                             <p>Heb je al een account?</p>
-                            <Button onClick={handleClick} className={"login-button"} content={"login"}></Button>
+                            <Button onClick={handleClick} className={"login-button"} content={"login"}/>
                         </div>
                     </article>
                 </form>

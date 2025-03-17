@@ -1,8 +1,8 @@
-import {useApiCall } from "./useApiCall.js";
 import {useContext, useEffect, useState} from "react";
+import {AuthContext} from "../context/AuthProvider.jsx";
+import {useApiCall } from "./useApiCall.js";
 import {useGetUserFavorites} from "./useUser.js";
 import {getToken, getTokenUsername} from "../helpers/auth.js";
-import {AuthContext} from "../context/AuthProvider.jsx";
 
 // For cleaner code view
 const BASE_URL = import.meta.env.VITE_RAWG_API_BASE_URL;
@@ -13,7 +13,7 @@ export function useGetGameList () {
 
     async function getGameList (query='', options='') {
         const response = await fetchData(
-            `${BASE_URL}/games?${API_KEY}${query && `&search=${query}`}${options && `%${options}`}`,
+            `${BASE_URL}/games?${API_KEY}${query && `&search=${query}`}${options && `&${options}`}`,
             `GET`,
             null,
         );
@@ -67,9 +67,9 @@ export function useGetNextPreviousPage () {
 export function useGetLastPage () {
     const {fetchData, data, loading, error } = useApiCall();
 
-    async function getLastPage (lastPageNumber, query='', ordering='') {
+    async function getLastPage (lastPageNumber, query='', options='') {
         const response = await fetchData(
-            `${BASE_URL}/games?${API_KEY}${ordering && `&ordering=${ordering}`}&page=${lastPageNumber}${query && `&search=${query}`}`,
+            `${BASE_URL}/games?${API_KEY}${options && `&${options}`}&page=${lastPageNumber}${query && `&search=${query}`}`,
             `GET`,
             null
         );
@@ -78,12 +78,17 @@ export function useGetLastPage () {
     return { getLastPage, data, loading, error}
 }
 
-export function useGetCurrentGameList (query='', sort=``, filter='') {
+export function useGetCurrentGameList (query='', options='') {
+    const { authData } = useContext(AuthContext)
+
     const [currentGameListData, setCurrentGameListData ] = useState()
     const [currentGameListLoading, setCurrentGameListLoading ] = useState()
     const [currentGameListError, setCurrentGameListError ] = useState()
 
-    const { authData } = useContext(AuthContext)
+    const [sortingFilters, setSortingFilters] = useState({
+        sort: '',
+        genres: []
+    })
 
     const { getGameList, data:gameListData, loading:gameListLoading, error:gameListError } = useGetGameList();
     const { getNextPreviousPage, data:nextPreviousPageData, loading:nextPreviousPageLoading, error:nextPreviousPageError } = useGetNextPreviousPage()
@@ -92,9 +97,9 @@ export function useGetCurrentGameList (query='', sort=``, filter='') {
 
 
     useEffect(() => {
-        getGameList(query, sort, filter)
+        getGameList(query, options)
         authData.user && getUserFavorites(getTokenUsername(getToken()), getToken())
-    }, [query, sort, filter])
+    }, [query])
 
     // for the data state
     useEffect(() => {
@@ -115,6 +120,10 @@ export function useGetCurrentGameList (query='', sort=``, filter='') {
         // console.log(lastPageData)
         setCurrentGameListData(lastPageData)
     }, [lastPageData])
+
+    useEffect(() => {
+        applySortingFilters(sortingFilters)
+    }, [sortingFilters])
 
     // for the loading state
     useEffect(() => {
@@ -158,6 +167,8 @@ export function useGetCurrentGameList (query='', sort=``, filter='') {
         setCurrentGameListError(userFavoritesError)
     }, [userFavoritesError])
 
+
+    // for the pagination
     function loadNextPage (url) {
         getNextPreviousPage(url)
     }
@@ -173,7 +184,7 @@ export function useGetCurrentGameList (query='', sort=``, filter='') {
     // WIP
     function loadLastPage () {
         const lastPageNumber = getLastPageNumber()
-        getLastPage(lastPageNumber, query, sort,)
+        getLastPage(lastPageNumber, query, options,)
     }
 
     // WIP
@@ -206,32 +217,19 @@ export function useGetCurrentGameList (query='', sort=``, filter='') {
         }
     }
 
-    function sortPage (ordering) {
-        console.log(query)
-        console.log(ordering)
-        getGameList(query, ordering, genres)
+    // for the sort and filter options
+    function handleSortingChange(newSort) {
+        setSortingFilters(prevFilters => ({ ...prevFilters, sort: newSort }));
     }
 
-    function filterPage (genres) {
-        console.log(query)
-        console.log(genres)
-        const grenreList= [];
-        genres &&
-            genres?.map(genre => (
-                grenreList?.push(`${genre}&`)
-        ))
-        console.warn(genres)
-        console.warn(grenreList)
-        getGameList(query, ordering, grenreList)
+    function handleFilterChange(newGenres) {
+        setSortingFilters(prevFilters => ({ ...prevFilters, genres: newGenres }));
     }
 
 
     function applySortingFilters (options) {
-        console.log(options)
-
         let sortingFilterList = '';
         const genreList= [];
-
 
         if (options?.sort) {
             sortingFilterList = sortingFilterList + `ordering=${options?.sort}`;
@@ -242,15 +240,12 @@ export function useGetCurrentGameList (query='', sort=``, filter='') {
                 genreList?.push(`${genre}`)
             ))
         }
-        console.log(genreList)
 
-        if (sortingFilterList && genreList?.length > 0) {
+        if (genreList?.length > 0) {
             sortingFilterList = `${sortingFilterList}&genres=${genreList}`
         }
 
-        console.warn(sortingFilterList)
         getGameList(query, sortingFilterList)
-
     }
 
     return {
@@ -263,8 +258,8 @@ export function useGetCurrentGameList (query='', sort=``, filter='') {
         loadLastPage,
         getCurrentPageNumber,
         checkFavorite,
-        sortPage,
-        filterPage,
-        applySortingFilters
+        handleFilterChange,
+        handleSortingChange,
+        sortingFilters,
     }
 }
