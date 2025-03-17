@@ -5,9 +5,11 @@ import Label from "../label/Label.jsx";
 import Input from "../input/Input.jsx";
 import Button from "../button/Button.jsx";
 
-function SortingFilter ({className="", type='sorting', content}) {
+function SortingFilter ({className="", type='sorting', content, onOptionChange, sortType}) {
     const { selectedTheme } = useContext(ThemeContext)
     const [dropdown, dropdownToggle ] = useState(false);
+    const [ sortOption, setSortOption ] = useState('');
+    const [ filterOption, setFilterOption ] = useState('');
 
     function dropdownClick () {
         console.log(dropdown);
@@ -15,11 +17,48 @@ function SortingFilter ({className="", type='sorting', content}) {
         console.log(dropdown);
     }
 
+    const sortingOptions = [
+        { value: "name", label: "Alphabetisch" },
+        { value: "released", label: "Release Datum" },
+    ];
+
+    const filterOptions = [
+        { value: "action", label: "Actie" },
+        { value: "adventure", label: "Avontuur" },
+        { value: "shooter", label: "Shooter" },
+        { value: "strategy", label: "Strategie" },
+        { value: "role-playing-games-rpg", label: "RPG" },
+        { value: "simulation", label: "Simulatie" },
+        { value: "puzzle", label: "Puzzel" }
+    ];
+
+    const options = type === "sorting" ? sortingOptions : filterOptions;
+
+    function handleOptionChange (option) {
+        console.log(option)
+        type === "sorting" ?
+            setSortOption(option) :
+            setFilterOption(prevFilters =>
+                prevFilters.includes(option)
+                    ? prevFilters.filter(f => f !== option)
+                    : [...prevFilters, option]
+            );
+    }
+
+    function handleApplyClick () {
+        console.warn('32 jaajajajaj aangreopen')
+        // onOptionChange(sortOption)
+        onOptionChange(type === "sorting" ? sortOption : filterOption)
+    }
+
+    function handleDeleteClick () {
+        console.warn("handledeleteclick aangeroepen")
+
+        onOptionChange("")
+    }
+
     // filter: genres - publishers -
     // sort: release date - alphabetical order
-
-
-    // filter options needs to be
 
     return (
         <div className={`sorting-filter ${type} ${className} ${selectedTheme} ${[dropdown ? " dropdown-menu-active" : "dropdown-menu-inactive"]}`}>
@@ -32,70 +71,27 @@ function SortingFilter ({className="", type='sorting', content}) {
 
             <div className={`sorting-filter-dropdown-options ${[dropdown ? " dropdown-menu-active" : "dropdown-menu-inactive"]}`}>
 
-                { type === "sorting" ? [
-                    <Label key={'1'} htmlFor={"sorting-release-date"} >
-                        Release datum
+                {options.map(option => (
+                    <Label key={option.value} htmlFor={option.value}>
+                        {option.label}
                         <Input
-                            type={"radio"}
-                            className={"sorting-release-date"}
-                            id={"sorting-release-date"}
-                            name={"sorting-options"}
+                            type={type === "sorting" ? "radio" : "checkbox"}
+                            id={option.value}
+                            name={type === "sorting" ? "sorting-options" : "filter-options"}
+                            value={option.value}
+                            checked={(type === "sorting" ?
+                                sortType === option.value :
+                                filterOption.includes(option.value))}
+                            onChange={() => handleOptionChange(option.value)}
+
                         />
                     </Label>
-                    ,
-                    <Label key={'2'} htmlFor={"sorting-alphabetical-order"} >
-                        Alphabetische volgorde
-                        <Input
-                            type={"radio"}
-                            className={"sorting-alphabetical-order"}
-                            id={"sorting-alphabetical-order"}
-                            name={"sorting-options"}
-                        />
-                    </Label>
-                    ] :
-
-                    [
-                        <p key={'3'}>Genres:</p>,
-                        <Label key={'4'} htmlFor={"filter-genre"}>
-                            Actie
-                            <Input
-                                type={"checkbox"}
-                                className={"filter-genre"}
-                                id={"filter-genre"}
-                                name={"filter-options"}
-                            />
-                        </Label>
-                        ,
-
-                        <p key={'5'}>Uitgevers:</p>,
+                ))}
 
 
-                        <Label key={'6'} htmlFor={"filter-publisher"}>
-                            Steam
-                            <Input
-                                type={"checkbox"}
-                                className={"sorting-alphabetical-order"}
-                                id={"filter-publisher"}
-                                name={"filter-options"}
-                            />
-                        </Label>,
 
-                        <p key={'7'}>Platform:</p>,
-
-                        <Label key={'8'} htmlFor={"filter-platform"}>
-                            PC
-                            <Input
-                                type={"checkbox"}
-                                className={"filter-platform"}
-                                id={"filter-platform"}
-                                name={"filter-options"}
-                            />
-                        </Label>
-                    ]
-                }
-
-                <Button className={"apply-options" } content={"Toepassen"}/>
-                <Button className={"delete-options" } content={"Verwijderen"}/>
+                <Button onClick={handleApplyClick} className={"apply-options" } content={"Toepassen"}/>
+                <Button onClick={handleDeleteClick} className={"delete-options" } content={"Verwijderen"}/>
 
 
             </div>

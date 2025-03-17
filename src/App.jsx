@@ -1,5 +1,4 @@
 import {useContext} from 'react';
-
 import './App.css';
 import Navigation from './components/navigation/Navigation';
 import Home from './pages/home/Home';

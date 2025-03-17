@@ -1,6 +1,6 @@
 import "./Input.css";
 
-function Input ({className="", type='text', name='', id, placeholder, disabled,  register, validationRules, errors }) {
+function Input ({className="", type='text', name='', id, placeholder, disabled,  register, validationRules, errors, onChange="" }) {
         return(
             <>
                 <input className={"input-field " + className}
@@ -8,9 +8,7 @@ function Input ({className="", type='text', name='', id, placeholder, disabled, 
                        disabled={disabled}
                        placeholder={placeholder}
                        {...(register ? register(id, validationRules) : {})}
-
-                    // {/*onChange={onChange}*/}
-                      //  {/*onClick={onClick}*/}
+                       {...(onChange ? onChange={onChange}:null)}
                 />
                 {register && errors[id] && <p className={"input-error"}>{errors[id].message}</p>}
             </>

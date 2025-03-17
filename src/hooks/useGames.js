@@ -11,9 +11,9 @@ const API_KEY = `key=${import.meta.env.VITE_RAWG_API_KEY}`;
 export function useGetGameList () {
     const { fetchData, data, loading, error } = useApiCall();
 
-    async function getGameList (query='', ordering='') {
+    async function getGameList (query='', options='') {
         const response = await fetchData(
-            `${BASE_URL}/games?${API_KEY}${query && `&search=${query}`}${ordering && `&ordering=${ordering}`}`,
+            `${BASE_URL}/games?${API_KEY}${query && `&search=${query}`}${options && `%${options}`}`,
             `GET`,
             null,
         );
@@ -78,7 +78,7 @@ export function useGetLastPage () {
     return { getLastPage, data, loading, error}
 }
 
-export function useGetCurrentGameList (query='', ordering=``) {
+export function useGetCurrentGameList (query='', sort=``, filter='') {
     const [currentGameListData, setCurrentGameListData ] = useState()
     const [currentGameListLoading, setCurrentGameListLoading ] = useState()
     const [currentGameListError, setCurrentGameListError ] = useState()
@@ -92,9 +92,9 @@ export function useGetCurrentGameList (query='', ordering=``) {
 
 
     useEffect(() => {
-        getGameList(query, ordering)
+        getGameList(query, sort, filter)
         authData.user && getUserFavorites(getTokenUsername(getToken()), getToken())
-    }, [query, ordering])
+    }, [query, sort, filter])
 
     // for the data state
     useEffect(() => {
@@ -173,7 +173,7 @@ export function useGetCurrentGameList (query='', ordering=``) {
     // WIP
     function loadLastPage () {
         const lastPageNumber = getLastPageNumber()
-        getLastPage(lastPageNumber, query, ordering)
+        getLastPage(lastPageNumber, query, sort,)
     }
 
     // WIP
@@ -209,7 +209,48 @@ export function useGetCurrentGameList (query='', ordering=``) {
     function sortPage (ordering) {
         console.log(query)
         console.log(ordering)
-        getGameList(query, ordering)
+        getGameList(query, ordering, genres)
+    }
+
+    function filterPage (genres) {
+        console.log(query)
+        console.log(genres)
+        const grenreList= [];
+        genres &&
+            genres?.map(genre => (
+                grenreList?.push(`${genre}&`)
+        ))
+        console.warn(genres)
+        console.warn(grenreList)
+        getGameList(query, ordering, grenreList)
+    }
+
+
+    function applySortingFilters (options) {
+        console.log(options)
+
+        let sortingFilterList = '';
+        const genreList= [];
+
+
+        if (options?.sort) {
+            sortingFilterList = sortingFilterList + `ordering=${options?.sort}`;
+        }
+
+        if (options?.genres){
+            options?.genres?.map(genre => (
+                genreList?.push(`${genre}`)
+            ))
+        }
+        console.log(genreList)
+
+        if (sortingFilterList && genreList?.length > 0) {
+            sortingFilterList = `${sortingFilterList}&genres=${genreList}`
+        }
+
+        console.warn(sortingFilterList)
+        getGameList(query, sortingFilterList)
+
     }
 
     return {
@@ -222,6 +263,8 @@ export function useGetCurrentGameList (query='', ordering=``) {
         loadLastPage,
         getCurrentPageNumber,
         checkFavorite,
-        sortPage
+        sortPage,
+        filterPage,
+        applySortingFilters
     }
 }

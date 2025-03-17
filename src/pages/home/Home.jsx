@@ -1,4 +1,4 @@
-import {useContext } from 'react';
+import {useContext, useState} from 'react';
 import './Home.css';
 import GameCard from "../../components/gameCard/GameCard.jsx";
 import Pagination from "../../components/pagination/Pagination.jsx";
@@ -20,6 +20,15 @@ function Home () {
     const { selectedTheme } = useContext(ThemeContext)
     const { authData } = useContext(AuthContext)
 
+    const [selectedSorting, setSelectedSorting] = useState('');
+    const [selectedFilter, setSelectedFilter] = useState('');
+
+    const [sortingFilters, setSortingFilters] = useState({
+        sort: '',
+        genres: []
+    })
+
+
     const {
         currentGameListData,
         currentGameListLoading,
@@ -30,19 +39,27 @@ function Home () {
         loadLastPage,
         getCurrentPageNumber,
         checkFavorite,
-        sortPage
+        sortPage,
+        filterPage,
+        applySortingFilters
     } = useGetCurrentGameList()
 
 // WIP
-    function testSortClick() {
-        console.log("AANEROEPEN")
-        sortPage("name")
+
+    function handleSortingChange(newSort) {
+        setSortingFilters(prevFilters => ({ ...prevFilters, sort: newSort }));
+        applySortingFilters({ ...sortingFilters, sort: newSort });
+    }
+
+    function handleFilterChange(newGenres) {
+        setSortingFilters(prevFilters => ({ ...prevFilters, genres: newGenres }));
+        applySortingFilters({ ...sortingFilters, genres: newGenres });
     }
 
     return(
         <main className={`page-container ${selectedTheme} home-page-container`}>
 
-            { authData.user &&
+            {authData.user &&
                 <section className={`section-outer-container recommended-section-outer`}>
                     <div className={`section-inner-container recommended-section-inner ${selectedTheme}`}>
                         <span className={"recommended-section-wrapper"}>
@@ -96,6 +113,23 @@ function Home () {
 
             <StatusMessage statusState={currentGameListError} type={"error"}
                            content={currentGameListError ? currentGameListError?.message : "er ging iets fout..."}/>
+
+            <span className={"sorting-filter-wrapper state-two"}>
+                                <SortingFilter
+                                    onOptionChange={handleSortingChange}
+                                    sortType={selectedSorting}
+                                    content={"Sorteer op:"}
+                                    type={'sorting'}
+
+                                />
+                                <SortingFilter
+                                    onOptionChange={handleFilterChange}
+                                    sortType={selectedFilter}
+                                    content={"Filter op:"}
+                                    type={"filter"}/>
+                            </span>
+
+
             {currentGameListData &&
                 <section className={`section-outer-container trending-games-outer-container`}>
                     <div className={`section-inner-container trending-games-inner-container`}>
@@ -103,11 +137,6 @@ function Home () {
                             <h2 className={`section-title`}>
                                 Uitgelicht
                             </h2>
-                            <span className={"sorting-filter-wrapper state-two"}>
-                                <SortingFilter content={"Sorteer op:"} type={'sorting'}/>
-                                <Button onClick={testSortClick} content={`Test Sort`} />
-                                <SortingFilter content={"Filter op:"} type={"filter"}/>
-                            </span>
 
                             <span className={"hidden-item"}></span>
                         </div>
@@ -129,8 +158,8 @@ function Home () {
                         <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden..."}/>
 
                         <Pagination
-                            loadNextPage={currentGameListData?.next ? () => loadNextPage(currentGameListData?.next): null}
-                            loadPreviousPage={currentGameListData?.previous ? () => loadNextPage(currentGameListData?.previous): null}
+                            loadNextPage={currentGameListData?.next ? () => loadNextPage(currentGameListData?.next) : null}
+                            loadPreviousPage={currentGameListData?.previous ? () => loadNextPage(currentGameListData?.previous) : null}
                             loadFirstPage={() => loadFirstPage()}
                             lastPageValue={getLastPageNumber()}
                             loadLastPage={loadLastPage}
