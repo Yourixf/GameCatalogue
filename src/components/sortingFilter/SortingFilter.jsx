@@ -39,7 +39,6 @@ function SortingFilter ({className="", type='sorting', content, onApplyFilters, 
     const options = type === "sorting" ? sortingOptions : filterOptions;
 
     function handleOptionChange (option) {
-        console.log(option)
         type === "sorting" ?
             setTempSelection(option) :
             setTempSelection(prevFilters =>
@@ -49,13 +48,10 @@ function SortingFilter ({className="", type='sorting', content, onApplyFilters, 
     }
 
     function handleApplyClick () {
-        console.warn('32 jaajajajaj aangreopen')
         onApplyFilters(tempSelection);
     }
 
     function handleDeleteClick () {
-        console.warn("handledeleteclick aangeroepen")
-
         setTempSelection(type === "sorting" ? "" : []);
         onApplyFilters(type === "sorting" ? "" : []);
     }

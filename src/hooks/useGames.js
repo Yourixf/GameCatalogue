@@ -53,7 +53,7 @@ export function useGetGameScreenshots () {
 export function useGetNextPreviousPage () {
     const {fetchData, data, loading, error } = useApiCall();
 
-    async function getNextPreviousPage (url) {
+    async function getNextPreviousPage (url, options) {
         const response = await fetchData(
             `${url}`,
             `GET`,
@@ -109,15 +109,15 @@ export function useGetCurrentGameList (query='', options='') {
         // console.log(currentGameListData)
         // if (userFavoritesData)
         //     console.log(userFavoritesData)
-    }, [gameListData, userFavoritesData]);
+    }, [gameListData, userFavoritesData, sortingFilters]);
 
     useEffect(() => {
-        // console.log(nextPreviousPageData)
+        console.log(nextPreviousPageData)
         setCurrentGameListData(nextPreviousPageData)
     }, [nextPreviousPageData])
 
     useEffect(() => {
-        // console.log(lastPageData)
+        console.log(lastPageData)
         setCurrentGameListData(lastPageData)
     }, [lastPageData])
 
@@ -184,7 +184,7 @@ export function useGetCurrentGameList (query='', options='') {
     // WIP
     function loadLastPage () {
         const lastPageNumber = getLastPageNumber()
-        getLastPage(lastPageNumber, query, options,)
+        getLastPage(lastPageNumber, query, sortingFilters,)
     }
 
     // WIP
