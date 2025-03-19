@@ -119,7 +119,7 @@ function Home () {
                         </div>
 
                         {currentGameListData && <section className={"game-card-wrapper"}>
-                            {currentGameListData && currentGameListData?.results?.length > 0 ? currentGameListData?.results?.map(game => (
+                            {currentGameListData && currentGameListData?.results?.length > 0 && currentGameListData?.results?.map(game => (
                                 <GameCard
                                     key={game?.id}
                                     gameTitle={game?.name}
@@ -129,7 +129,7 @@ function Home () {
                                     favorite={checkFavorite(game?.id)}
                                 />
 
-                            )) : <h1>niks</h1>}
+                            ))}
                         </section>}
 
                         <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden..."}/>
@@ -148,5 +148,6 @@ function Home () {
         </main>
     );
 }
+
 
 export default Home;
