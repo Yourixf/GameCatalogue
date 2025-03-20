@@ -1,6 +1,6 @@
-import'./Pagination.css';
 import {useContext} from "react";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
+import'./Pagination.css';
 
 function Pagination ({loadNextPage=null, loadPreviousPage=null, loadFirstPage=null, lastPageValue='x', loadLastPage=null, currentPageValue=null}) {
     const { selectedTheme } = useContext(ThemeContext)
@@ -22,13 +22,8 @@ function Pagination ({loadNextPage=null, loadPreviousPage=null, loadFirstPage=nu
                         <li key={2} className={`pagination-pages current-page`}>{currentPageValue}</li>
                     ]
                 }
-                {/*{console.warn(loadFirstPage)}*/}
 
-                {/*{console.warn(currentPageValue)}*/}
-                {/*{console.warn(lastPageValue)}*/}
-                {/*{console.warn(typeof lastPageValue)}*/}
-
-                {lastPageValue && lastPageValue > 3 && lastPageValue !== currentPageValue &&
+                {lastPageValue && lastPageValue > 1 && lastPageValue !== currentPageValue &&
                     currentPageValue !== "NaN" &&
                     [
                         [lastPageValue - 1 === currentPageValue ?

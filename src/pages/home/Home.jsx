@@ -136,6 +136,7 @@ function Home () {
 
                         <Pagination
                             loadNextPage={currentGameListData?.next ? () => loadNextPage(currentGameListData?.next) : null}
+                            // loadNextPage={() => loadNextPage()}
                             loadPreviousPage={currentGameListData?.previous ? () => loadNextPage(currentGameListData?.previous) : null}
                             loadFirstPage={() => loadFirstPage()}
                             lastPageValue={getLastPageNumber()}

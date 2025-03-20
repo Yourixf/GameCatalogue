@@ -173,7 +173,6 @@ export function useGetCurrentGameList (query='', options='') {
     }, [userFavoritesError])
 
 
-    // TODO FIX FILTER PARAMATERES, 404 ERROR ON HOME PAGE PAGINATION LAST AND FIRST PAGE, QUERY ON RESULTS WORKS FINE
     // for the pagination
     function loadNextPage (url) {
         getNextPreviousPage(url)
@@ -184,7 +183,21 @@ export function useGetCurrentGameList (query='', options='') {
     }
 
     function getLastPageNumber () {
-        return Math.floor(currentGameListData.count / 20)
+        // there is an hard limit for max pages from the API itself, which is 500
+        // this only happens with api request contains custom arguments
+
+        const pageMaxNumber = Math.floor(currentGameListData.count / 20);
+
+        // this makes sure the user can't accidentally get an 404 error due to the max page restraints
+        if (query || getOptionFilters(sortingFilters)) {
+            if (pageMaxNumber > 500){
+                return 500
+            } else {
+                return pageMaxNumber
+            }
+        } else {
+            return pageMaxNumber;
+        }
     }
 
     function loadLastPage () {
