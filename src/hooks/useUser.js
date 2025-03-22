@@ -75,15 +75,18 @@ export function useUploadProfilePicture () {
 
     async function uploadProfilePicture (profilePicture, currentToken, tokenUsername) {
         const formData = new FormData();
-        formData.append("file", profilePicture); 
-        
+        formData.append("file", profilePicture);
+
+        for (let [key, value] of formData.entries()) {
+            console.log(`${key}:`, value);
+        }
+
+
         const response = await fetchData(
-            `${BASE_URL}/users/${tokenUsername}/upload`,
+            `${BASE_URL}/users/${encodeURIComponent(tokenUsername)}/upload`,
             "POST",
             formData,
             {
-                "accept":"*/*",
-                "Content-type":'multipart/form-data',
                 "Authorization": `Bearer ${currentToken}`
             }
         );
@@ -111,8 +114,6 @@ export function useDownloadProfilePicture () {
     };
     return { downloadProfilePicture, data, loading, error};
 }
-
-
 
 export function useGetUserFavorites () {
     const { fetchData, data, loading, error } = useApiCall();

@@ -12,13 +12,20 @@ export function useApiCall () {
         setError(null);
         setData(null)
 
-        try {            
+        try {
+            const isFormData = body instanceof FormData;
+
             const options = {
                 method,
                 headers: {
-                    "Content-Type": "application/json",
-                    "accept": "application/json",
-                    ...headers },
+                    ...(isFormData
+                        ? {}
+                        : {
+                            "Content-Type": "application/json",
+                            Accept: "application/json"
+                        }),
+                    ...headers
+                },
                 data: body || null,
                 url,
                 mode: "cors",
