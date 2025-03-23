@@ -29,7 +29,10 @@ function Register () {
         let email = data['email-field']
         let password = data['user-password-field']
         let confirmationPassword = data['user-confirm-password-field']
-        let userInfo = {favorite_games: []}
+        let userInfo = {
+            favorite_games: [],
+            profile_picture: "defaultProfile.png"
+        }
         let userInfoString = JSON.stringify(userInfo)
 
         let formData =

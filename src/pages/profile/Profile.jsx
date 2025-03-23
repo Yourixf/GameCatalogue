@@ -6,20 +6,16 @@ import {ThemeContext} from "../../context/ThemeProvider.jsx";
 import {useGetUserFavorites, useUploadProfilePicture} from "../../hooks/useUser.js";
 import {getToken, getTokenUsername} from "../../helpers/auth.js";
 import Button from "../../components/button/Button.jsx";
-import defaultProfile from "../../assets/navbar/defaultProfile.png";
+import defaultProfile from "../../assets/profilePictures/defaultProfile.png";
 import './Profile.css';
 
 function Profile () {
     const { authData } = useContext(AuthContext)
     const { selectedTheme } = useContext(ThemeContext)
 
-    const [selectedFile, setSelectedFile] = useState(null);
-
-
     const navigate = useNavigate()
 
     const { getUserFavorites, data:getUserFavoritesData, loading:getUserFavoritesLoading, error:getUserFavoritesError } = useGetUserFavorites();
-    const { uploadProfilePicture, loading } = useUploadProfilePicture();
 
     const currentToken = getToken()
     const tokenUsername = getTokenUsername(currentToken)
@@ -27,6 +23,10 @@ function Profile () {
     useEffect(() => {
         getUserFavorites(tokenUsername, currentToken);
     }, []);
+
+    useEffect(() => {
+        console.warn(getUserFavoritesData)
+    }, [getUserFavoritesData])
 
     function changePassword () {
         navigate("/profile/changepassword")
@@ -36,20 +36,10 @@ function Profile () {
         navigate("/favorites")
     }
 
-    function handleFileChange(e) {
-        setSelectedFile(e.target.files[0]);
+    function changeProfilePicture () {
+        navigate("/profile/changeprofilepicture")
     }
 
-    async function handleUploadClick() {
-        const token = getToken();
-        const username = getTokenUsername(token);
-
-
-
-        if (selectedFile && username && token) {
-            await uploadProfilePicture(selectedFile, token, tokenUsername);
-        }
-    }
 
     return (
         <main className={`page-container ${selectedTheme} profile-page-container`}>
@@ -68,12 +58,7 @@ function Profile () {
                         </span>
                     </div>
                     <div className={"profile-buttons"}>
-                        <input type="file" accept="image/*" onChange={handleFileChange}/>
-                        <button onClick={handleUploadClick} disabled={loading || !selectedFile}>
-                            {loading ? "Uploaden..." : "Upload profielfoto"}
-                        </button>
-
-                        <Button content={"verander profiel foto"}/>
+                        <Button onClick={changeProfilePicture} content={"verander profiel foto"}/>
                         <Button onClick={changePassword} content={"verander wachtwoord"}/>
                         <Button onClick={authData.logout} content={"uitloggen"}/>
                     </div>

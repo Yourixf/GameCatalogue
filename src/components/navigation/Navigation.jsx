@@ -8,7 +8,7 @@ import favorite from "../../assets/navbar/favorite.png";
 import recommended from "../../assets/navbar/recommended.png";
 import search from "../../assets/navbar/search.png";
 import lightmode from "../../assets/navbar/lightmode.png";
-import defaultProfile from "../../assets/navbar/defaultProfile.png";
+import defaultProfile from "../../assets/profilePictures/defaultProfile.png";
 import Button from "../button/Button";
 import CircleIcon from '../../components/circleIcon/CircleIcon';
 import { ThemeContext } from "../../context/ThemeProvider.jsx";

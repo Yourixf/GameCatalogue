@@ -184,7 +184,10 @@ function Test () {
     const { updateUserInfo} = useUpdateUserInfo();
 
     function resetFavorites () {
-        let userInfo = {favorite_games: []}
+        let userInfo = {
+            favorite_games: [],
+            profile_picture: "defaultProfile.png"
+        }
         let userInfoString = JSON.stringify(userInfo)
 
         let formData = {

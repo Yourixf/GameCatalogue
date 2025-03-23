@@ -13,6 +13,7 @@ import NotFound from './pages/404/404';
 import Test from './pages/test/Test.jsx'
 import GameDetails from "./pages/gameDetails/GameDetails.jsx";
 import ChangePassword from "./pages/changePassword/ChangePassword.jsx";
+import ChangeProfilePicture from "./pages/changeProfilePicture/ChangeProfilePicture.jsx";
 import './App.css';
 
 function App() {
@@ -23,13 +24,14 @@ function App() {
         <Navigation/>
         <Routes>
           <Route path='/' element={<Home/>}/>
-          <Route path='/favorites' element={authData.user ? <Favorites/> : <Navigate to="/login"/>}/>
-          <Route path='/recommendations' element={authData.user ? <Recommendations/> : <Navigate to="/login"/>}/>
+          <Route path='/favorites' element={authData?.user ? <Favorites/> : <Navigate to="/login"/>}/>
+          <Route path='/recommendations' element={authData?.user ? <Recommendations/> : <Navigate to="/login"/>}/>
           <Route path='/results/:query' element={<Results/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/register' element={<Register/>}/>
-          <Route path='/profile' element={authData.user ? <Profile/> : <Navigate to="/login"/>}/>
-          <Route path='/profile/changepassword' element={authData.user ? <ChangePassword/> : <Navigate to="/login"/>}/>
+          <Route path='/profile' element={authData?.user ? <Profile/> : <Navigate to="/login"/>}/>
+          <Route path='/profile/changepassword' element={authData?.user ? <ChangePassword/> : <Navigate to="/login"/>}/>
+          <Route path='/profile/changeprofilepicture' element={authData?.user ? <ChangeProfilePicture/> : <Navigate to='/login'/>}/>
           <Route path='/test' element={<Test/>}/>
           <Route path='/game/:id' element={<GameDetails/>}/>
           <Route path='*' element={<NotFound/>}/>
