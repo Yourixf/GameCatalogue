@@ -5,9 +5,12 @@ import {AuthContext} from "../../context/AuthProvider.jsx";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
 import {useGetUserFavorites, useUploadProfilePicture} from "../../hooks/useUser.js";
 import {getToken, getTokenUsername} from "../../helpers/auth.js";
+import { profilePictures } from "../../assets/profilePictures/profilePictures.js";
+
 import Button from "../../components/button/Button.jsx";
 import defaultProfile from "../../assets/profilePictures/defaultProfile.png";
 import './Profile.css';
+import {getProfilePictureSrc} from "../../helpers/user.js";
 
 function Profile () {
     const { authData } = useContext(AuthContext)
@@ -40,13 +43,14 @@ function Profile () {
         navigate("/profile/changeprofilepicture")
     }
 
+    const profilePictureSrc = getProfilePictureSrc(getUserFavoritesData);
 
     return (
         <main className={`page-container ${selectedTheme} profile-page-container`}>
             <div className={"inner-page-container"}>
                 <article className={`profile-card ${selectedTheme}`}>
                     <div className={"profile-picture"}>
-                        <CircleIcon iconPictureSource={defaultProfile}/>
+                        <CircleIcon iconPictureSource={profilePictureSrc}/>
                     </div>
                     <div className={"profile-content"}>
                         <h1 className={"profile-username"}>{authData?.user?.username}</h1>

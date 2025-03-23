@@ -1,31 +1,41 @@
-import { useState, useContext } from "react";
-import './Navigation.css';
+import {useState, useContext, useEffect} from "react";
 import {NavLink} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
+import {useForm} from "react-hook-form";
+import { ThemeContext } from "../../context/ThemeProvider.jsx";
+import {AuthContext} from "../../context/AuthProvider.jsx";
+import {useGetUserFavorites} from "../../hooks/useUser.js";
+import {getToken, getTokenUsername} from "../../helpers/auth.js";
+import {getProfilePictureSrc} from "../../helpers/user.js";
+import Button from "../button/Button";
+import CircleIcon from '../../components/circleIcon/CircleIcon';
+import Input from "../input/Input.jsx";
 import joystick from "../../assets/navbar/joystick.png";
 import home from "../../assets/navbar/home.png";
 import favorite from "../../assets/navbar/favorite.png";
 import recommended from "../../assets/navbar/recommended.png";
 import search from "../../assets/navbar/search.png";
 import lightmode from "../../assets/navbar/lightmode.png";
-import defaultProfile from "../../assets/profilePictures/defaultProfile.png";
-import Button from "../button/Button";
-import CircleIcon from '../../components/circleIcon/CircleIcon';
-import { ThemeContext } from "../../context/ThemeProvider.jsx";
-import {AuthContext} from "../../context/AuthProvider.jsx";
-import Input from "../input/Input.jsx";
-import {useForm} from "react-hook-form";
+import './Navigation.css';
 
 
 function Navigation () {
-    const navigate = useNavigate();
-    const [dropdown, dropdownToggle] = useState(false);
     const { toggleTheme, selectedTheme } = useContext(ThemeContext)
     const { authData } = useContext(AuthContext)
 
-    const { register, handleSubmit, formState: { errors } } = useForm({mode:'onSubmit'})
+    const navigate = useNavigate();
+
+    const [dropdown, dropdownToggle] = useState(false);
 
     const [fieldMessage, setFieldMessage] = useState('zoeken');
+
+    const { getUserFavorites, data:getUserFavoritesData } = useGetUserFavorites();
+
+    const { register, handleSubmit, formState: { errors } } = useForm({mode:'onSubmit'})
+
+    useEffect(() => {
+        getUserFavorites(getTokenUsername(getToken()), getToken());
+    }, []);
 
     function dropdownClick () {
         console.log(dropdown);
@@ -49,10 +59,10 @@ function Navigation () {
 
     function handleFormSubmit(data) {
         console.log(data)
-
-        
         navigate(`/results/` + data['game-search-field'])
     }
+
+    const profilePictureSrc = getProfilePictureSrc(getUserFavoritesData);
 
 
     return(
@@ -108,10 +118,10 @@ function Navigation () {
                 </li>
             </ul>
 
-            {authData.user ?
+            {authData?.user ?
                 <div className={"profile-section"}>
-                    <p className={`user-username ${selectedTheme} state-one`}>{authData.user.username}</p>
-                    <CircleIcon className={"profile-icon state-one"} onClick={profileButton} iconPictureSource={defaultProfile} title={"Profiel pagina"} />
+                    <p className={`user-username ${selectedTheme} state-one`}>{authData?.user?.username}</p>
+                    <CircleIcon className={"profile-icon state-one"} onClick={profileButton} iconPictureSource={profilePictureSrc} title={"Profiel pagina"} />
                 </div>
                 :
                 <div className={"profile-section"}>
@@ -149,14 +159,13 @@ function Navigation () {
                 </li>
                 {authData.user ?
                     <div className={"profile-section"}>
-                        <CircleIcon className={"profile-icon state-two"} onClick={profileButton} iconPictureSource={defaultProfile} title={"Profiel pagina"}/>
+                        <CircleIcon className={"profile-icon state-two"} onClick={profileButton} iconPictureSource={profilePictureSrc} title={"Profiel pagina"}/>
 
                         <li className={dropdown ? "state-two" : ""}>
                             <Button onClick={authData.logout} className={"navbar-logout-button" + " state-two"}
                                     content="uitloggen"/>
                         </li>
                     </div>
-
                     :
                     <div className={"profile-section"}>
                         <Button onClick={handleClick} className={"navbar-login-button" + " state-two"} content="inloggen" shadow={false}/>
