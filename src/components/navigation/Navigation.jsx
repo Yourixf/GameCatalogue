@@ -29,12 +29,13 @@ function Navigation () {
 
     const [fieldMessage, setFieldMessage] = useState('zoeken');
 
+
     const { getUserFavorites, data:getUserFavoritesData } = useGetUserFavorites();
 
     const { register, handleSubmit, formState: { errors } } = useForm({mode:'onSubmit'})
 
     useEffect(() => {
-        getUserFavorites(getTokenUsername(getToken()), getToken());
+        authData?.user && getUserFavorites(getTokenUsername(getToken()), getToken());
     }, []);
 
     function dropdownClick () {

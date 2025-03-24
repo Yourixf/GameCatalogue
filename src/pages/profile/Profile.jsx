@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import CircleIcon from "../../components/circleIcon/CircleIcon.jsx";
 import {AuthContext} from "../../context/AuthProvider.jsx";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
-import {useGetUserFavorites, useUploadProfilePicture} from "../../hooks/useUser.js";
+import {useGetCurrentUserInfo, useGetUserFavorites, useUploadProfilePicture} from "../../hooks/useUser.js";
 import {getToken, getTokenUsername} from "../../helpers/auth.js";
 import { profilePictures } from "../../assets/profilePictures/profilePictures.js";
 
@@ -20,11 +20,17 @@ function Profile () {
 
     const { getUserFavorites, data:getUserFavoritesData, loading:getUserFavoritesLoading, error:getUserFavoritesError } = useGetUserFavorites();
 
+    const {
+        currentUserInfoData,
+        currentUserInfoLoading,
+        currentUserProfilePicture
+    } = useGetCurrentUserInfo()
+
     const currentToken = getToken()
     const tokenUsername = getTokenUsername(currentToken)
 
     useEffect(() => {
-        getUserFavorites(tokenUsername, currentToken);
+        authData?.user && getUserFavorites(tokenUsername, currentToken);
     }, []);
 
     useEffect(() => {
@@ -56,6 +62,7 @@ function Profile () {
                         <h1 className={"profile-username"}>{authData?.user?.username}</h1>
                         <h2 className={"profile-email"}>{authData?.user?.email}</h2>
 
+                        {console.log(currentUserInfoData)}
                         <span onClick={favoriteClick} className={`profile-favorite-games-section`}>
                             <h2 className={"profile-favorite-amount"}>{} {getUserFavoritesData?.favorite_games?.length ? getUserFavoritesData?.favorite_games?.length : 0 }</h2>
                             <p className={"profile-favorite-text"}>Favorieten games</p>
