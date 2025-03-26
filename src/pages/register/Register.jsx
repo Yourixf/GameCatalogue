@@ -41,13 +41,14 @@ function Register () {
                 email: `${email}`,
                 password: `${password}`,
                 info: userInfoString,
-                authorities: [
+                role: [
                     {
                         authority: "USER"
                     }
                 ]
             }
 
+            console.warn(formData)
         if (confirmationPassword === password) {
             setPasswordConflict(false)
             registerUser(formData)
@@ -66,7 +67,7 @@ function Register () {
                         <h1 className={"register-title"}>Registreer</h1>
 
                         <StatusMessage statusState={loading} type={"loading"} content={"Laden..."}/>
-                        <StatusMessage statusState={error} type={"error"} content={error ? error?.message : "er ging iets fout..."}/>
+                        <StatusMessage statusState={error} type={"error"} content={error ? `${error?.message} - ${error?.response?.data?.message} `: "er ging iets fout..."}/>
                         <StatusMessage statusState={data} type={"succes"} content={"Account gemaakt"}/>
                         <StatusMessage statusState={passwordConflict} type={"error"} content={"Wachtwoorden komen niet overheen"}/>
 
@@ -108,8 +109,8 @@ function Register () {
                                            message: 'Wachtwoord is verplicht',
                                        },
                                        minLength: {
-                                           value: 8,
-                                           message: "Wachtwoord moet minimaal uit 8 characters bestaan "
+                                           value: 6,
+                                           message: "Wachtwoord moet minimaal uit 6 characters bestaan "
                                        }
 
                                    }}

@@ -12,10 +12,10 @@ export function useRegisterUser () {
 
     async function registerUser (userData) {
         const response = await fetchData(
-            `${BASE_URL}/users`,
+            `${BASE_URL}/api/auth/signup`,
             "POST",
             userData,
-            { "X-Api-Key": `${API_KEY}` }
+            // { "X-Api-Key": `${API_KEY}` }
         );
         return response;
     };
@@ -27,11 +27,12 @@ export function useLoginUser () {
 
     async function loginUser (userData) {
         const response = await fetchData(
-            `${BASE_URL}/users/authenticate`,
+            `${BASE_URL}/api/auth/signin`,
             "POST",
             userData,
-            { "X-Api-Key": `${API_KEY}` }
+            // { "X-Api-Key": `${API_KEY}` }
         );
+        console.warn(response)
         return response;
     };
     return { loginUser, data, loading, error };
@@ -40,15 +41,17 @@ export function useLoginUser () {
 export function useGetUserInfo () {
     const { fetchData, data, loading, error } = useApiCall();
 
-    async function getUserInfo (currentToken, tokenUsername) {
+    async function getUserInfo (currentToken) {
         const response = await fetchData(
-            `${BASE_URL}/users/${tokenUsername}`,
+            `${BASE_URL}/api/user`,
             "GET",
             null,
-            { "X-Api-Key": `${API_KEY}`,
+            {
+                // "X-Api-Key": `${API_KEY}`,
                 "Authorization": `Bearer ${currentToken}`
             }
         );
+        console.warn(response)
         return response;
     };
 
@@ -58,12 +61,13 @@ export function useGetUserInfo () {
 export function useUpdateUserInfo () {
     const { fetchData, data, loading, error } = useApiCall();
 
-    async function updateUserInfo (userData, currentToken, tokenUsername) {
+    async function updateUserInfo (userData, currentToken) {
         const response = await fetchData(
-            `${BASE_URL}/users/${tokenUsername}`,
+            `${BASE_URL}/users}`,
             "PUT",
             userData,
-            { "X-Api-Key": `${API_KEY}`,
+            {
+                // "X-Api-Key": `${API_KEY}`,
                 "Authorization": `Bearer ${currentToken}`
             }
         );
@@ -145,7 +149,7 @@ export function useGetCurrentUserInfo () {
     const { getUserFavorites, data:getUserFavoritesData, loading:getUserFavoritesLoading, error:getUserFavoritesError } = useGetUserFavorites();
 
     useEffect(() => {
-        authData?.user && getUserFavorites(getTokenUsername(getToken()), getToken())
+        // authData?.user && getUserFavorites(getTokenUsername(getToken()), getToken())
     },[])
 
     // for the data

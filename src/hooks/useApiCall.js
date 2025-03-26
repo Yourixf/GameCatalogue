@@ -31,9 +31,9 @@ export function useApiCall () {
                 mode: "cors",
             };
             const response = await axios(options);
-            // console.log(response);
+            console.log(response);
             setData(response.data ? response.data : response);
-            // console.log(response)
+            console.log(response)
             return response
         } catch (e) {
             console.log(e)
