@@ -179,13 +179,13 @@ function GameDetails () {
                             <span className={`game-detail-game-info-wrapper ${descriptionView ? `description-expended` : `description-unextended`}`}>
                                 <div className={`game-detail-text-info game-description-wrapper`}>
                                     <h3 className={`game-detail-text-name`}>omschrijving</h3>
-                                    <h3 onClick={changeDescriptionView}
-                                        className={`game-detail-text-content game-description-text ${descriptionView ? `description-expended` : `description-unextended`}`}>{gameDetailData.description_raw}</h3>
+                                    <p onClick={changeDescriptionView}
+                                        className={`game-detail-text-content game-description-text ${descriptionView ? `description-expended` : `description-unextended`}`}>{gameDetailData.description_raw}</p>
                                 </div>
 
                                 <div className={`game-detail-text-info`}>
                                     <h3 className={`game-detail-text-name`}>uitgifte datum</h3>
-                                    <h3 className={`game-detail-text-content`}>{gameDetailData.released}</h3>
+                                    <p className={`game-detail-text-content`}>{gameDetailData.released}</p>
                                 </div>
                                 <div className={`game-detail-text-info`}>
                                     <h3 className={`game-detail-text-name`}>metascore</h3>
@@ -195,14 +195,14 @@ function GameDetails () {
                                 </div>
                                 <div className={`game-detail-text-info`}>
                                     <h3 className={`game-detail-text-name`}>gemiddelde speeltijd</h3>
-                                    <h3 className={`game-detail-text-content`}>{gameDetailData.playtime} uur</h3>
+                                    <p className={`game-detail-text-content`}>{gameDetailData.playtime} uur</p>
                                 </div>
 
                                 <div className={`game-detail-text-info`}>
                                     <h3 className={`game-detail-text-name`}>makers</h3>
                                     {gameDetailData.developers.map(developer => (
-                                        <h3 key={developer.id}
-                                            className={`game-detail-text-content`}> {developer.name} </h3>
+                                        <p key={developer.id}
+                                            className={`game-detail-text-content`}> {developer.name} </p>
                                     ))}
 
                                 </div>
@@ -211,7 +211,7 @@ function GameDetails () {
                                     <h3 className={`game-detail-text-name`}>genre</h3>
 
                                     {gameDetailData.genres.map(genre => (
-                                        <h3 key={genre.id} className={`game-detail-text-content`}>{genre.name}</h3>
+                                        <p key={genre.id} className={`game-detail-text-content`}>{genre.name}</p>
                                     ))}
 
                                 </div>
