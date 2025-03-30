@@ -1,6 +1,7 @@
 import {useContext} from 'react';
 import {Routes, Route, Navigate} from 'react-router-dom';
 import {AuthContext} from "./context/AuthProvider.jsx";
+import {UserInfoContext} from "./context/UserInfoProvider.jsx";
 import Navigation from './components/navigation/Navigation';
 import Home from './pages/home/Home';
 import Favorites from './pages/favorites/Favorites';
@@ -15,11 +16,14 @@ import GameDetails from "./pages/gameDetails/GameDetails.jsx";
 import ChangePassword from "./pages/changePassword/ChangePassword.jsx";
 import ChangeProfilePicture from "./pages/changeProfilePicture/ChangeProfilePicture.jsx";
 import './App.css';
+import StatusMessage from "./components/statusMessage/StatusMessage.jsx";
 
 function App() {
-  const { authData } = useContext(AuthContext)
+    const { authData } = useContext(AuthContext)
 
-  return (
+
+
+    return (
       <>
         <Navigation/>
         <Routes>

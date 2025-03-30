@@ -1,27 +1,32 @@
 import {useContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
+import {UserInfoContext} from "../../context/UserInfoProvider.jsx";
 import {useGetUserFavorites, useUpdateUserInfo} from "../../hooks/useUser.js";
 import {getToken, getTokenUsername} from "../../helpers/auth.js";
 import CircleIcon from "../../components/circleIcon/CircleIcon.jsx";
 import Button from "../../components/button/Button.jsx";
 import { profilePictures } from "../../assets/profilePictures/profilePictures.js";
 import './ChangeProfilePicture.css';
+import {getProfilePictureSrc} from "../../helpers/user.js";
+import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 
 
 function ChangeProfilePicture () {
     const { selectedTheme } = useContext(ThemeContext)
+    const { userInfo, refreshUserInfo } = useContext(UserInfoContext)
 
     const [profilePicture, setProfilePicture ] = useState();
 
     const navigate = useNavigate();
 
     const { getUserFavorites, data:getUserFavoritesData, loading:getUserFavoritesLoading, error:getUserFavoritesError } = useGetUserFavorites();
-    const { updateUserInfo } = useUpdateUserInfo();
-
+    const { updateUserInfo, data:updateUserInfoData } = useUpdateUserInfo();
 
     const currentToken = getToken()
     const tokenUsername = getTokenUsername(currentToken)
+
+    const currentProfilePicture =  userInfo?.userInfoData?.profile_picture;
     let initialProfilePicture;
 
     useEffect(() => {
@@ -29,11 +34,7 @@ function ChangeProfilePicture () {
     }, []);
 
     useEffect(() => {
-        console.log(profilePicture)
-    }, [profilePicture])
-
-    useEffect(() => {
-        console.warn("getUserFavoritesData:", getUserFavoritesData);
+        // console.warn("getUserFavoritesData:", getUserFavoritesData);
         const rawInfo = getUserFavoritesData;
 
         if (rawInfo) {
@@ -43,30 +44,31 @@ function ChangeProfilePicture () {
         }
     }, [getUserFavoritesData]);
 
+    useEffect(() => {
+        refreshUserInfo()
+    }, [updateUserInfoData])
 
     function cancelButton () {
         navigate('/profile');
     }
 
     function changeProfilePicture (picture) {
-        console.warn("AANGEROEEPEEEE")
-
-        picture !== initialProfilePicture && setProfilePicture(picture)
+        if (picture !== initialProfilePicture) {
+            setProfilePicture(picture)
+        }
     }
 
     function submitNewPicture () {
-        let userInfo = {
+        let userInfoData = {
             favorite_games: getUserFavoritesData?.favorite_games,
             profile_picture: `${profilePicture}`
         }
 
-        let userInfoString = JSON.stringify(userInfo)
+        let userInfoString = JSON.stringify(userInfoData)
 
         let formData = {
             info: userInfoString
         }
-
-        console.warn(formData)
 
         updateUserInfo(formData, currentToken, tokenUsername)
     }
@@ -79,6 +81,15 @@ function ChangeProfilePicture () {
                 <section className={`title-section`}>
                     <h1 className={`section-title`}>Kies een profiel foto</h1>
                 </section>
+
+                { getUserFavoritesError || getUserFavoritesLoading &&
+                <span className={`status-message-wrapper`}>
+                    <StatusMessage statusState={getUserFavoritesLoading} type={"loading"} content={"User info laden..."}/>
+
+                    <StatusMessage statusState={getUserFavoritesError} type={"error"}
+                               content={getUserFavoritesError ? getUserFavoritesError?.response?.data : "Er ging iets fout bij het ophalen van de user info data..."}/>
+
+                </span> }
 
                 <section className={`profile-picture-section`}>
                     <section className={`profile-picture-section`}>
@@ -99,7 +110,11 @@ function ChangeProfilePicture () {
                 </section>
 
                 <section className={`button-section`}>
-                    <Button onClick={submitNewPicture} className={"confirm-button"} content={"bevestig"} type={"submit"}/>
+                    {currentProfilePicture !== profilePicture &&
+                        <Button onClick={submitNewPicture} className={"confirm-button"} content={"bevestig"}
+                                type={"submit"}/>
+                    }
+
                     <Button onClick={cancelButton} className={"cancel-button"} content={`Terug naar profiel`}/>
                 </section>
 

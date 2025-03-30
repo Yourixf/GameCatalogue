@@ -1,6 +1,7 @@
 import {useContext, useState} from 'react';
 import {AuthContext} from "../../context/AuthProvider.jsx";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
+import {UserInfoContext} from "../../context/UserInfoProvider.jsx";
 import GameCard from "../../components/gameCard/GameCard.jsx";
 import Pagination from "../../components/pagination/Pagination.jsx";
 import SortingFilter from "../../components/sortingFilter/SortingFilter.jsx";
@@ -18,6 +19,8 @@ import './Home.css';
 function Home () {
     const { selectedTheme } = useContext(ThemeContext)
     const { authData } = useContext(AuthContext)
+    const userInfoContext = useContext(UserInfoContext)
+    const userInfo = userInfoContext?.userInfo;
 
     const {
         currentGameListData,
@@ -39,7 +42,7 @@ function Home () {
     return(
         <main className={`page-container ${selectedTheme} home-page-container`}>
 
-            {authData.user &&
+            {authData.user && userInfo &&
                 <section className={`section-outer-container recommended-section-outer`}>
                     <div className={`section-inner-container recommended-section-inner ${selectedTheme}`}>
                         <span className={"recommended-section-wrapper"}>
@@ -89,6 +92,7 @@ function Home () {
 
                 </section>
             }
+
             <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden..."}/>
 
             <StatusMessage statusState={currentGameListError} type={"error"}

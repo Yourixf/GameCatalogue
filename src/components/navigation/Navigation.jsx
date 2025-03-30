@@ -2,8 +2,9 @@ import {useState, useContext, useEffect} from "react";
 import {NavLink} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
-import { ThemeContext } from "../../context/ThemeProvider.jsx";
+import {ThemeContext} from "../../context/ThemeProvider.jsx";
 import {AuthContext} from "../../context/AuthProvider.jsx";
+import {UserInfoContext} from "../../context/UserInfoProvider.jsx";
 import {useGetUserFavorites} from "../../hooks/useUser.js";
 import {getToken, getTokenUsername} from "../../helpers/auth.js";
 import {getProfilePictureSrc} from "../../helpers/user.js";
@@ -17,11 +18,13 @@ import recommended from "../../assets/navbar/recommended.png";
 import search from "../../assets/navbar/search.png";
 import lightmode from "../../assets/navbar/lightmode.png";
 import './Navigation.css';
+import StatusMessage from "../statusMessage/StatusMessage.jsx";
 
 
 function Navigation () {
     const { toggleTheme, selectedTheme } = useContext(ThemeContext)
     const { authData } = useContext(AuthContext)
+    const { userInfo } = useContext(UserInfoContext)
 
     const navigate = useNavigate();
 
@@ -29,14 +32,8 @@ function Navigation () {
 
     const [fieldMessage, setFieldMessage] = useState('zoeken');
 
-
-    const { getUserFavorites, data:getUserFavoritesData } = useGetUserFavorites();
-
     const { register, handleSubmit, formState: { errors } } = useForm({mode:'onSubmit'})
 
-    useEffect(() => {
-        authData?.user && getUserFavorites(getTokenUsername(getToken()), getToken());
-    }, []);
 
     function dropdownClick () {
         console.log(dropdown);
@@ -63,10 +60,16 @@ function Navigation () {
         navigate(`/results/` + data['game-search-field'])
     }
 
-    const profilePictureSrc = getProfilePictureSrc(getUserFavoritesData);
+    const profilePictureSrc = getProfilePictureSrc(userInfo?.userInfoData);
 
+
+    if (authData?.status === "pending" || userInfo?.status === "pending") {
+        console.error("PENDING INDEED")
+        return <StatusMessage type={"loading"} content={"TeSTING laden......"} />;
+    } else {
 
     return(
+
         <nav className={`navbar ${selectedTheme}`}>
             <NavLink to='/'>
                 <span className="company-section">
@@ -119,7 +122,7 @@ function Navigation () {
                 </li>
             </ul>
 
-            {authData?.user ?
+            {authData?.user && userInfo ?
                 <div className={"profile-section"}>
                     <p className={`user-username ${selectedTheme} state-one`}>{authData?.user?.username}</p>
                     <CircleIcon className={"profile-icon state-one"} onClick={profileButton} iconPictureSource={profilePictureSrc} title={"Profiel pagina"} />
@@ -176,7 +179,7 @@ function Navigation () {
 
             </div>
         </nav>
-    );
+    ); }
 }
 
 export default Navigation;

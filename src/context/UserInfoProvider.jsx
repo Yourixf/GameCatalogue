@@ -18,22 +18,36 @@ function UserInfoProvider ({children}) {
     const { getUserFavorites, data:favoritesData } = useGetUserFavorites();
 
     useEffect(() => {
-        console.warn("usernfoprovider!!!!")
-        authData?.user && getUserFavorites(authData?.user?.username, getToken());
-    }, [])
+        if (authData?.status === "done") {
+            if (authData?.user) {
+                getUserFavorites(authData?.user?.username, getToken());
+            } else {
+                // Geen user = skippen
+                setUserInfo({
+                    userInfoData: null,
+                    status: "done"
+                });
+            }
+        }
+    }, [authData]);
 
     useEffect(() => {
-        console.warn(favoritesData)
-        setUserInfo({
-            userInfoData: favoritesData,
-            status: "done"
-        })
+        if (favoritesData) {
+            setUserInfo({
+                userInfoData: favoritesData,
+                status: "done"
+            });
+        }
+    }, [favoritesData]);
 
-        console.warn(userInfo)
-    }, [favoritesData])
+    function refreshUserInfo () {
+        if (authData?.user) {
+            getUserFavorites(authData?.user?.username, getToken());
+        }
+    }
 
     return (
-        <UserInfoContext.Provider value={{userInfo}}>
+        <UserInfoContext.Provider value={{userInfo, refreshUserInfo}}>
             {userInfo.status === `pending`
                 ? <StatusMessage type={"loading"} content={"PATAT..."} />
                 : children
