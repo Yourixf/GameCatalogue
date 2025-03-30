@@ -2,6 +2,7 @@ import { useApiCall } from "./useApiCall.js";
 import {useContext, useEffect, useState} from "react";
 import {getToken, getTokenUsername} from "../helpers/auth.js";
 import {getProfilePictureSrc} from "../helpers/user.js";
+import {AuthContext} from "../context/AuthProvider.jsx";
 
 // For cleaner code view
 const BASE_URL = import.meta.env.VITE_NOVI_API_BASE_URL;
@@ -160,5 +161,10 @@ export function useGetCurrentUserInfo () {
         setCurrentUserInfoLoading(getUserFavoritesLoading)
     }, [getUserFavoritesLoading])
 
-    return currentUserInfoData;
+
+    return {
+        currentUserInfoData,
+        currentUserInfoLoading,
+        currentUserProfilePicture,
+    }
 }

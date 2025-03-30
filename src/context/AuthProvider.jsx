@@ -1,7 +1,7 @@
 import {createContext, useEffect, useState} from "react";
 import StatusMessage from "../components/statusMessage/StatusMessage.jsx";
 import {deleteToken, getToken, getTokenUserId, getTokenUsername, saveToken} from "../helpers/auth.js";
-import {useGetUserInfo} from "../hooks/useUser.js";
+import { useGetUserInfo} from "../hooks/useUser.js";
 
 export const AuthContext = createContext(null)
 
@@ -13,6 +13,8 @@ function AuthContextProvider ({ children }) {
         status: 'pending',
     })
     const { getUserInfo } = useGetUserInfo()
+
+
 
     async function login (token) {
         saveToken(token)
@@ -39,6 +41,7 @@ function AuthContextProvider ({ children }) {
                 },
                 status: 'done',
             });
+
 
             // console.log("step 4")
         } catch (e) {
@@ -89,7 +92,6 @@ function AuthContextProvider ({ children }) {
             {authState.status === 'pending'
                 ? <StatusMessage type={"loading"} content={"Laden..." } />
                 : children
-
             }
         </AuthContext.Provider>
     )

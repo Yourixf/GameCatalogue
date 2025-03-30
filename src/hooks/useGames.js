@@ -20,7 +20,7 @@ export function useGetGameList () {
             `GET`,
             null,
         );
-        console.warn(options)
+        // console.warn(options)
         return response;
     };
     // returns info for state management
@@ -78,7 +78,7 @@ export function useGetLastPage () {
             `GET`,
             null
         );
-        console.warn(options)
+        // console.warn(options)
         return response
     };
     return { getLastPage, data, loading, error}
@@ -109,7 +109,7 @@ export function useGetCurrentGameList (query='', options='') {
     // for the data state
     useEffect(() => {
         if (gameListData)
-            console.log(gameListData);
+            // console.log(gameListData);
             setCurrentGameListData(gameListData)
         // console.log(currentGameListData)
         // if (userFavoritesData)
@@ -117,12 +117,12 @@ export function useGetCurrentGameList (query='', options='') {
     }, [gameListData, userFavoritesData, sortingFilters]);
 
     useEffect(() => {
-        console.log(nextPreviousPageData)
+        // console.log(nextPreviousPageData)
         setCurrentGameListData(nextPreviousPageData)
     }, [nextPreviousPageData])
 
     useEffect(() => {
-        console.log(lastPageData)
+        // console.log(lastPageData)
         setCurrentGameListData(lastPageData)
     }, [lastPageData])
 
