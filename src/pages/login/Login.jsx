@@ -35,12 +35,11 @@ function Login () {
             console.log("login.jsx - 34")
             const token = await loginUser(formData)
 
-            console.warn(token)
             if (!token) {
                 throw new Error("Login.jsx.jsx - 38 - Login failed")
             }
             console.log("login.jsx - 40")
-            await authData.login(token?.data?.accessToken);
+            await authData.login(token.data.jwt);
 
             navigate('/')
         } catch (e) {
@@ -59,7 +58,7 @@ function Login () {
                         <StatusMessage statusState={loading} type={"loading"} content={"Laden..."}/>
                         <StatusMessage
                             statusState={error} type={"error"}
-                            content={error ? `${error?.message} - ${error?.response?.statusText} ` : "er ging iets fout..."}
+                            content={error ? error?.response?.data || error?.message : "er ging iets fout..."}
                         />
                         <StatusMessage statusState={data} type={"succes"} content={"Ingelogd"}/>
 

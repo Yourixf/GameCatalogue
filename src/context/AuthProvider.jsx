@@ -17,11 +17,12 @@ function AuthContextProvider ({ children }) {
     async function login (token) {
         saveToken(token)
         const tokenUsername = getTokenUsername(token)
-        console.log(`tokeusernam: ${tokenUsername}`)
+        const tokenUserId = getTokenUserId(token)
+        console.log(`tokeusernam: ${tokenUsername} en ${tokenUserId}`)
         // console.log("step 1")
         try{
             // console.log("step 2")
-            const userData = await getUserInfo(token)
+            const userData = await getUserInfo(token, tokenUsername)
 
             if (!userData) {
                 throw new Error("AutProvider.jsx - 26 - User data is null")
@@ -34,7 +35,7 @@ function AuthContextProvider ({ children }) {
                     username: `${userData?.data?.username}`,
                     email: `${userData?.data?.email}`,
                     info: `${userData?.data?.info}`,
-                    id: `${userData?.data?.id}`,
+                    id: tokenUserId,
                 },
                 status: 'done',
             });

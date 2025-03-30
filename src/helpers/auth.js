@@ -25,11 +25,9 @@ export function validateToken (token) {
 
 export function getTokenUsername (token) {
     const decoded = jwtDecode(token);
-    console.warn(decoded.sub)
     return decoded.sub;
 }
 
-// user is not present in new API JWT token
 export function getTokenUserId (token) {
     return jwtDecode(token).userId
 }

@@ -134,7 +134,7 @@ a {
 .user-username {
     display: flex;
     max-width: 300px;
-    width: 100%;
+    width: 100px;
     min-width: 150px;
 }
 
