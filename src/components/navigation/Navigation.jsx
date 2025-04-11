@@ -1,31 +1,39 @@
-import { useState, useContext } from "react";
-import './Navigation.css';
+import {useState, useContext, useEffect} from "react";
 import {NavLink} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
+import {useForm} from "react-hook-form";
+import {ThemeContext} from "../../context/ThemeProvider.jsx";
+import {AuthContext} from "../../context/AuthProvider.jsx";
+import {UserInfoContext} from "../../context/UserInfoProvider.jsx";
+import {useGetUserFavorites} from "../../hooks/useUser.js";
+import {getToken, getTokenUsername} from "../../helpers/auth.js";
+import {getProfilePictureSrc} from "../../helpers/user.js";
+import Button from "../button/Button";
+import CircleIcon from '../../components/circleIcon/CircleIcon';
+import Input from "../input/Input.jsx";
 import joystick from "../../assets/navbar/joystick.png";
 import home from "../../assets/navbar/home.png";
 import favorite from "../../assets/navbar/favorite.png";
 import recommended from "../../assets/navbar/recommended.png";
 import search from "../../assets/navbar/search.png";
 import lightmode from "../../assets/navbar/lightmode.png";
-import defaultProfile from "../../assets/navbar/defaultProfile.png";
-import Button from "../button/Button";
-import CircleIcon from '../../components/circleIcon/CircleIcon';
-import { ThemeContext } from "../../context/ThemeProvider.jsx";
-import {AuthContext} from "../../context/AuthProvider.jsx";
-import Input from "../input/Input.jsx";
-import {useForm} from "react-hook-form";
+import './Navigation.css';
+import StatusMessage from "../statusMessage/StatusMessage.jsx";
 
 
 function Navigation () {
-    const navigate = useNavigate();
-    const [dropdown, dropdownToggle] = useState(false);
     const { toggleTheme, selectedTheme } = useContext(ThemeContext)
     const { authData } = useContext(AuthContext)
+    const { userInfo } = useContext(UserInfoContext)
+
+    const navigate = useNavigate();
+
+    const [dropdown, dropdownToggle] = useState(false);
+
+    const [fieldMessage, setFieldMessage] = useState('zoeken');
 
     const { register, handleSubmit, formState: { errors } } = useForm({mode:'onSubmit'})
 
-    const [fieldMessage, setFieldMessage] = useState('zoeken');
 
     function dropdownClick () {
         console.log(dropdown);
@@ -52,8 +60,16 @@ function Navigation () {
         navigate(`/results/` + data['game-search-field'])
     }
 
+    const profilePictureSrc = getProfilePictureSrc(userInfo?.userInfoData);
+
+
+    if (authData?.status === "pending" || userInfo?.status === "pending") {
+        console.error("PENDING INDEED")
+        return <StatusMessage type={"loading"} content={"TeSTING laden......"} />;
+    } else {
 
     return(
+
         <nav className={`navbar ${selectedTheme}`}>
             <NavLink to='/'>
                 <span className="company-section">
@@ -73,12 +89,11 @@ function Navigation () {
                         id="game-search-field"
                         placeholder={fieldMessage}
 
-                        // validationRules={{
-                        //     required: {
-                        //         value: true,
-                        //         message: 'Zoekveld is verplicht',
-                        //     }
-                        // }}
+                        validationRules={{
+                            required: {
+                                value: true,
+                            }
+                        }}
                         register={register}
                         errors={errors}
                     />
@@ -107,10 +122,10 @@ function Navigation () {
                 </li>
             </ul>
 
-            {authData.user ?
+            {authData?.user && userInfo ?
                 <div className={"profile-section"}>
-                    <p className={`user-username ${selectedTheme} state-one`}>{authData.user.username}</p>
-                    <CircleIcon className={"profile-icon state-one"} onClick={profileButton} iconPictureSource={defaultProfile} title={"Profiel pagina"} />
+                    <p className={`user-username ${selectedTheme} state-one`}>{authData?.user?.username}</p>
+                    <CircleIcon className={"profile-icon state-one"} onClick={profileButton} iconPictureSource={profilePictureSrc} title={"Profiel pagina"} />
                 </div>
                 :
                 <div className={"profile-section"}>
@@ -148,14 +163,13 @@ function Navigation () {
                 </li>
                 {authData.user ?
                     <div className={"profile-section"}>
-                        <CircleIcon className={"profile-icon state-two"} onClick={profileButton} iconPictureSource={defaultProfile} title={"Profiel pagina"}/>
+                        <CircleIcon className={"profile-icon state-two"} onClick={profileButton} iconPictureSource={profilePictureSrc} title={"Profiel pagina"}/>
 
                         <li className={dropdown ? "state-two" : ""}>
                             <Button onClick={authData.logout} className={"navbar-logout-button" + " state-two"}
                                     content="uitloggen"/>
                         </li>
                     </div>
-
                     :
                     <div className={"profile-section"}>
                         <Button onClick={handleClick} className={"navbar-login-button" + " state-two"} content="inloggen" shadow={false}/>
@@ -165,7 +179,7 @@ function Navigation () {
 
             </div>
         </nav>
-    );
+    ); }
 }
 
 export default Navigation;

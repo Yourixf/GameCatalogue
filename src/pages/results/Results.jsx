@@ -1,12 +1,13 @@
 import {useContext, useState} from 'react';
-import './Results.css';
+import {useParams} from "react-router-dom";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
-import GameCard from "../../components/gameCard/GameCard.jsx";
 import {useGetCurrentGameList, } from "../../hooks/useGames.js";
+import GameCard from "../../components/gameCard/GameCard.jsx";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 import SortingFilter from "../../components/sortingFilter/SortingFilter.jsx";
 import Pagination from "../../components/pagination/Pagination.jsx";
-import {useParams} from "react-router-dom";
+import Button from "../../components/button/Button.jsx";
+import './Results.css';
 
 function Results () {
     const { selectedTheme } = useContext(ThemeContext)
@@ -21,9 +22,12 @@ function Results () {
         loadFirstPage,
         getLastPageNumber,
         loadLastPage,
-        getCurrentPageNumber
+        getCurrentPageNumber,
+        checkFavorite,
+        handleFilterChange,
+        handleSortingChange,
+        sortingFilters
     } = useGetCurrentGameList(query)
-
 
     return (
         <main className={`page-container ${selectedTheme} results-page-container`}>
@@ -38,40 +42,59 @@ function Results () {
                     <div className={`section-inner-container trending-games-inner-container`}>
                         <div className={"section-game-header"}>
                             <span className={`result-section-title-wrapper`}>
-                                <h2 className={`section-title section-title-description `}>resultaten voor:</h2>
+                                <h2 className={`section-title section-title-description `}>{currentGameListData?.count !== 0 ? "resultaten" : "Geen resultaten"} voor:</h2>
                                 <h2 className={`section-title section-title-query`}>{query}</h2>
                             </span>
-                            <span className={"sorting-filter-wrapper state-two"}>
-                        <SortingFilter content={"Sorteer op:"} type={'sorting'}/>
-                        <SortingFilter content={"Filter op:"} type={"filter"}/>
-                    </span>
 
+                            {currentGameListData?.count !== 0 ?
+                            <span className={"sorting-filter-wrapper state-two"}>
+                                 <SortingFilter
+                                     onApplyFilters={handleSortingChange}
+                                     content={"Sorteer op:"}
+                                     type={'sorting'}
+                                     selectedFilters={sortingFilters?.sort}
+                                 />
+                                <SortingFilter
+                                    onApplyFilters={handleFilterChange}
+                                    content={"Filter op:"}
+                                    type={"filter"}
+                                    selectedFilters={sortingFilters?.genres}
+                                />
+                            </span>
+                            : null
+                             }
                             <span className={"hidden-item"}></span>
                         </div>
 
                         {currentGameListData && <section className={"game-card-wrapper"}>
-                            {currentGameListData && currentGameListData?.results.length > 0 ? currentGameListData?.results.map(game => (
+                            {currentGameListData && currentGameListData?.results.length > 0 && currentGameListData?.results.map(game => (
                                 <GameCard
                                     key={game?.id}
                                     gameTitle={game?.name}
                                     gameImage={game?.background_image}
                                     gamePlatforms={game?.parent_platforms}
                                     gameId={game?.id}
+                                    favorite={checkFavorite(game.id)}
                                 />
 
-                            )) : <h1>niks</h1>}
+                            ))}
                         </section>}
                         <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden..."}/>
 
-                        <Pagination
+                        { currentGameListData.count !== 0 ?
+                            <Pagination
                             loadNextPage={currentGameListData?.next ? () => loadNextPage(currentGameListData?.next): null}
                             loadPreviousPage={currentGameListData?.previous ? () => loadNextPage(currentGameListData?.previous): null}
-                            loadFirstPage={loadFirstPage}
+                            loadFirstPage={() => loadFirstPage(query)}
                             lastPageValue={getLastPageNumber()}
                             loadLastPage={loadLastPage}
                             currentPageValue={getCurrentPageNumber()}
+                            />
+                            :
+                            null
+                        }
 
-                        />
+
 
                     </div>
                 </section>

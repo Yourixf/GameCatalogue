@@ -1,8 +1,8 @@
-import './404.css';
-import Button from "../../components/button/Button.jsx";
-import {useNavigate} from "react-router-dom";
 import {useContext} from "react";
+import {useNavigate} from "react-router-dom";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
+import Button from "../../components/button/Button.jsx";
+import './404.css';
 
 
 function NotFound () {
@@ -23,8 +23,7 @@ function NotFound () {
                 <Button className="error-home-button" content="terug naar home" onClick={handleClick}/>
             </div>
         </main>
-)
-    ;
+    );
 }
 
 export default NotFound;

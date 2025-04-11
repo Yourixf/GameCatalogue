@@ -1,8 +1,7 @@
 import {createContext, useEffect, useState} from "react";
 import StatusMessage from "../components/statusMessage/StatusMessage.jsx";
 import {deleteToken, getToken, getTokenUserId, getTokenUsername, saveToken} from "../helpers/auth.js";
-import {useGetUserInfo} from "../hooks/useUser.js";
-
+import { useGetUserInfo} from "../hooks/useUser.js";
 
 export const AuthContext = createContext(null)
 
@@ -15,30 +14,35 @@ function AuthContextProvider ({ children }) {
     })
     const { getUserInfo } = useGetUserInfo()
 
+
+
     async function login (token) {
         saveToken(token)
         const tokenUsername = getTokenUsername(token)
         const tokenUserId = getTokenUserId(token)
+        console.log(`tokeusernam: ${tokenUsername} en ${tokenUserId}`)
         // console.log("step 1")
         try{
             // console.log("step 2")
             const userData = await getUserInfo(token, tokenUsername)
 
             if (!userData) {
-                throw new Error("User data is null")
+                throw new Error("AutProvider.jsx - 26 - User data is null")
             }
 
             // console.log("step 3")
 
             setAuthState({
                 user: {
-                    username: `${ userData.data.username}`,
-                    email: `${userData.data.email}`,
-                    info: `${userData.data.info}`,
+                    username: `${userData?.data?.username}`,
+                    email: `${userData?.data?.email}`,
+                    info: `${userData?.data?.info}`,
                     id: tokenUserId,
                 },
                 status: 'done',
             });
+
+
             // console.log("step 4")
         } catch (e) {
             console.log("major error occured")
@@ -88,7 +92,6 @@ function AuthContextProvider ({ children }) {
             {authState.status === 'pending'
                 ? <StatusMessage type={"loading"} content={"Laden..." } />
                 : children
-
             }
         </AuthContext.Provider>
     )

@@ -10,25 +10,34 @@ export function useApiCall () {
     async function fetchData (url, method = "GET", body = null, headers = {}) {
         setLoading(true);
         setError(null);
+        setData(null)
 
         try {
+            const isFormData = body instanceof FormData;
+
             const options = {
                 method,
-                headers: { "Content-Type": "application/json", ...headers },
+                headers: {
+                    ...(isFormData
+                        ? {}
+                        : {
+                            "Content-Type": "application/json",
+                            Accept: "application/json"
+                        }),
+                    ...headers
+                },
                 data: body || null,
                 url,
+                mode: "cors",
             };
             const response = await axios(options);
-            setData(response.data);
-            // console.log(response)
-            //  console.log("1e data:")
-            //  console.log(data)
-            // console.log("1e data done")
-            // console.log(data.jwt)
+            console.log(response);
+            setData(response.data ? response.data : response);
+            console.log(response)
             return response
         } catch (e) {
+            console.log(e)
             setError(e);
-            // console.log(e)
         } finally {
             setLoading(false);
         }
@@ -36,4 +45,3 @@ export function useApiCall () {
 
     return { fetchData, data, loading, error }
 }
-

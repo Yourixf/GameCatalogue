@@ -42,10 +42,10 @@
 }
 
 .game-detail-section-wrapper {
-     display: flex;
-     flex-direction: column;
-     align-items: center;
-     justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
     height: 100%;
     max-width: 1300px;
@@ -76,11 +76,8 @@
     flex-direction: column;
     justify-content: space-between;
     max-width: 900px;
-    gap: 5px;
-
     width: 100%;
-    max-width: 900px;
-
+    gap: 5px;
 }
 
 .game-detail-game-image-wrapper {
@@ -109,16 +106,13 @@
     align-items: center;
     flex-direction: row;
     overflow: auto;
-
     gap: 5px;
-
 }
 
 .description-expended.game-screenshots-wrapper {
     flex-wrap: wrap;
     align-content: stretch;
     justify-content: space-evenly;
-
 }
 
 .game-screenshot-figure {
@@ -137,14 +131,11 @@
     border-radius: 5px;
 }
 
-
-
 .game-detail-game-info-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-
     width: 100%;
     max-width: 365px;
     min-width: 365px;
@@ -175,7 +166,6 @@
     text-transform: capitalize;
 }
 
-
 .game-detail-text-content {
     font-size: 18px;
     font-weight: normal;
@@ -197,13 +187,10 @@
     overflow: hidden;
     max-height: 250px;
     text-overflow: ellipsis;
-
 }
-
 
 .game-description-text.description-expended {
     overflow: visible;
-
 }
 
 .game-detail-card.dark-mode {
@@ -222,30 +209,11 @@
     padding: 10px 15px 5px 15px;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
 }
-
 
 /* state two */
 @media all and (max-width: 1300px) {
-
-    /*// it is because of the game screen shot wrapper */
-
-    /*.game-detail-card {*/
-    /*    max-width: 900px;*/
-    /*    flex-direction: column;*/
-    /*}*/
-
-    /*.game-detail-title {*/
-    /*    margin: 0 10px;*/
-    /*}*/
-
-    /*.game-detail-game-info-wrapper {*/
-    /*    max-width: 100%;*/
-    /*}*/
-
-
-
 }
 
 /* state three */

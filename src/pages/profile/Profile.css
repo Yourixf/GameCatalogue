@@ -18,8 +18,6 @@
     border-bottom: 1px solid var(--main-stroke-color);
     box-shadow: 0 4px 30px 0 rgba(0, 0, 0, 0.48);
     z-index: 1;
-
-
 }
 
 .profile-card.dark-mode {
@@ -40,16 +38,14 @@
     background-color: var(--profile-picture-background-light);
 }
 
-.profile-picture {
+.profile-card .profile-picture {
     position: absolute;
     top: -50px;
     left: 50%;
     transform: translateX(-50%);
-
 }
 
-
-.profile-picture .circle-icon-main  {
+.profile-card .profile-picture .circle-icon-main  {
     width: 179px;
     height: 179px;
     flex-shrink: 0;
@@ -57,12 +53,10 @@
     box-shadow: 0 5px 20px -7px black;
 }
 
-.profile-picture .circle-icon-main .circle-icon-picture {
+.profile-card .profile-picture .circle-icon-main .circle-icon-picture {
     width: 80%;
     max-width: 90%;
     position: relative;
-    bottom: 6px;
-
 }
 
 .profile-username, .profile-email, .profile-favorite-amount , .profile-favorite-text {
@@ -83,6 +77,13 @@
     row-gap: 15px;
 }
 
+.profile-favorite-games-section {
+    cursor: pointer;
+}
+
+.profile-username, .profile-email, .profile-favorite-amount, .profile-favorite-text {
+    font-size: 27px;
+}
 
 
 /* state two */
@@ -111,7 +112,7 @@
         width: 90%;
     }
 
-    .profile-picture .circle-icon-main  {
+    .profile-card .profile-picture .circle-icon-main  {
         width: 130px;
         height: 130px;
         flex-shrink: 0;
@@ -119,11 +120,10 @@
         box-shadow: 0 5px 20px -7px black;
     }
 
-    .profile-picture .circle-icon-main .circle-icon-picture {
+    .profile-card .profile-picture .circle-icon-main .circle-icon-picture {
         width: 80%;
         max-width: 90%;
         position: relative;
         bottom: 6px;
-
     }
 }

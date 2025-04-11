@@ -1,10 +1,12 @@
-import {useContext } from 'react';
-import './Home.css';
+import {useContext, useState} from 'react';
+import {AuthContext} from "../../context/AuthProvider.jsx";
+import {ThemeContext} from "../../context/ThemeProvider.jsx";
+import {UserInfoContext} from "../../context/UserInfoProvider.jsx";
 import GameCard from "../../components/gameCard/GameCard.jsx";
 import Pagination from "../../components/pagination/Pagination.jsx";
 import SortingFilter from "../../components/sortingFilter/SortingFilter.jsx";
-import {AuthContext} from "../../context/AuthProvider.jsx";
-import {ThemeContext} from "../../context/ThemeProvider.jsx";
+import {useGetCurrentGameList} from "../../hooks/useGames.js";
+import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 import windwows from "../../assets/platforms/windows.png";
 import playstation from "../../assets/platforms/playstation.png";
 import xbox from "../../assets/platforms/xbox.png";
@@ -12,12 +14,13 @@ import apple from "../../assets/platforms/apple.png";
 import android from "../../assets/platforms/android.png";
 import nitendoswitch from "../../assets/platforms/nitendoswitch.png";
 import pubgImg from '../../assets/TEMPGAMEBACKGROUND.png'
-import {useGetCurrentGameList} from "../../hooks/useGames.js";
-import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
+import './Home.css';
 
 function Home () {
     const { selectedTheme } = useContext(ThemeContext)
     const { authData } = useContext(AuthContext)
+    const userInfoContext = useContext(UserInfoContext)
+    const userInfo = userInfoContext?.userInfo;
 
     const {
         currentGameListData,
@@ -27,14 +30,19 @@ function Home () {
         loadFirstPage,
         getLastPageNumber,
         loadLastPage,
-        getCurrentPageNumber
+        getCurrentPageNumber,
+        checkFavorite,
+        handleFilterChange,
+        handleSortingChange,
+        sortingFilters
     } = useGetCurrentGameList()
 
+// WIP
 
     return(
         <main className={`page-container ${selectedTheme} home-page-container`}>
 
-            { authData.user &&
+            {authData.user && userInfo &&
                 <section className={`section-outer-container recommended-section-outer`}>
                     <div className={`section-inner-container recommended-section-inner ${selectedTheme}`}>
                         <span className={"recommended-section-wrapper"}>
@@ -84,10 +92,12 @@ function Home () {
 
                 </section>
             }
+
             <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden..."}/>
 
             <StatusMessage statusState={currentGameListError} type={"error"}
                            content={currentGameListError ? currentGameListError?.message : "er ging iets fout..."}/>
+
             {currentGameListData &&
                 <section className={`section-outer-container trending-games-outer-container`}>
                     <div className={`section-inner-container trending-games-inner-container`}>
@@ -96,47 +106,53 @@ function Home () {
                                 Uitgelicht
                             </h2>
                             <span className={"sorting-filter-wrapper state-two"}>
-                            <SortingFilter content={"Sorteer op:"} type={'sorting'}/>
-                            <SortingFilter content={"Filter op:"} type={"filter"}/>
-                        </span>
-
+                                <SortingFilter
+                                    onApplyFilters={handleSortingChange}
+                                    content={"Sorteer op:"}
+                                    type={'sorting'}
+                                    selectedFilters={sortingFilters?.sort}
+                                />
+                                <SortingFilter
+                                    onApplyFilters={handleFilterChange}
+                                    content={"Filter op:"}
+                                    type={"filter"}
+                                    selectedFilters={sortingFilters?.genres}
+                                />
+                            </span>
                             <span className={"hidden-item"}></span>
                         </div>
 
-                        {currentGameListData &&  <section className={"game-card-wrapper"}>
-                            {currentGameListData && currentGameListData?.results.length > 0 ? currentGameListData?.results.map(game => (
+                        {currentGameListData && <section className={"game-card-wrapper"}>
+                            {currentGameListData && currentGameListData?.results?.length > 0 && currentGameListData?.results?.map(game => (
                                 <GameCard
                                     key={game?.id}
                                     gameTitle={game?.name}
                                     gameImage={game?.background_image}
                                     gamePlatforms={game?.parent_platforms}
                                     gameId={game?.id}
+                                    favorite={checkFavorite(game?.id)}
                                 />
 
-                            )) : <h1>niks</h1>}
+                            ))}
                         </section>}
 
                         <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden..."}/>
 
-
                         <Pagination
-                            loadNextPage={currentGameListData?.next ? () => loadNextPage(currentGameListData?.next): null}
-                            loadPreviousPage={currentGameListData?.previous ? () => loadNextPage(currentGameListData?.previous): null}
-                            loadFirstPage={loadFirstPage}
+                            loadNextPage={currentGameListData?.next ? () => loadNextPage(currentGameListData?.next) : null}
+                            // loadNextPage={() => loadNextPage()}
+                            loadPreviousPage={currentGameListData?.previous ? () => loadNextPage(currentGameListData?.previous) : null}
+                            loadFirstPage={() => loadFirstPage()}
                             lastPageValue={getLastPageNumber()}
                             loadLastPage={loadLastPage}
                             currentPageValue={getCurrentPageNumber()}
-
                         />
-
-
                     </div>
                 </section>
             }
-
         </main>
-
     );
 }
+
 
 export default Home;
