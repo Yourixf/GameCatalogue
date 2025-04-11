@@ -75,8 +75,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    max-width: 900px;
-    width: 100%;
+    min-width: 200px;
     gap: 5px;
 }
 
@@ -98,6 +97,13 @@
     height: auto;
 }
 
+.game-detail-section-wrapper,
+.game-detail-card,
+.game-detail-card-image-section {
+    min-width: 0;
+    width: 100%;
+    flex-shrink: 1;
+}
 .game-screenshots-wrapper {
     display: flex;
     flex-wrap: nowrap;
@@ -113,6 +119,7 @@
     flex-wrap: wrap;
     align-content: stretch;
     justify-content: space-evenly;
+    max-height: 600px;
 }
 
 .game-screenshot-figure {
@@ -134,13 +141,14 @@
 .game-detail-game-info-wrapper {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    width: 100%;
-    max-width: 365px;
-    min-width: 365px;
+    max-width: 400px;
+    min-width: 400px;
     padding: 5px;
     gap: 5px;
+
+    flex: 0 0 400px;
 }
 
 .game-detail-game-info-wrapper.description-expended {
@@ -190,7 +198,9 @@
 }
 
 .game-description-text.description-expended {
-    overflow: visible;
+    overflow: hidden;
+    overflow-y: scroll;
+    max-height: 600px;
 }
 
 .game-detail-card.dark-mode {
@@ -239,6 +249,32 @@
 
     }
 
+    .game-screenshots-wrapper {
+        display: flex;
+        flex-direction: column;
+
+    }
+    .game-screenshots-wrapper.description-unextended {
+        max-height: 500px;
+    }
+
+    .game-screenshots-wrapper.description-expended {
+        max-height: 500px;
+    }
+
+
+    .game-detail-game-info-wrapper.description-expended {
+        min-width: 300px;
+    }
+    .description-expended.game-screenshots-wrapper {
+        display: flex;
+        flex-wrap: nowrap;
+    }
+
+    .game-screenshot-figure {
+        max-width: 200px;
+    }
+
     .recommended-text-description {
         font-size: 17px;
     }
@@ -266,5 +302,6 @@
     .section-title{
         font-size: 32px;
     }
+
 
 }
