@@ -90,7 +90,7 @@ function AuthContextProvider ({ children }) {
     return (
         <AuthContext.Provider value={{authData}}>
             {authState.status === 'pending'
-                ? <StatusMessage type={"loading"} content={"Laden..." } />
+                ? <StatusMessage type={"loading"} content={"Laden" } />
                 : children
             }
         </AuthContext.Provider>

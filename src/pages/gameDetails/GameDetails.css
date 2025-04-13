@@ -82,19 +82,20 @@
 .game-detail-game-image-wrapper {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     width: 100%;
     padding: 0;
     margin: 0;
-
+    flex: 1 0 0;
 }
 
 .game-detail-game-image {
-    width: 100%;
+    width: auto;
     border-top-left-radius: 10px;
     object-fit: cover;
     overflow: hidden;
     height: auto;
+    max-height: 800px;
 }
 
 .game-detail-section-wrapper,
@@ -104,15 +105,25 @@
     width: 100%;
     flex-shrink: 1;
 }
+
+.game-detail-section-wrapper.no-pictures, 
+.game-detail-card.no-pictures {
+    width: fit-content;
+}
+
+
 .game-screenshots-wrapper {
     display: flex;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    align-content: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
     align-items: center;
-    flex-direction: row;
+    flex-direction: column;
     overflow: auto;
     gap: 5px;
+    flex: 3 0 0;
+    min-height: 150px;
+
 }
 
 .description-expended.game-screenshots-wrapper {
@@ -123,9 +134,9 @@
 }
 
 .game-screenshot-figure {
-    max-width: 175px;
-    width: 100%;
+    max-width: 200px;
     min-width: 150px;
+    width: 100%;
     cursor: pointer;
 }
 
@@ -199,7 +210,7 @@
 
 .game-description-text.description-expended {
     overflow: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
     max-height: 600px;
 }
 
@@ -228,6 +239,10 @@
 
 /* state three */
 @media all and (max-width: 758px) {
+    .game-detail-card {
+        flex-direction: column;
+    }
+
     .recommended-card {
         max-width: 352px;
         min-height: 261px;
@@ -249,30 +264,38 @@
 
     }
 
+    .game-detail-game-image {
+        border-top-right-radius:10px ;
+    }
+
+
     .game-screenshots-wrapper {
         display: flex;
-        flex-direction: column;
-
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-content: flex-start;
+        justify-content: space-evenly;
+        align-items: center;
+        max-height: 200px;
     }
-    .game-screenshots-wrapper.description-unextended {
-        max-height: 500px;
-    }
-
-    .game-screenshots-wrapper.description-expended {
-        max-height: 500px;
-    }
-
-
-    .game-detail-game-info-wrapper.description-expended {
-        min-width: 300px;
-    }
-    .description-expended.game-screenshots-wrapper {
-        display: flex;
-        flex-wrap: nowrap;
-    }
+ 
 
     .game-screenshot-figure {
+        display: flex;
         max-width: 200px;
+        min-width: 0;
+    }
+
+    .description-expended .game-screenshot-figure {
+        max-width: 200px;
+    }
+
+    .game-detail-game-info-wrapper {
+        max-width: none;
+    }
+
+    .game-detail-game-info-wrapper.description-expended {
+        max-width: none;
     }
 
     .recommended-text-description {

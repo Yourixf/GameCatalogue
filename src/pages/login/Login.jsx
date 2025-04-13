@@ -55,7 +55,7 @@ function Login () {
                     <article className={`login-card ${selectedTheme}`}>
                         <h1 className={"login-title"}>Login</h1>
 
-                        <StatusMessage statusState={loading} type={"loading"} content={"Laden..."}/>
+                        <StatusMessage statusState={loading} type={"loading"} content={"Laden"}/>
                         <StatusMessage
                             statusState={error} type={"error"}
                             content={error ? error?.response?.data || error?.message : "er ging iets fout..."}

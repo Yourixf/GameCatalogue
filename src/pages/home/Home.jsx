@@ -93,7 +93,7 @@ function Home () {
                 </section>
             }
 
-            <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden..."}/>
+            <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden"}/>
 
             <StatusMessage statusState={currentGameListError} type={"error"}
                            content={currentGameListError ? currentGameListError?.message : "er ging iets fout..."}/>
@@ -136,7 +136,7 @@ function Home () {
                             ))}
                         </section>}
 
-                        <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden..."}/>
+                        <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden"}/>
 
                         <Pagination
                             loadNextPage={currentGameListData?.next ? () => loadNextPage(currentGameListData?.next) : null}

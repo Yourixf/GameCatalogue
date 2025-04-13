@@ -57,7 +57,7 @@ function Profile () {
 
                     { getUserFavoritesError || getUserFavoritesLoading &&
                         <span className={`status-message-wrapper`}>
-                    <StatusMessage statusState={getUserFavoritesLoading} type={"loading"} content={"User info laden..."}/>
+                    <StatusMessage statusState={getUserFavoritesLoading} type={"loading"} content={"User info laden"}/>
 
                     <StatusMessage statusState={getUserFavoritesError} type={"error"}
                                    content={getUserFavoritesError ? getUserFavoritesError?.response?.data : "Er ging iets fout bij het ophalen van de user info data..."}/>

@@ -32,7 +32,7 @@ function Results () {
     return (
         <main className={`page-container ${selectedTheme} results-page-container`}>
 
-            <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden..."}/>
+            <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden"}/>
 
             <StatusMessage statusState={currentGameListError} type={"error"}
                            content={currentGameListError ? currentGameListError?.message : "er ging iets fout..."}/>
@@ -79,7 +79,7 @@ function Results () {
 
                             ))}
                         </section>}
-                        <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden..."}/>
+                        <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden"}/>
 
                         { currentGameListData.count !== 0 ?
                             <Pagination

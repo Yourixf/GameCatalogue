@@ -65,7 +65,7 @@ function Register () {
                     <article className={`register-card ${selectedTheme}`}>
                         <h1 className={"register-title"}>Registreer</h1>
 
-                        <StatusMessage statusState={loading} type={"loading"} content={"Laden..."}/>
+                        <StatusMessage statusState={loading} type={"loading"} content={"Laden"}/>
                         <StatusMessage statusState={error} type={"error"} content={error ? error?.message : "er ging iets fout..."}/>
                         <StatusMessage statusState={data} type={"succes"} content={"Account gemaakt"}/>
                         <StatusMessage statusState={passwordConflict} type={"error"} content={"Wachtwoorden komen niet overheen"}/>

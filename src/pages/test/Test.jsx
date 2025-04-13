@@ -14,6 +14,7 @@ import lightmode from "../../assets/navbar/lightmode.png";
 import testProfile from "../../assets/testProfile.jpg"
 import CircleIcon from '../../components/circleIcon/CircleIcon.jsx';
 import Input from '../../components/input/Input.jsx';
+import StatusMessage from '../../components/statusMessage/StatusMessage.jsx';
 
 function Test () {
     const [jwtToken, setJWTToken] = useState("")
@@ -221,6 +222,8 @@ function Test () {
                 <Button onClick={resetFavorites} content={"reset favorites"}/>
 
                 <p className={"tokenTest"}>{jwtToken}</p>
+
+                <StatusMessage statusState={true} type='loading' content={"testing"}/>
             </main>
         </>
 

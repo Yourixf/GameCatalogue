@@ -4,11 +4,11 @@ function StatusMessage ( {statusState, type="error", content, className} ) {
     return(
         <>
             {statusState &&
-                <h3 className={`status-message status-${type} ${className}`}>
-                    {content}
-                </h3> }
+                <div className={`status-message status-${type} ${className}`}>
+                    <h3> {content} </h3>
+                    {type === "loading" && <div className="loading-dots"></div>}
+                </div> }
         </>
-
     )
 }
 

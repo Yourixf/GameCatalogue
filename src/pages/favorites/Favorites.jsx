@@ -65,7 +65,7 @@ function Favorites () {
                     <span className={"hidden-item"}></span>
 
                 </span>
-                <StatusMessage statusState={loadingGames} type={"loading"} content={"Laden..."}/>
+                <StatusMessage statusState={loadingGames} type={"loading"} content={"Laden"}/>
 
                 {loadingGames === false && gameList && <section className={"game-card-wrapper"}>
                         { gameList.map(game => (
