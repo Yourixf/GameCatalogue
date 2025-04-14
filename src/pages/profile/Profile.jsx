@@ -6,7 +6,6 @@ import {ThemeContext} from "../../context/ThemeProvider.jsx";
 import {useGetCurrentUserInfo, useGetUserFavorites, useUploadProfilePicture} from "../../hooks/useUser.js";
 import {getToken, getTokenUsername} from "../../helpers/auth.js";
 import { profilePictures } from "../../assets/profilePictures/profilePictures.js";
-
 import Button from "../../components/button/Button.jsx";
 import defaultProfile from "../../assets/profilePictures/defaultProfile.png";
 import './Profile.css';
@@ -57,14 +56,14 @@ function Profile () {
 
                     { getUserFavoritesError || getUserFavoritesLoading &&
                         <span className={`status-message-wrapper`}>
-                    <StatusMessage statusState={getUserFavoritesLoading} type={"loading"} content={"User info laden"}/>
+                            <StatusMessage statusState={getUserFavoritesLoading} type={"loading"} content={"User info laden"}/>
 
-                    <StatusMessage statusState={getUserFavoritesError} type={"error"}
+                            <StatusMessage statusState={getUserFavoritesError} type={"error"}
                                    content={getUserFavoritesError ? getUserFavoritesError?.response?.data : "Er ging iets fout bij het ophalen van de user info data..."}/>
 
-                </span> }
+                        </span> }
 
-                    <div className={"profile-picture"}>
+                    <div className={"profile-picture"} onClick={changeProfilePicture}>
                         <CircleIcon iconPictureSource={profilePictureSrc}/>
                     </div>
                     <div className={"profile-content"}>

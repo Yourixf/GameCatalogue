@@ -81,7 +81,7 @@
 
 .game-detail-game-image-wrapper {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
     width: 100%;
     padding: 0;
@@ -243,26 +243,7 @@
         flex-direction: column;
     }
 
-    .recommended-card {
-        max-width: 352px;
-        min-height: 261px;
-    }
 
-    .recommended-game-image-wrapper {
-        max-width: 203px;
-        min-height: 261px;
-    }
-
-    .recommended-game-image {
-        overflow: hidden;
-        min-width: 60%;
-        min-height: 261px;
-    }
-    .recommended-game-info-wrapper {
-        padding: 0 5px;
-        min-width: 10px;
-
-    }
 
     .game-detail-game-image {
         border-top-right-radius:10px ;

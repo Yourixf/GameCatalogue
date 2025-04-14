@@ -21,8 +21,6 @@ import StatusMessage from "./components/statusMessage/StatusMessage.jsx";
 function App() {
     const { authData } = useContext(AuthContext)
 
-
-
     return (
       <>
         <Navigation/>

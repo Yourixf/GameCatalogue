@@ -4,7 +4,9 @@ import {AuthContext} from "./AuthProvider.jsx";
 import {useGetUserFavorites} from "../hooks/useUser.js";
 import {getToken} from "../helpers/auth.js";
 
-export const UserInfoContext = createContext(null)
+export const UserInfoContext = createContext({
+    userInfoData: null,
+    status: 'pending'})
 
 function UserInfoProvider ({children}) {
 
@@ -22,7 +24,6 @@ function UserInfoProvider ({children}) {
             if (authData?.user) {
                 getUserFavorites(authData?.user?.username, getToken());
             } else {
-                // Geen user = skippen
                 setUserInfo({
                     userInfoData: null,
                     status: "done"
@@ -49,7 +50,7 @@ function UserInfoProvider ({children}) {
     return (
         <UserInfoContext.Provider value={{userInfo, refreshUserInfo}}>
             {userInfo.status === `pending`
-                ? <StatusMessage type={"loading"} content={"PATAT..."} />
+                ? <StatusMessage type={"loading"} content={"User info laden "}/>
                 : children
             }
         </UserInfoContext.Provider>

@@ -7,6 +7,8 @@ import Pagination from "../../components/pagination/Pagination.jsx";
 import SortingFilter from "../../components/sortingFilter/SortingFilter.jsx";
 import {useGetCurrentGameList} from "../../hooks/useGames.js";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
+import GamePlatformIcons from "../../components/gamePlatformIcons/GamePlatformIcons.jsx";
+import Metascore from "../../components/metascore/Metascore.jsx";
 import windwows from "../../assets/platforms/windows.png";
 import playstation from "../../assets/platforms/playstation.png";
 import xbox from "../../assets/platforms/xbox.png";
@@ -19,8 +21,8 @@ import './Home.css';
 function Home () {
     const { selectedTheme } = useContext(ThemeContext)
     const { authData } = useContext(AuthContext)
-    const userInfoContext = useContext(UserInfoContext)
-    const userInfo = userInfoContext?.userInfo;
+    const { userInfo } = useContext(UserInfoContext)
+    // const userInfo = userInfoContext?.userInfo;
 
     const {
         currentGameListData,
@@ -37,8 +39,7 @@ function Home () {
         sortingFilters
     } = useGetCurrentGameList()
 
-// WIP
-
+    console.log(currentGameListData)
     return(
         <main className={`page-container ${selectedTheme} home-page-container`}>
 
@@ -52,30 +53,25 @@ function Home () {
                             </span>
                             <article className={`recommended-card ${selectedTheme}`}>
                                 <figure className={`recommended-game-image-wrapper`}>
-                                <img className={`recommended-game-image`} src={pubgImg} alt="game-image"/>
+                                <img className={`recommended-game-image`} src={currentGameListData?.results[3].background_image} alt="game-image"/>
                                 </figure>
                                 <span className={`recommended-game-info-wrapper`}>
                                     <div className={`recommended-text-info`}>
                                         <h3 className={`recommended-text-description`}>Titel</h3>
-                                        <h3 className={`recommended-text-content`}>Pubg</h3>
+                                        <h3 className={`recommended-text-content`}>{currentGameListData?.results[3].name}</h3>
                                     </div>
 
                                     <div className={`recommended-text-info`}>
                                         <h3 className={`recommended-text-description`}>Uitgifte datum</h3>
-                                        <h3 className={`recommended-text-content`}>23 maart 2017</h3>
+                                        <h3 className={`recommended-text-content`}>{currentGameListData?.results[3].released}</h3>
                                     </div>
                                     <div className={`recommended-text-info`}>
                                         <h3 className={`recommended-text-description`}>Metascore</h3>
-                                        <h3 className={`recommended-text-content`}>81</h3>
+                                        <Metascore className={`game-detail-text-content`}
+                                               value={currentGameListData?.results[3].metacritic}/>
                                     </div>
-                                    <figure className={"recommended-game-card-platforms"}>
-                                        <img className={"platform-icon"} src={windwows} alt="windows-icon"/>
-                                        <img className={"platform-icon"} src={playstation} alt="playstation-icon"/>
-                                        <img className={"platform-icon"} src={xbox} alt="xbox-icon"/>
-                                        <img className={"platform-icon"} src={apple} alt="apple-icon"/>
-                                        <img className={"platform-icon"} src={android} alt="android-icon"/>
-                                        <img className={"platform-icon"} src={nitendoswitch} alt="nitendoswitch-icon"/>
-                                    </figure>
+                                    <GamePlatformIcons platforms={currentGameListData?.results[3].parent_platforms} className={` recommended-game-card-platforms game-detail-game-card-platforms`} />
+                                
                                 </span>
                             </article>
                             <nav className={`recommended-pagination`} aria-label={"recommended games pagination"}>
@@ -140,7 +136,6 @@ function Home () {
 
                         <Pagination
                             loadNextPage={currentGameListData?.next ? () => loadNextPage(currentGameListData?.next) : null}
-                            // loadNextPage={() => loadNextPage()}
                             loadPreviousPage={currentGameListData?.previous ? () => loadNextPage(currentGameListData?.previous) : null}
                             loadFirstPage={() => loadFirstPage()}
                             lastPageValue={getLastPageNumber()}

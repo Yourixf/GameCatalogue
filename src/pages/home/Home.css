@@ -130,6 +130,14 @@
     font-weight: normal;
 }
 
+.recommended-text-info {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
 .recommended-card.dark-mode {
     color: var(--game-card-text-dark);
     background-color: var(--game-card-main-dark);
@@ -138,15 +146,6 @@
 .recommended-card.light-mode {
     color: var(--game-card-text-light);
     background-color: var(--game-card-main-light);
-}
-
-.recommended-game-card-platforms {
-    display: flex;
-    width: 100%;
-    padding: 10px 15px 5px 15px;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
 }
 
 .recommended-pagination {
@@ -235,19 +234,16 @@
     .hidden-item {
         width: 0;
     }
-
-
 }
 
 /* state three */
 @media all and (max-width: 758px) {
     .recommended-card {
-        max-width: 352px;
         min-height: 261px;
+        max-height: 265px;
     }
 
-    .recommended-game-image-wrapper {
-        max-width: 203px;
+ .recommended-game-image-wrapper {
         min-height: 261px;
     }
 
@@ -256,21 +252,18 @@
         min-width: 60%;
         min-height: 261px;
     }
+ 
     .recommended-game-info-wrapper {
         padding: 0 5px;
         min-width: 10px;
-
-    }
+        max-width: 265px;
+    } 
 
     .recommended-text-description {
         font-size: 17px;
     }
     .recommended-text-content {
         font-size: 20px;
-    }
-
-    .recommended-game-card-platforms {
-        padding: 5px;
     }
 
     .recommended-pagination {
@@ -290,4 +283,33 @@
         font-size: 32px;
     }
 
+}
+
+/* state 4 */
+@media all and (max-width: 580px) {
+    .recommended-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        max-height: none;
+    }
+
+    .recommended-game-image-wrapper {
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    .recommended-game-image {
+        width: auto;
+        object-fit: cover;
+        overflow: hidden;
+        height: auto;
+        max-height: 300px;
+    }
 }
