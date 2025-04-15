@@ -29,6 +29,8 @@ function Favorites () {
         getUserFavorites(tokenUsername, currentToken)
     }, [])
 
+
+    // TODO rebuild with more efficient Promise.all code
     useEffect(() => {
         // loops through the favorites and gets the details from the API
         getUserFavoritesData?.favorite_games?.forEach(function (item) {

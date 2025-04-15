@@ -15,10 +15,12 @@ function Home () {
     const { selectedTheme } = useContext(ThemeContext)
     const { authData } = useContext(AuthContext)
     const { userInfo } = useContext(UserInfoContext)
-    // const userInfo = userInfoContext?.userInfo;
+
+    const [ currentRecommended, setCurrentRecommended ] = useState(0);
 
     const {
         currentGameListData,
+        currentRecommendedGameListData,
         currentGameListLoading,
         currentGameListError,
         loadNextPage,
@@ -37,7 +39,7 @@ function Home () {
     return(
         <main className={`page-container ${selectedTheme} home-page-container`}>
 
-            {authData.user && userInfo &&
+            {authData.user && userInfo && currentRecommendedGameListData &&
                 <section className={`section-outer-container recommended-section-outer`}>
                     <div className={`section-inner-container recommended-section-inner ${selectedTheme}`}>
                         <span className={"recommended-section-wrapper"}>
@@ -47,24 +49,24 @@ function Home () {
                             </span>
                             <article className={`recommended-card ${selectedTheme}`}>
                                 <figure className={`recommended-game-image-wrapper`}>
-                                <img className={`recommended-game-image`} src={currentGameListData?.results[7].background_image} alt="game-image"/>
+                                <img className={`recommended-game-image`} src={currentRecommendedGameListData?.results[currentRecommended].background_image} alt="game-image"/>
                                 </figure>
                                 <span className={`recommended-game-info-wrapper`}>
                                     <div className={`recommended-text-info`}>
                                         <h3 className={`recommended-text-description`}>Titel</h3>
-                                        <h3 className={`recommended-text-content`}>{currentGameListData?.results[7].name}</h3>
+                                        <h3 className={`recommended-text-content`}>{currentRecommendedGameListData?.results[currentRecommended].name}</h3>
                                     </div>
 
                                     <div className={`recommended-text-info`}>
                                         <h3 className={`recommended-text-description`}>Uitgifte datum</h3>
-                                        <h3 className={`recommended-text-content`}>{currentGameListData?.results[7].released}</h3>
+                                        <h3 className={`recommended-text-content`}>{currentRecommendedGameListData?.results[currentRecommended].released}</h3>
                                     </div>
                                     <div className={`recommended-text-info`}>
                                         <h3 className={`recommended-text-description`}>Metascore</h3>
                                         <Metascore className={`game-detail-text-content`}
-                                               value={currentGameListData?.results[7].metacritic}/>
+                                               value={currentRecommendedGameListData?.results[currentRecommended].metacritic}/>
                                     </div>
-                                    <GamePlatformIcons platforms={currentGameListData?.results[7].parent_platforms} className={` recommended-game-card-platforms game-detail-game-card-platforms`} />
+                                    <GamePlatformIcons platforms={currentRecommendedGameListData?.results[currentRecommended].parent_platforms} className={` recommended-game-card-platforms game-detail-game-card-platforms`} />
                                 
                                 </span>
                             </article>
@@ -79,7 +81,6 @@ function Home () {
                             </nav>
                         </span>
                     </div>
-
                 </section>
             }
 

@@ -1,5 +1,6 @@
 import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../context/AuthProvider.jsx";
+import {UserInfoContext} from "../context/UserInfoProvider.jsx";
 import {useApiCall } from "./useApiCall.js";
 import {useGetUserFavorites} from "./useUser.js";
 import {getToken, getTokenUsername} from "../helpers/auth.js";
@@ -68,7 +69,7 @@ export function useGetNextPreviousPage () {
     };
     return { getNextPreviousPage, data, loading, error}
 }
-//WIP
+
 export function useGetLastPage () {
     const {fetchData, data, loading, error } = useApiCall();
 
@@ -84,18 +85,39 @@ export function useGetLastPage () {
     return { getLastPage, data, loading, error}
 }
 
+export function useGetRecommendedGameList () {
+    const {fetchData, data, loading, error } = useApiCall();
+
+    async function getRecommendedGameList (options) {
+        const response = await fetchData(
+            `${BASE_URL}/games?${API_KEY}${options && `&${options}`}`,
+            "GET",
+            null
+        )
+        console.warn(response)
+        return response
+    }
+    return { getRecommendedGameList, data, loading, error }
+}
+
 export function useGetCurrentGameList (query='', options='') {
     const { authData } = useContext(AuthContext)
+    const { userInfo } = useContext(UserInfoContext)
+
 
     const [currentGameListData, setCurrentGameListData ] = useState()
+    const [currentRecommendedGameListData, setCurrentRecommendedGameListData] = useState()
     const [currentGameListLoading, setCurrentGameListLoading ] = useState()
     const [currentGameListError, setCurrentGameListError ] = useState()
     const [sortingFilters, setSortingFilters] = useState({
         sort: '',
         genres: []
     })
+    const [favoriteGenres, setFavoriteGenres ] = useState([]);
 
     const { getGameList, data:gameListData, loading:gameListLoading, error:gameListError } = useGetGameList();
+    const { getRecommendedGameList, data:recommendedGameListData, loading:recommendedGameListLoading, error:recommendedGameListError} = useGetRecommendedGameList();
+    const { getGameDetails, data:gameDetailData, loading:gameDetailLoading, error:gameDetailError } = useGetGameDetails()
     const { getNextPreviousPage, data:nextPreviousPageData, loading:nextPreviousPageLoading, error:nextPreviousPageError } = useGetNextPreviousPage()
     const { getLastPage, data:lastPageData, loading:lastPageLoading, error:lastPageError } = useGetLastPage()
     const { getUserFavorites, data:userFavoritesData, loading:userFavoritesLoading, error:userFavoritesError} = useGetUserFavorites();
@@ -111,9 +133,6 @@ export function useGetCurrentGameList (query='', options='') {
         if (gameListData)
             // console.log(gameListData);
             setCurrentGameListData(gameListData)
-        // console.log(currentGameListData)
-        // if (userFavoritesData)
-        //     console.log(userFavoritesData)
     }, [gameListData, userFavoritesData, sortingFilters]);
 
     useEffect(() => {
@@ -127,8 +146,20 @@ export function useGetCurrentGameList (query='', options='') {
     }, [lastPageData])
 
     useEffect(() => {
+        console.error(recommendedGameListData)
+        setCurrentRecommendedGameListData(recommendedGameListData)
+    }, [recommendedGameListData])
+
+    useEffect(() => {
         applySortingFilters(sortingFilters)
     }, [sortingFilters])
+
+    useEffect(() => {
+        if (userInfo && userFavoritesData) {
+            getFavoriteGenresGames()
+        }
+    }, [userFavoritesData, userInfo])
+
 
     // for the loading state
     useEffect(() => {
@@ -151,6 +182,12 @@ export function useGetCurrentGameList (query='', options='') {
         setCurrentGameListLoading(userFavoritesLoading)
     }, [userFavoritesLoading])
 
+    useEffect(() => {
+        // console.log(recommendedGameListLoading)
+        setCurrentGameListLoading(recommendedGameListLoading)
+    }, [recommendedGameListLoading])
+
+
     // for the error state
     useEffect(() => {
         // console.log(gameListError)
@@ -172,6 +209,10 @@ export function useGetCurrentGameList (query='', options='') {
         setCurrentGameListError(userFavoritesError)
     }, [userFavoritesError])
 
+    useEffect(() => {
+        // console.log(recommendedGameListError)
+        setCurrentGameListError(recommendedGameListError)
+    }, [recommendedGameListError])
 
     // for the pagination
     function loadNextPage (url) {
@@ -276,8 +317,40 @@ export function useGetCurrentGameList (query='', options='') {
         getGameList(query, sortingFilterList)
     }
 
+    async function getFavoriteGenresGames() {
+        const favoriteIds = userInfo?.userInfoData?.favorite_games || [];
+
+        // makes api calls for all favorites, using new Promise.all code for efficiency
+        const detailsPromises = favoriteIds.map(id => getGameDetails(id));
+        const gameDetailsArray = await Promise.all(detailsPromises);
+
+        // loops through game array and ads genres to new array
+        let allGenres = [];
+        gameDetailsArray.forEach(game => {
+            if (game?.data?.genres) {
+                const genreSlugs = game.data.genres.map(genre => genre.slug);
+                allGenres.push(...genreSlugs);
+            }
+        });
+
+        // using the Set datastructures to get rid of duplicate genres
+        const uniqueGenres = [...new Set(allGenres)];
+        console.warn(uniqueGenres)
+
+        let formattedGenreList;
+
+        if (uniqueGenres?.length > 0) {
+            formattedGenreList = `genres=${uniqueGenres}`
+        }
+        console.warn(formattedGenreList)
+        setFavoriteGenres(formattedGenreList)
+
+        await getRecommendedGameList(formattedGenreList)
+    }
+
     return {
         currentGameListData,
+        currentRecommendedGameListData,
         currentGameListLoading,
         currentGameListError,
         loadNextPage,
