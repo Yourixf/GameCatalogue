@@ -9,13 +9,6 @@ import {useGetCurrentGameList} from "../../hooks/useGames.js";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 import GamePlatformIcons from "../../components/gamePlatformIcons/GamePlatformIcons.jsx";
 import Metascore from "../../components/metascore/Metascore.jsx";
-import windwows from "../../assets/platforms/windows.png";
-import playstation from "../../assets/platforms/playstation.png";
-import xbox from "../../assets/platforms/xbox.png";
-import apple from "../../assets/platforms/apple.png";
-import android from "../../assets/platforms/android.png";
-import nitendoswitch from "../../assets/platforms/nitendoswitch.png";
-import pubgImg from '../../assets/TEMPGAMEBACKGROUND.png'
 import './Home.css';
 
 function Home () {
@@ -40,6 +33,7 @@ function Home () {
     } = useGetCurrentGameList()
 
     console.log(currentGameListData)
+
     return(
         <main className={`page-container ${selectedTheme} home-page-container`}>
 
@@ -53,24 +47,24 @@ function Home () {
                             </span>
                             <article className={`recommended-card ${selectedTheme}`}>
                                 <figure className={`recommended-game-image-wrapper`}>
-                                <img className={`recommended-game-image`} src={currentGameListData?.results[3].background_image} alt="game-image"/>
+                                <img className={`recommended-game-image`} src={currentGameListData?.results[7].background_image} alt="game-image"/>
                                 </figure>
                                 <span className={`recommended-game-info-wrapper`}>
                                     <div className={`recommended-text-info`}>
                                         <h3 className={`recommended-text-description`}>Titel</h3>
-                                        <h3 className={`recommended-text-content`}>{currentGameListData?.results[3].name}</h3>
+                                        <h3 className={`recommended-text-content`}>{currentGameListData?.results[7].name}</h3>
                                     </div>
 
                                     <div className={`recommended-text-info`}>
                                         <h3 className={`recommended-text-description`}>Uitgifte datum</h3>
-                                        <h3 className={`recommended-text-content`}>{currentGameListData?.results[3].released}</h3>
+                                        <h3 className={`recommended-text-content`}>{currentGameListData?.results[7].released}</h3>
                                     </div>
                                     <div className={`recommended-text-info`}>
                                         <h3 className={`recommended-text-description`}>Metascore</h3>
                                         <Metascore className={`game-detail-text-content`}
-                                               value={currentGameListData?.results[3].metacritic}/>
+                                               value={currentGameListData?.results[7].metacritic}/>
                                     </div>
-                                    <GamePlatformIcons platforms={currentGameListData?.results[3].parent_platforms} className={` recommended-game-card-platforms game-detail-game-card-platforms`} />
+                                    <GamePlatformIcons platforms={currentGameListData?.results[7].parent_platforms} className={` recommended-game-card-platforms game-detail-game-card-platforms`} />
                                 
                                 </span>
                             </article>

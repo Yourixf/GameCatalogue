@@ -111,7 +111,6 @@
     width: fit-content;
 }
 
-
 .game-screenshots-wrapper {
     display: flex;
     flex-wrap: wrap;
@@ -154,8 +153,7 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    max-width: 400px;
-    min-width: 400px;
+    max-width: none;
     padding: 5px;
     gap: 5px;
 
@@ -164,7 +162,6 @@
 
 .game-detail-game-info-wrapper.description-expended {
     max-width: 500px;
-    min-width: 500px;
 }
 
 .game-detail-text-info {
@@ -271,9 +268,6 @@
         max-width: 200px;
     }
 
-    .game-detail-game-info-wrapper {
-        max-width: none;
-    }
 
     .game-detail-game-info-wrapper.description-expended {
         max-width: none;
