@@ -196,8 +196,6 @@ function Test () {
         }
 
         updateUserInfo(formData, getToken(), getTokenUsername(getToken()))
-
-
     }
 
     return(

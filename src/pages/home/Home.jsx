@@ -44,7 +44,7 @@ function Home () {
                     <div className={`section-inner-container recommended-section-inner ${selectedTheme}`}>
                         <span className={"recommended-section-wrapper"}>
 
-                            <span className={"section-title-wrapper"}>
+                            <span className={"section-title-wrapper recommended-card-title-wrapper"}>
                                 <h2 className={`section-title recommended-title`}>Aanbevolen voor jou</h2>
                             </span>
                             <article className={`recommended-card ${selectedTheme}`}>

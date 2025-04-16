@@ -9,10 +9,12 @@ import GameCard from "../../components/gameCard/GameCard.jsx";
 import Pagination from "../../components/pagination/Pagination.jsx";
 import SortingFilter from "../../components/sortingFilter/SortingFilter.jsx";
 import './Favorites.css';
+import {UserInfoContext} from "../../context/UserInfoProvider.jsx";
 
 function Favorites () {
     const { selectedTheme } = useContext(ThemeContext)
     const { authData } = useContext(AuthContext)
+    const { userInfo } = useContext(UserInfoContext)
 
     const { getGameDetails, data:gameDetailData, loading:gameDetailLoading, error:gameDetailError } = useGetGameDetails();
     const { getUserFavorites, data:getUserFavoritesData} = useGetUserFavorites();
@@ -30,14 +32,28 @@ function Favorites () {
     }, [])
 
 
-    // TODO rebuild with more efficient Promise.all code
     useEffect(() => {
-        // loops through the favorites and gets the details from the API
-        getUserFavoritesData?.favorite_games?.forEach(function (item) {
-            getGameDetails(item)
+        async function fetchFavoriteDetails() {
+            if (!getUserFavoritesData?.favorite_games) return;
+
             setLoadingGames(true);
-        })
-    }, [getUserFavoritesData])
+
+            const favoriteIds = [...new Set(
+                Object.values(getUserFavoritesData.favorite_games).flat()
+            )];
+
+            const gamePromises = favoriteIds.map(id => getGameDetails(id));
+            const resolvedGames = await Promise.all(gamePromises);
+
+            const validGames = resolvedGames.filter(game => game?.data);
+            setGameList(validGames.map(g => g.data));
+
+            setLoadingGames(false);
+        }
+
+        fetchFavoriteDetails();
+    }, [getUserFavoritesData]);
+
 
     useEffect(() => {
         // checks if gameDetailData is truthy
@@ -57,34 +73,39 @@ function Favorites () {
 
     return(
         <main className={`page-container ${selectedTheme} favorites-page-container`}>
-            <section className={`section-inner-container favorite-games-section-inner-container`}>
-                <span className={"section-title-wrapper"}>
-                    <h2 className={`section-title recommended-title`}>Jouw favorieten</h2>
-                    <span className={"sorting-filter-wrapper state-two"}>
-                                <SortingFilter content={"Sorteer op:"} type={'sorting'}/>
-                                <SortingFilter content={"Filter op:"} type={"filter"}/>
+
+            {!loadingGames && gameList.length <= 0 &&
+                <StatusMessage statusState={true} type={"error"}
+                               content={gameDetailError ? gameDetailError?.message : "Je hebt geen favorieten."}/>
+            }
+
+            {!loadingGames && gameList.length > 0 && <section className={"game-card-wrapper"}>
+                <section className={`section-inner-container favorite-games-section-inner-container`}>
+                    <span className={"section-title-wrapper"}>
+                        <h2 className={`section-title recommended-title`}>Jouw favorieten</h2>
+                        <span className={"sorting-filter-wrapper state-two"}>
+                                    <SortingFilter content={"Sorteer op:"} type={'sorting'}/>
+                                    <SortingFilter content={"Filter op:"} type={"filter"}/>
+                        </span>
+                        <span className={"hidden-item"}></span>
+
                     </span>
-                    <span className={"hidden-item"}></span>
+                    <StatusMessage statusState={loadingGames || gameDetailLoading} type={"loading"} content={"Laden"}/>
 
-                </span>
-                <StatusMessage statusState={loadingGames} type={"loading"} content={"Laden"}/>
-
-                {loadingGames === false && gameList && <section className={"game-card-wrapper"}>
-                        { gameList.map(game => (
-                            <GameCard
-                                key={game?.id}
-                                gameTitle={game?.name}
-                                gameImage={game?.background_image}
-                                gamePlatforms={game?.parent_platforms}
-                                gameId={game?.id}
-                                favorite={false}
-                            />
-                        ))}
-                    </section>
-                }
-
-            {/*  TODO PAGINATION  */}
+                    { gameList.map(game => (
+                        <GameCard
+                            key={game?.id}
+                            gameTitle={game?.name}
+                            gameImage={game?.background_image}
+                            gamePlatforms={game?.parent_platforms}
+                            gameId={game?.id}
+                            favorite={false}
+                        />
+                    ))}
+                </section>
+                {/*  TODO PAGINATION  */}
             </section>
+            }
         </main>
 
     );

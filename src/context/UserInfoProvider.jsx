@@ -12,9 +12,9 @@ function UserInfoProvider ({children}) {
 
     const { authData } = useContext(AuthContext)
 
-    const [ userInfo, setUserInfo ] = useState({
+    const [ userInfoState, setUserInfoState ] = useState({
         userInfoData: null,
-        status: 'pending'
+        status: 'pending',
     })
 
     const { getUserFavorites, data:favoritesData } = useGetUserFavorites();
@@ -24,7 +24,7 @@ function UserInfoProvider ({children}) {
             if (authData?.user) {
                 getUserFavorites(authData?.user?.username, getToken());
             } else {
-                setUserInfo({
+                setUserInfoState({
                     userInfoData: null,
                     status: "done"
                 });
@@ -34,7 +34,7 @@ function UserInfoProvider ({children}) {
 
     useEffect(() => {
         if (favoritesData) {
-            setUserInfo({
+            setUserInfoState({
                 userInfoData: favoritesData,
                 status: "done"
             });
@@ -47,8 +47,13 @@ function UserInfoProvider ({children}) {
         }
     }
 
+    const userInfo = ({
+        ...userInfoState,
+        refreshUserInfo,
+    })
+
     return (
-        <UserInfoContext.Provider value={{userInfo, refreshUserInfo}}>
+        <UserInfoContext.Provider value={{userInfo}}>
             {userInfo.status === `pending`
                 ? <StatusMessage type={"loading"} content={"User info laden "}/>
                 : children

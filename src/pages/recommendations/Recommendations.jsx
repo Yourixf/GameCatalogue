@@ -26,71 +26,72 @@ function Recommendations () {
         handleSortingChange,
         sortingFilters
     } = useGetCurrentGameList()
-    
 
     console.log(userInfo);
 
-    
     return (
         <main className={`page-container ${selectedTheme} recommendations-page-container`}>
-            <div>
-                <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden"}/>
+            <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden"}/>
 
-                <StatusMessage statusState={currentGameListError} type={"error"}
-                               content={currentGameListError ? currentGameListError?.message : "er ging iets fout..."}/>
+            <StatusMessage statusState={currentGameListError} type={"error"}
+                           content={currentGameListError ? currentGameListError?.message : "er ging iets fout..."}/>
 
-                {currentRecommendedGameListData &&
-                    <section className={`section-outer-container trending-games-outer-container`}>
-                        <div className={`section-inner-container trending-games-inner-container`}>
-                            <div className={"section-game-header"}>
-                                <h2 className={`section-title`}>
-                                    Aanbevelingen
-                                </h2>
-                                <span className={"sorting-filter-wrapper state-two"}>
-                                <SortingFilter
-                                    onApplyFilters={handleSortingChange}
-                                    content={"Sorteer op:"}
-                                    type={'sorting'}
-                                    selectedFilters={sortingFilters?.sort}
-                                />
-                                <SortingFilter
-                                    onApplyFilters={handleFilterChange}
-                                    content={"Filter op:"}
-                                    type={"filter"}
-                                    selectedFilters={sortingFilters?.genres}
-                                />
-                            </span>
-                                <span className={"hidden-item"}></span>
-                            </div>
+            {!currentGameListLoading && userInfo?.userInfoData?.favorite_games.length <= 0 &&
+                <StatusMessage statusState={true} type={"error"}
+                               content={currentGameListError ? currentGameListError?.message : "Je hebt geen aanbevelingen."}/>
+            }
 
-                            {currentRecommendedGameListData && <section className={"game-card-wrapper"}>
-                                {currentRecommendedGameListData && currentRecommendedGameListData?.results?.length > 0 && currentRecommendedGameListData?.results?.map(game => (
-                                    <GameCard
-                                        key={game?.id}
-                                        gameTitle={game?.name}
-                                        gameImage={game?.background_image}
-                                        gamePlatforms={game?.parent_platforms}
-                                        gameId={game?.id}
-                                        favorite={checkFavorite(game?.id)}
-                                    />
-
-                                ))}
-                            </section>}
-
-                            <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden"}/>
-
-                            <Pagination
-                                loadNextPage={currentRecommendedGameListData?.next ? () => loadNextPage(currentRecommendedGameListData?.next) : null}
-                                loadPreviousPage={currentRecommendedGameListData?.previous ? () => loadNextPage(currentRecommendedGameListData?.previous) : null}
-                                loadFirstPage={() => loadFirstPage()}
-                                lastPageValue={getLastPageNumber()}
-                                loadLastPage={loadLastPage}
-                                currentPageValue={getCurrentPageNumber()}
+            {currentRecommendedGameListData &&
+                <section className={`section-outer-container recommended-games-outer-container`}>
+                    <div className={`section-inner-container recommended-games-inner-container`}>
+                        <div className={"section-game-header"}>
+                            <h2 className={`section-title`}>
+                                Aanbevelingen
+                            </h2>
+                            <span className={"sorting-filter-wrapper state-two"}>
+                            <SortingFilter
+                                onApplyFilters={handleSortingChange}
+                                content={"Sorteer op:"}
+                                type={'sorting'}
+                                selectedFilters={sortingFilters?.sort}
                             />
+                            <SortingFilter
+                                onApplyFilters={handleFilterChange}
+                                content={"Filter op:"}
+                                type={"filter"}
+                                selectedFilters={sortingFilters?.genres}
+                            />
+                        </span>
+                            <span className={"hidden-item"}></span>
                         </div>
-                    </section>
+
+                        {currentRecommendedGameListData && <section className={"game-card-wrapper"}>
+                            {currentRecommendedGameListData && currentRecommendedGameListData?.results?.length > 0 && currentRecommendedGameListData?.results?.map(game => (
+                                <GameCard
+                                    key={game?.id}
+                                    gameTitle={game?.name}
+                                    gameImage={game?.background_image}
+                                    gamePlatforms={game?.parent_platforms}
+                                    gameId={game?.id}
+                                    favorite={checkFavorite(game?.id)}
+                                />
+
+                            ))}
+                        </section>}
+
+                        <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden"}/>
+
+                        <Pagination
+                            loadNextPage={currentRecommendedGameListData?.next ? () => loadNextPage(currentRecommendedGameListData?.next) : null}
+                            loadPreviousPage={currentRecommendedGameListData?.previous ? () => loadNextPage(currentRecommendedGameListData?.previous) : null}
+                            loadFirstPage={() => loadFirstPage()}
+                            lastPageValue={getLastPageNumber()}
+                            loadLastPage={loadLastPage}
+                            currentPageValue={getCurrentPageNumber()}
+                        />
+                    </div>
+                </section>
                 }
-            </div>
         </main>
     );
     

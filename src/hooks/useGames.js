@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import {AuthContext} from "../context/AuthProvider.jsx";
 import {UserInfoContext} from "../context/UserInfoProvider.jsx";
 import {useApiCall } from "./useApiCall.js";
@@ -17,7 +17,8 @@ export function useGetGameList () {
     async function getGameList (query='', options='') {
         // used fetchData from main api call method, gives required parts as an argument
         const response = await fetchData(
-            `${BASE_URL}/games?${API_KEY}${query && `&search=${query}`}${options && `&${options}`}`,
+            `${BASE_URL}/games?${API_KEY}${query && `&search=${query}`}${options && options !== 'false' ? `&${options}` : ''
+            }`,
             `GET`,
             null,
         );
@@ -75,7 +76,8 @@ export function useGetLastPage () {
 
     async function getLastPage (lastPageNumber, query='', options='') {
         const response = await fetchData(
-            `${BASE_URL}/games?${API_KEY}${options && `&${options}`}&page=${lastPageNumber}${query && `&search=${query}`}`,
+            `${BASE_URL}/games?${API_KEY}${options && options !== 'false' ? `&${options}` : ''
+            }&page=${lastPageNumber}${query && `&search=${query}`}`,
             `GET`,
             null
         );
@@ -90,7 +92,8 @@ export function useGetRecommendedGameList () {
 
     async function getRecommendedGameList (options) {
         const response = await fetchData(
-            `${BASE_URL}/games?${API_KEY}${options && `&${options}`}`,
+            `${BASE_URL}/games?${API_KEY}${options && options !== 'false' ? `&${options}` : ''
+            }`,
             "GET",
             null
         )
@@ -100,7 +103,7 @@ export function useGetRecommendedGameList () {
     return { getRecommendedGameList, data, loading, error }
 }
 
-export function useGetCurrentGameList (query='', options='') {
+export function useGetCurrentGameList (query='') {
     const { authData } = useContext(AuthContext)
     const { userInfo } = useContext(UserInfoContext)
 
@@ -114,6 +117,7 @@ export function useGetCurrentGameList (query='', options='') {
         genres: []
     })
     const [favoriteGenres, setFavoriteGenres ] = useState([]);
+    const [queryState, setQueryState] = useState(query);
 
     const { getGameList, data:gameListData, loading:gameListLoading, error:gameListError } = useGetGameList();
     const { getRecommendedGameList, data:recommendedGameListData, loading:recommendedGameListLoading, error:recommendedGameListError} = useGetRecommendedGameList();
@@ -122,11 +126,19 @@ export function useGetCurrentGameList (query='', options='') {
     const { getLastPage, data:lastPageData, loading:lastPageLoading, error:lastPageError } = useGetLastPage()
     const { getUserFavorites, data:userFavoritesData, loading:userFavoritesLoading, error:userFavoritesError} = useGetUserFavorites();
 
+    const lastFavRef = useRef(null);
 
     useEffect(() => {
-        getGameList(query, options)
-        authData.user && getUserFavorites(getTokenUsername(getToken()), getToken())
-    }, [query])
+        getGameList(queryState, getOptionFilters(sortingFilters));
+
+        if (authData.user) {
+            const token = getToken();
+            const username = getTokenUsername(token);
+            getUserFavorites(username, token);
+        }
+    }, [authData.user, queryState, sortingFilters]);
+
+
 
     // for the data state
     useEffect(() => {
@@ -155,10 +167,16 @@ export function useGetCurrentGameList (query='', options='') {
     }, [sortingFilters])
 
     useEffect(() => {
-        if (userInfo && userFavoritesData) {
-            getFavoriteGenresGames()
+        const currentFavorites = userInfo?.userInfoData?.favorite_games;
+
+        const isChanged = JSON.stringify(currentFavorites) !== lastFavRef.current;
+
+        if (isChanged && currentFavorites) {
+            lastFavRef.current = JSON.stringify(currentFavorites);
+            getFavoriteGenresGames();
         }
-    }, [userFavoritesData, userInfo])
+
+    }, [userInfo?.userInfoData?.favorite_games]);
 
 
     // for the loading state
@@ -272,13 +290,13 @@ export function useGetCurrentGameList (query='', options='') {
         return currentPage
     }
 
-    function checkFavorite (gameId) {
-        if (authData.user){
-            return !!userFavoritesData?.favorite_games?.includes(Number(gameId))
-        } else {
-            return false
-        }
+    function checkFavorite(gameId) {
+        if (!authData.user || !userFavoritesData?.favorite_games) return false;
+
+        return Object.values(userFavoritesData.favorite_games)
+            .some(genreList => genreList.includes(Number(gameId)));
     }
+
 
     // for the sort and filter options
     function handleSortingChange(newSort) {
@@ -318,34 +336,17 @@ export function useGetCurrentGameList (query='', options='') {
     }
 
     async function getFavoriteGenresGames() {
-        const favoriteIds = userInfo?.userInfoData?.favorite_games || [];
+        const genreObj = userInfo?.userInfoData?.favorite_games || {};
+        const allGenres = Object.keys(genreObj);
 
-        // makes api calls for all favorites, using new Promise.all code for efficiency
-        const detailsPromises = favoriteIds.map(id => getGameDetails(id));
-        const gameDetailsArray = await Promise.all(detailsPromises);
-
-        // loops through game array and ads genres to new array
-        let allGenres = [];
-        gameDetailsArray.forEach(game => {
-            if (game?.data?.genres) {
-                const genreSlugs = game.data.genres.map(genre => genre.slug);
-                allGenres.push(...genreSlugs);
-            }
-        });
-
-        // using the Set datastructures to get rid of duplicate genres
-        const uniqueGenres = [...new Set(allGenres)];
-        console.warn(uniqueGenres)
-
-        let formattedGenreList;
-
-        if (uniqueGenres?.length > 0) {
-            formattedGenreList = `genres=${uniqueGenres}`
+        if (allGenres.length === 0) {
+            setFavoriteGenres(null);
+            return;
         }
-        console.warn(formattedGenreList)
-        setFavoriteGenres(formattedGenreList)
 
-        await getRecommendedGameList(formattedGenreList)
+        const formattedGenreList = `genres=${allGenres.join(',')}`;
+        setFavoriteGenres(formattedGenreList);
+        await getRecommendedGameList(formattedGenreList);
     }
 
     return {

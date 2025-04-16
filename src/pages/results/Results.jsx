@@ -1,4 +1,4 @@
-import {useContext, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
 import {useGetCurrentGameList, } from "../../hooks/useGames.js";
@@ -14,6 +14,10 @@ function Results () {
 
     let {query} = useParams();
 
+    useEffect(() => {
+        setQuery(query);
+    }, [query]);
+
     const {
         currentGameListData,
         currentGameListLoading,
@@ -26,6 +30,7 @@ function Results () {
         checkFavorite,
         handleFilterChange,
         handleSortingChange,
+        setQuery,
         sortingFilters
     } = useGetCurrentGameList(query)
 
