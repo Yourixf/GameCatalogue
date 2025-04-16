@@ -11,7 +11,7 @@ export function useApiCall () {
         setLoading(true);
         setError(null);
         setData(null)
-        console.log(`🚀 Fetching from: ${url}`);
+        console.log(`Fetching from: ${url}`);
 
         try {
             const isFormData = body instanceof FormData;

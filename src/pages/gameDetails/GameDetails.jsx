@@ -2,6 +2,7 @@ import {useParams} from "react-router-dom";
 import  {useContext, useEffect, useState} from "react";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
 import {AuthContext} from "../../context/AuthProvider.jsx";
+import {UserInfoContext} from "../../context/UserInfoProvider.jsx";
 import {useGetGameDetails, useGetGameScreenshots} from "../../hooks/useGames.js";
 import {useGetUserFavorites, useUpdateUserInfo} from "../../hooks/useUser.js";
 import {getToken, getTokenUsername} from "../../helpers/auth.js";
@@ -15,6 +16,8 @@ import './GameDetails.css'
 function GameDetails () {
     const { selectedTheme } = useContext(ThemeContext)
     const { authData } = useContext(AuthContext)
+    const { userInfo } = useContext(UserInfoContext)
+
 
     const [mainGamePicture, setMainGamePicture] = useState();
     const [descriptionView, setDesccriptionView] = useState(false);
@@ -100,6 +103,7 @@ function GameDetails () {
         console.log("formData:", formData);
 
         await updateUserInfo(formData, currentToken, tokenUsername);
+        userInfo.refreshUserInfo();
     }
 
     function checkFavorite () {

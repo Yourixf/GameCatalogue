@@ -74,7 +74,7 @@ function Favorites () {
     return(
         <main className={`page-container ${selectedTheme} favorites-page-container`}>
 
-            {!loadingGames && gameList.length <= 0 &&
+            {!loadingGames && gameList.length <= 0 && [...new Set(Object.values(userInfo.userInfoData?.favorite_games || {}).flat())].length === 0 &&
                 <StatusMessage statusState={true} type={"error"}
                                content={gameDetailError ? gameDetailError?.message : "Je hebt geen favorieten."}/>
             }

@@ -119,12 +119,41 @@ export function useGetCurrentGameList (query='') {
     const [favoriteGenres, setFavoriteGenres ] = useState([]);
     const [queryState, setQueryState] = useState(query);
 
-    const { getGameList, data:gameListData, loading:gameListLoading, error:gameListError } = useGetGameList();
-    const { getRecommendedGameList, data:recommendedGameListData, loading:recommendedGameListLoading, error:recommendedGameListError} = useGetRecommendedGameList();
-    const { getGameDetails, data:gameDetailData, loading:gameDetailLoading, error:gameDetailError } = useGetGameDetails()
-    const { getNextPreviousPage, data:nextPreviousPageData, loading:nextPreviousPageLoading, error:nextPreviousPageError } = useGetNextPreviousPage()
-    const { getLastPage, data:lastPageData, loading:lastPageLoading, error:lastPageError } = useGetLastPage()
-    const { getUserFavorites, data:userFavoritesData, loading:userFavoritesLoading, error:userFavoritesError} = useGetUserFavorites();
+    const {
+        getGameList,
+        data:gameListData,
+        loading:gameListLoading,
+        error:gameListError } = useGetGameList();
+
+    const {
+        getRecommendedGameList,
+        data:recommendedGameListData,
+        loading:recommendedGameListLoading,
+        error:recommendedGameListError} = useGetRecommendedGameList();
+
+    const {
+        getGameDetails,
+        data:gameDetailData,
+        loading:gameDetailLoading,
+        error:gameDetailError } = useGetGameDetails()
+
+    const {
+        getNextPreviousPage,
+        data:nextPreviousPageData,
+        loading:nextPreviousPageLoading,
+        error:nextPreviousPageError } = useGetNextPreviousPage()
+
+    const {
+        getLastPage,
+        data:lastPageData,
+        loading:lastPageLoading,
+        error:lastPageError } = useGetLastPage()
+
+    const {
+        getUserFavorites,
+        data:userFavoritesData,
+        loading:userFavoritesLoading,
+        error:userFavoritesError} = useGetUserFavorites();
 
     const lastFavRef = useRef(null);
 
@@ -175,7 +204,6 @@ export function useGetCurrentGameList (query='') {
             lastFavRef.current = JSON.stringify(currentFavorites);
             getFavoriteGenresGames();
         }
-
     }, [userInfo?.userInfoData?.favorite_games]);
 
 
@@ -233,8 +261,12 @@ export function useGetCurrentGameList (query='') {
     }, [recommendedGameListError])
 
     // for the pagination
-    function loadNextPage (url) {
-        getNextPreviousPage(url)
+    function loadNextPage (url, type = "main") {
+        if (type === "main") {
+            getNextPreviousPage(url)
+        } else if (type === "recommended") {
+            // WIP
+        }
     }
 
     function loadFirstPage (query='',) {

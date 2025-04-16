@@ -36,7 +36,9 @@ function Recommendations () {
             <StatusMessage statusState={currentGameListError} type={"error"}
                            content={currentGameListError ? currentGameListError?.message : "er ging iets fout..."}/>
 
-            {!currentGameListLoading && userInfo?.userInfoData?.favorite_games.length <= 0 &&
+            {!currentGameListLoading &&
+                [...new Set(Object.values(userInfo.userInfoData?.favorite_games || {}).flat())].length === 0
+                &&
                 <StatusMessage statusState={true} type={"error"}
                                content={currentGameListError ? currentGameListError?.message : "Je hebt geen aanbevelingen."}/>
             }
@@ -55,12 +57,7 @@ function Recommendations () {
                                 type={'sorting'}
                                 selectedFilters={sortingFilters?.sort}
                             />
-                            <SortingFilter
-                                onApplyFilters={handleFilterChange}
-                                content={"Filter op:"}
-                                type={"filter"}
-                                selectedFilters={sortingFilters?.genres}
-                            />
+
                         </span>
                             <span className={"hidden-item"}></span>
                         </div>
