@@ -29,6 +29,7 @@ function Recommendations () {
 
     console.log(userInfo);
 
+    //TODO FIX FIRST LOADING STATE PLACEMENT
     return (
         <main className={`page-container ${selectedTheme} recommendations-page-container`}>
             <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden"}/>
@@ -79,12 +80,12 @@ function Recommendations () {
                         <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden"}/>
 
                         <Pagination
-                            loadNextPage={currentRecommendedGameListData?.next ? () => loadNextPage(currentRecommendedGameListData?.next) : null}
-                            loadPreviousPage={currentRecommendedGameListData?.previous ? () => loadNextPage(currentRecommendedGameListData?.previous) : null}
+                            loadNextPage={currentRecommendedGameListData?.next ? () => loadNextPage(currentRecommendedGameListData?.next, "recommended") : null}
+                            loadPreviousPage={currentRecommendedGameListData?.previous ? () => loadNextPage(currentRecommendedGameListData?.previous, "recommended") : null}
                             loadFirstPage={() => loadFirstPage()}
-                            lastPageValue={getLastPageNumber()}
-                            loadLastPage={loadLastPage}
-                            currentPageValue={getCurrentPageNumber()}
+                            lastPageValue={getLastPageNumber("recommended")}
+                            loadLastPage={() => loadLastPage("recommended")}
+                            currentPageValue={getCurrentPageNumber("recommended")}
                         />
                     </div>
                 </section>

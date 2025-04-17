@@ -81,7 +81,7 @@ export function useGetLastPage () {
             `GET`,
             null
         );
-        // console.warn(options)
+        console.warn(options)
         return response
     };
     return { getLastPage, data, loading, error}
@@ -116,8 +116,10 @@ export function useGetCurrentGameList (query='') {
         sort: '',
         genres: []
     })
-    const [favoriteGenres, setFavoriteGenres ] = useState([]);
+    const [favoriteGenres, setFavoriteGenres ] = useState();
     const [queryState, setQueryState] = useState(query);
+
+    const gameListType = useRef("main");
 
     const {
         getGameList,
@@ -178,12 +180,24 @@ export function useGetCurrentGameList (query='') {
 
     useEffect(() => {
         // console.log(nextPreviousPageData)
-        setCurrentGameListData(nextPreviousPageData)
+        if (!nextPreviousPageData) return
+
+        if (gameListType.current === "recommended") {
+            setCurrentRecommendedGameListData(nextPreviousPageData)
+        } else {
+            setCurrentGameListData(nextPreviousPageData)
+        }
     }, [nextPreviousPageData])
 
     useEffect(() => {
         // console.log(lastPageData)
-        setCurrentGameListData(lastPageData)
+        if (!lastPageData) return
+
+        if (gameListType.current === "recommended") {
+            setCurrentRecommendedGameListData(lastPageData)
+        } else {
+            setCurrentGameListData(lastPageData)
+        }
     }, [lastPageData])
 
     useEffect(() => {
@@ -262,23 +276,33 @@ export function useGetCurrentGameList (query='') {
 
     // for the pagination
     function loadNextPage (url, type = "main") {
-        if (type === "main") {
-            getNextPreviousPage(url)
-        } else if (type === "recommended") {
-            // WIP
+        gameListType.current = type;
+
+        getNextPreviousPage(url)
+    }
+
+    function loadFirstPage (query='', type = "main") {
+        gameListType.current = type;
+
+        if (gameListType.current === "main") {
+            getGameList(query, getOptionFilters(sortingFilters))
+        } else if (gameListType.current === "recommended") {
+            getRecommendedGameList(sortingFilters) // NOT FULLY DONE, SORTINGFILTER DEPENDANCY
         }
     }
 
-    function loadFirstPage (query='',) {
-        getGameList(query, getOptionFilters(sortingFilters))
-    }
-
-    function getLastPageNumber () {
+    function getLastPageNumber (type = "main") {
         // there is an hard limit for max pages from the API itself, which is 500
         // this only happens with api request contains custom arguments
+        gameListType.current = type;
+        let pageMaxNumber;
 
-        const pageMaxNumber = Math.floor(currentGameListData.count / 20);
+        if (gameListType.current === "main"){
+            pageMaxNumber = Math.floor(currentGameListData.count / 20);
+        } else  if (gameListType.current === "recommended") {
+            pageMaxNumber = Math.floor(currentRecommendedGameListData.count / 20);
 
+        }
         // this makes sure the user can't accidentally get an 404 error due to the max page restraints
         if (query || getOptionFilters(sortingFilters)) {
             if (pageMaxNumber > 500){
@@ -291,19 +315,40 @@ export function useGetCurrentGameList (query='') {
         }
     }
 
-    function loadLastPage () {
+    function loadLastPage (type = "main") {
+        gameListType.current = type;
+        console.warn(gameListType.current)
         const lastPageNumber = getLastPageNumber()
-        getLastPage(lastPageNumber, query, getOptionFilters(sortingFilters))
+        // TEST QUERY EMPTYNESS
+        if (gameListType.current === "main") {
+            getLastPage(lastPageNumber, query, getOptionFilters(sortingFilters))
+        } else if (gameListType.current === "recommended") {
+            console.warn(favoriteGenres)
+            getLastPage(lastPageNumber, null, favoriteGenres)
+        }
     }
 
     // method that check what the current page number is from the response info
-    function getCurrentPageNumber () {
+    function getCurrentPageNumber (type = "main") {
+        gameListType.current = type;
+
         let currentPage = ""
+        let gameListDataLocal;
+
+        // sets appropriate dataset
+        if (gameListType.current === "main") {
+            gameListDataLocal = currentGameListData;
+            console.log("currentGameListData DATA" , currentGameListData)
+        } else if (gameListType.current === "recommended") {
+            gameListDataLocal = currentRecommendedGameListData
+            console.log("currentRecommendedGameListData DATA" , currentRecommendedGameListData)
+
+        }
 
         // checks response for the next data
-        if (currentGameListData?.next) {
+        if (gameListDataLocal?.next) {
             // separates the URL by & char, checks for the page= part of the URL
-            const nextPageUrl = currentGameListData?.next?.split("&")
+            const nextPageUrl = gameListDataLocal?.next?.split("&")
             const hasPage = nextPageUrl.find(param => param.startsWith("page="))
 
             if (hasPage) {
@@ -313,9 +358,9 @@ export function useGetCurrentGameList (query='') {
                 currentPage = nextPageUrl[1]?.split("=")[1] - 1
             }
         // if there isn't an next in the url, checks for a previous in the data
-        } else if (currentGameListData?.previous) {
-            //
-            const previousPageUrl = currentGameListData?.previous?.split("&")
+        } else if (gameListDataLocal?.previous) {
+            // splits url and gets current page number
+            const previousPageUrl = gameListDataLocal?.previous?.split("&")
             currentPage = previousPageUrl[1]?.split("=")[1]
         }
         // console.log(currentPage)
@@ -367,7 +412,7 @@ export function useGetCurrentGameList (query='') {
         getGameList(query, sortingFilterList)
     }
 
-    async function getFavoriteGenresGames() {
+    function setFavoriteGameGenres () {
         const genreObj = userInfo?.userInfoData?.favorite_games || {};
         const allGenres = Object.keys(genreObj);
 
@@ -378,6 +423,22 @@ export function useGetCurrentGameList (query='') {
 
         const formattedGenreList = `genres=${allGenres.join(',')}`;
         setFavoriteGenres(formattedGenreList);
+    }
+
+    async function getFavoriteGenresGames() {
+        const genreObj = userInfo?.userInfoData?.favorite_games || {};
+        const allGenres = Object.keys(genreObj);
+
+        if (allGenres.length === 0) {
+            setFavoriteGenres(null);
+            return;
+        }
+
+        const formattedGenreList = `genres=${allGenres.join(',')}`;
+        setFavoriteGenres(`${formattedGenreList}`);
+
+        console.warn("FAVORITE GENRE: " , favoriteGenres)
+        console.warn("formatted FAVORITE GENRE: " , formattedGenreList)
         await getRecommendedGameList(formattedGenreList);
     }
 
