@@ -2,7 +2,7 @@ import {useContext} from "react";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
 import'./Pagination.css';
 
-function Pagination ({loadNextPage=null, loadPreviousPage=null, loadFirstPage=null, lastPageValue='x', loadLastPage=null, currentPageValue=null}) {
+function Pagination ({loadNextPage=null, loadPreviousPage=null, loadFirstPage=null, lastPageValue='x', loadLastPage=null, currentPageValue=null, listType}) {
     const { selectedTheme } = useContext(ThemeContext)
 
     return (
@@ -11,10 +11,10 @@ function Pagination ({loadNextPage=null, loadPreviousPage=null, loadFirstPage=nu
                 {loadPreviousPage && <li onClick={loadPreviousPage} className={`pagination-previous-next`}>vorige</li>}
 
                 {currentPageValue && currentPageValue === 1 ?
-                    <li onClick={loadFirstPage} className={`pagination-pages first-page current-page`}>1</li>
+                    <li onClick={() => loadFirstPage()} className={`pagination-pages first-page current-page`}>1</li>
                     :
                     [
-                        <li key={1} onClick={loadFirstPage} className={`pagination-pages first-page`}>1</li>,
+                        <li key={1} onClick={() => loadFirstPage()} className={`pagination-pages first-page`}>1</li>,
                         [currentPageValue -1 === 1 ?
                             null : <li key={3} className={`pagination-pages other-pages`}>...</li>
                         ]
@@ -31,7 +31,7 @@ function Pagination ({loadNextPage=null, loadPreviousPage=null, loadFirstPage=nu
 
                         ]
                         ,
-                        <li key={4} onClick={loadLastPage} className={`pagination-pages last-page`}>{lastPageValue}</li>
+                        <li key={4} onClick={() => loadLastPage(listType)} className={`pagination-pages last-page`}>{lastPageValue}</li>
                     ]
                 }
 

@@ -21,7 +21,7 @@ function GameCard ({className="", gameTitle="", gameImage="", gamePlatforms="", 
                 {favorite && <span className={"game-text-label"}>favoriet</span>}
                 <img className={"game-image"} src={gameImage} alt="game-image"/>
             </figure>
-            <div className={`game-card-title`}>{gameTitle}</div>
+            <p className={`game-card-title`}>{gameTitle}</p>
             {gamePlatforms && <GamePlatformIcons platforms={gamePlatforms} />}
         </article>
     )

@@ -134,7 +134,7 @@ function Home () {
                             loadPreviousPage={currentGameListData?.previous ? () => loadNextPage(currentGameListData?.previous) : null}
                             loadFirstPage={() => loadFirstPage()}
                             lastPageValue={getLastPageNumber()}
-                            loadLastPage={loadLastPage}
+                            loadLastPage={() => loadLastPage()}
                             currentPageValue={getCurrentPageNumber()}
                         />
                     </div>

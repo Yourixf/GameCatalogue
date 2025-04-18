@@ -22,7 +22,6 @@ function Recommendations () {
         loadLastPage,
         getCurrentPageNumber,
         checkFavorite,
-        handleFilterChange,
         handleSortingChange,
         sortingFilters
     } = useGetCurrentGameList()
@@ -57,6 +56,7 @@ function Recommendations () {
                                 content={"Sorteer op:"}
                                 type={'sorting'}
                                 selectedFilters={sortingFilters?.sort}
+                                listType={"recommended"}
                             />
 
                         </span>
@@ -82,7 +82,7 @@ function Recommendations () {
                         <Pagination
                             loadNextPage={currentRecommendedGameListData?.next ? () => loadNextPage(currentRecommendedGameListData?.next, "recommended") : null}
                             loadPreviousPage={currentRecommendedGameListData?.previous ? () => loadNextPage(currentRecommendedGameListData?.previous, "recommended") : null}
-                            loadFirstPage={() => loadFirstPage()}
+                            loadFirstPage={() => loadFirstPage(null, "recommended")}
                             lastPageValue={getLastPageNumber("recommended")}
                             loadLastPage={() => loadLastPage("recommended")}
                             currentPageValue={getCurrentPageNumber("recommended")}

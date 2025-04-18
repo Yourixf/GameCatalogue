@@ -17,7 +17,7 @@ export function useGetGameList () {
     async function getGameList (query='', options='') {
         // used fetchData from main api call method, gives required parts as an argument
         const response = await fetchData(
-            `${BASE_URL}/games?${API_KEY}${query && `&search=${query}`}${options && options !== 'false' ? `&${options}` : ''
+            `${BASE_URL}/games?${API_KEY}${query !== null || undefined ? `&search=${query}` : ``}${options && options !== 'false' ? `&${options}` : ''
             }`,
             `GET`,
             null,
@@ -78,7 +78,7 @@ export function useGetLastPage () {
         console.warn("usegetlastpage option", options)
         const response = await fetchData(
             `${BASE_URL}/games?${API_KEY}${options && options !== 'false' ? `&${options}` : ''
-            }&page=${lastPageNumber}${query && `&search=${query}`}`,
+            }&page=${lastPageNumber}${query !== null || undefined ? `&search=${query}` : ``}`,
             `GET`,
             null
         );
@@ -160,7 +160,11 @@ export function useGetCurrentGameList (query='') {
     const lastFavRef = useRef(null);
 
     useEffect(() => {
-        getGameList(queryState, getOptionFilters(sortingFilters));
+        if (gameListType.current === "main"){
+            getGameList(queryState, getOptionFilters(sortingFilters));
+        } else if (gameListType.current === "recommended") {
+            getRecommendedGameList(`${getOptionFilters()}${getFavoriteGameGenres()}`)
+        }
 
         if (authData.user) {
             const token = getToken();
@@ -206,7 +210,7 @@ export function useGetCurrentGameList (query='') {
     }, [recommendedGameListData])
 
     useEffect(() => {
-        applySortingFilters(sortingFilters)
+        applySortingFilters(sortingFilters, gameListType.current)
     }, [sortingFilters])
 
     useEffect(() => {
@@ -287,7 +291,7 @@ export function useGetCurrentGameList (query='') {
         if (gameListType.current === "main") {
             getGameList(query, getOptionFilters(sortingFilters))
         } else if (gameListType.current === "recommended") {
-            getRecommendedGameList(sortingFilters) // NOT FULLY DONE, SORTINGFILTER DEPENDANCY
+            getRecommendedGameList(getFavoriteGameGenres())
         }
     }
 
@@ -318,13 +322,22 @@ export function useGetCurrentGameList (query='') {
     function loadLastPage (type = "main") {
         gameListType.current = type;
         console.warn(gameListType.current)
-        const lastPageNumber = getLastPageNumber()
+        let lastPageNumber;
         // TEST QUERY EMPTYNESS
+
         if (gameListType.current === "main") {
+            lastPageNumber = getLastPageNumber()
             getLastPage(lastPageNumber, query, getOptionFilters(sortingFilters))
         } else if (gameListType.current === "recommended") {
-            console.warn(() => getFavoriteGenresGames())
-            getLastPage(lastPageNumber, null, getFavoriteGenresGames())
+            lastPageNumber = getLastPageNumber("recommended")
+            console.warn(() => getFavoriteGameGenres())
+
+            const test = getFavoriteGameGenres()
+            console.warn("TEST V1 JA JONGUH", test)
+
+            const test1 = () => getFavoriteGameGenres()
+            console.warn("TEST V1 JA JONGUH", test1)
+            getLastPage(lastPageNumber, null,  getFavoriteGameGenres())
         }
     }
 
@@ -342,7 +355,6 @@ export function useGetCurrentGameList (query='') {
         } else if (gameListType.current === "recommended") {
             gameListDataLocal = currentRecommendedGameListData
             console.log("currentRecommendedGameListData DATA" , currentRecommendedGameListData)
-
         }
 
         // checks response for the next data
@@ -376,7 +388,9 @@ export function useGetCurrentGameList (query='') {
 
 
     // for the sort and filter options
-    function handleSortingChange(newSort) {
+    function handleSortingChange(newSort, type= "main") {
+        gameListType.current = type;
+        console.warn(type)
         setSortingFilters(prevFilters => ({ ...prevFilters, sort: newSort }));
     }
 
@@ -394,34 +408,56 @@ export function useGetCurrentGameList (query='') {
         }
 
         // check is the option object genre has a value, truthy: adds to sortingFilterList
-        if (options?.genres){
-            options?.genres?.map(genre => (
-                genreList?.push(`${genre}`)
-            ))
+        if (options?.genres?.length > 0) {
+            const joinedGenres = options.genres.join('&');
+            sortingFilterList += sortingFilterList
+                ? `&genres=${joinedGenres}`
+                : `genres=${joinedGenres}`;
         }
 
-        if (genreList?.length > 0) {
-            sortingFilterList = `${sortingFilterList}&genres=${genreList}`
-        }
         return sortingFilterList;
     }
+    function applySortingFilters(options, type = "main") {
+        gameListType.current = type;
 
-    function applySortingFilters (options) {
-        const sortingFilterList = getOptionFilters(options)
+        let query = type === "main" ? queryState : null;
 
-        getGameList(query, sortingFilterList)
+        let orderingPart = '';
+        if (options?.sort) {
+            orderingPart = `ordering=${options.sort}`;
+        }
+
+        let genresPart = '';
+        if (type === "recommended") {
+            const favGenres = getFavoriteGameGenres();
+            if (favGenres) genresPart = favGenres;
+        } else if (type === "main" && options?.genres?.length > 0) {
+            genresPart = `genres=${options.genres.join('&')}`;
+        }
+
+        let fullOptions = [orderingPart, genresPart].filter(Boolean).join('&');
+
+        console.warn("type", type)
+        console.warn("fullOptions", fullOptions)
+
+        if (type === "recommended") {
+            getRecommendedGameList(fullOptions);
+        } else {
+            console.log(query)
+            getGameList(query, fullOptions);
+        }
     }
+
 
     function getFavoriteGameGenres () {
         const genreObj = userInfo?.userInfoData?.favorite_games || {};
         const allGenres = Object.keys(genreObj);
 
         if (allGenres.length === 0) {
-            setFavoriteGenres(null);
-            return;
+            return null
         }
 
-        const formattedGenreList = `genres=${allGenres.join(',')}`;
+        const formattedGenreList = `genres=${allGenres.join('&')}`;
         return formattedGenreList;
     }
 
@@ -443,5 +479,6 @@ export function useGetCurrentGameList (query='') {
         handleFilterChange,
         handleSortingChange,
         sortingFilters,
+        setQueryState,
     }
 }

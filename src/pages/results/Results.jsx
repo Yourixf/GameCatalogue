@@ -6,7 +6,6 @@ import GameCard from "../../components/gameCard/GameCard.jsx";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 import SortingFilter from "../../components/sortingFilter/SortingFilter.jsx";
 import Pagination from "../../components/pagination/Pagination.jsx";
-import Button from "../../components/button/Button.jsx";
 import './Results.css';
 
 function Results () {
@@ -15,7 +14,7 @@ function Results () {
     let {query} = useParams();
 
     useEffect(() => {
-        setQuery(query);
+        setQueryState(query);
     }, [query]);
 
     const {
@@ -30,7 +29,7 @@ function Results () {
         checkFavorite,
         handleFilterChange,
         handleSortingChange,
-        setQuery,
+        setQueryState,
         sortingFilters
     } = useGetCurrentGameList(query)
 
@@ -94,6 +93,7 @@ function Results () {
                             lastPageValue={getLastPageNumber()}
                             loadLastPage={loadLastPage}
                             currentPageValue={getCurrentPageNumber()}
+                            listType={"main"}
                             />
                             :
                             null
