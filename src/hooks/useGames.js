@@ -221,7 +221,7 @@ export function useGetCurrentGameList (query='') {
 
         const isChanged = JSON.stringify(currentFavorites) !== lastFavRef.current;
 
-        if (isChanged && currentFavorites) {
+        if (isChanged && currentFavorites && Object.keys(currentFavorites).length > 0) {
             lastFavRef.current = JSON.stringify(currentFavorites);
             getFavoriteGenresGames();
         }
@@ -469,6 +469,13 @@ export function useGetCurrentGameList (query='') {
     }
 
     async function getFavoriteGenresGames() {
+        const genreData = getFavoriteGameGenres()
+
+        if (!genreData) {
+            console.warn("Geen fav genres")
+            return
+        }
+
         await getRecommendedGameList(getFavoriteGameGenres());
     }
 
