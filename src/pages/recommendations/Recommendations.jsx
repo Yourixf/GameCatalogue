@@ -4,9 +4,9 @@ import {UserInfoContext} from "../../context/UserInfoProvider.jsx";
 import {useGetCurrentGameList} from "../../hooks/useGames.js";
 import GameCard from "../../components/gameCard/GameCard.jsx";
 import StatusMessage from '../../components/statusMessage/StatusMessage.jsx';
-import './Recommendations.css';
 import SortingFilter from "../../components/sortingFilter/SortingFilter.jsx";
 import Pagination from "../../components/pagination/Pagination.jsx";
+import './Recommendations.css';
 
 function Recommendations () {
     const { selectedTheme } = useContext(ThemeContext)
@@ -43,7 +43,7 @@ function Recommendations () {
                                content={currentGameListError ? currentGameListError?.message : "Je hebt geen aanbevelingen."}/>
             }
 
-            {currentRecommendedGameListData &&
+            {currentRecommendedGameListData && !currentGameListError &&
                 <section className={`section-outer-container recommended-games-outer-container`}>
                     <div className={`section-inner-container recommended-games-inner-container`}>
                         <div className={"section-game-header"}>
@@ -86,13 +86,13 @@ function Recommendations () {
                             lastPageValue={getLastPageNumber("recommended")}
                             loadLastPage={() => loadLastPage("recommended")}
                             currentPageValue={getCurrentPageNumber("recommended")}
+                            listType={"recommended"}
                         />
                     </div>
                 </section>
                 }
         </main>
     );
-    
 }
 
 export default Recommendations;

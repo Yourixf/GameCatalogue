@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from 'react';
+import {useContext, useEffect} from 'react';
 import {useParams} from "react-router-dom";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
 import {useGetCurrentGameList, } from "../../hooks/useGames.js";
@@ -90,17 +90,14 @@ function Results () {
                             loadNextPage={currentGameListData?.next ? () => loadNextPage(currentGameListData?.next): null}
                             loadPreviousPage={currentGameListData?.previous ? () => loadNextPage(currentGameListData?.previous): null}
                             loadFirstPage={() => loadFirstPage(query)}
-                            lastPageValue={getLastPageNumber()}
-                            loadLastPage={loadLastPage}
-                            currentPageValue={getCurrentPageNumber()}
+                            lastPageValue={getLastPageNumber("main")}
+                            loadLastPage={() => loadLastPage("main")}
+                            currentPageValue={getCurrentPageNumber("main")}
                             listType={"main"}
                             />
                             :
                             null
                         }
-
-
-
                     </div>
                 </section>
             }

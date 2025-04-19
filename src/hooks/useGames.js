@@ -17,12 +17,14 @@ export function useGetGameList () {
     async function getGameList (query='', options='') {
         // used fetchData from main api call method, gives required parts as an argument
         const response = await fetchData(
-            `${BASE_URL}/games?${API_KEY}${query !== null || undefined ? `&search=${query}` : ``}${options && options !== 'false' ? `&${options}` : ''
+            `${BASE_URL}/games?${API_KEY}${query ? `&search=${query}` : ``}${options && options !== 'false' ? `&${options}` : ''
             }`,
             `GET`,
             null,
         );
-        // console.warn(options)
+
+        console.warn("OPTIONS", options)
+        console.warn("QUERY", query)
         return response;
     };
     // returns info for state management
@@ -78,7 +80,7 @@ export function useGetLastPage () {
         console.warn("usegetlastpage option", options)
         const response = await fetchData(
             `${BASE_URL}/games?${API_KEY}${options && options !== 'false' ? `&${options}` : ''
-            }&page=${lastPageNumber}${query !== null || undefined ? `&search=${query}` : ``}`,
+            }&page=${lastPageNumber}${query ? `&search=${query}` : ``}`,
             `GET`,
             null
         );
@@ -175,9 +177,10 @@ export function useGetCurrentGameList (query='') {
 
     // for the data state
     useEffect(() => {
-        if (gameListData)
+        if (gameListData){
             // console.log(gameListData);
             setCurrentGameListData(gameListData)
+        }
     }, [gameListData, userFavoritesData, sortingFilters]);
 
     useEffect(() => {
@@ -308,7 +311,7 @@ export function useGetCurrentGameList (query='') {
 
         }
         // this makes sure the user can't accidentally get an 404 error due to the max page restraints
-        if (query || getOptionFilters(sortingFilters) || getFavoriteGameGenres() ) {
+        if (query || getOptionFilters(sortingFilters) || gameListType.current === "recommended" ) {
             if (pageMaxNumber > 500){
                 return 500
             } else {
@@ -375,7 +378,7 @@ export function useGetCurrentGameList (query='') {
             const previousPageUrl = gameListDataLocal?.previous?.split("&")
             currentPage = previousPageUrl[1]?.split("=")[1]
         }
-        // console.log(currentPage)
+        console.log(currentPage)
         return currentPage
     }
 
@@ -408,15 +411,19 @@ export function useGetCurrentGameList (query='') {
         }
 
         // check is the option object genre has a value, truthy: adds to sortingFilterList
-        if (options?.genres?.length > 0) {
-            const joinedGenres = options.genres.join('&');
-            sortingFilterList += sortingFilterList
-                ? `&genres=${joinedGenres}`
-                : `genres=${joinedGenres}`;
+        if (options?.genres){
+            options?.genres?.map(genre => (
+                genreList?.push(`${genre}`)
+            ))
         }
 
+        // formats the genrelist
+        if (genreList?.length > 0) {
+            sortingFilterList = `${sortingFilterList}&genres=${genreList.join(',')}`
+        }
         return sortingFilterList;
     }
+
     function applySortingFilters(options, type = "main") {
         gameListType.current = type;
 
@@ -432,7 +439,7 @@ export function useGetCurrentGameList (query='') {
             const favGenres = getFavoriteGameGenres();
             if (favGenres) genresPart = favGenres;
         } else if (type === "main" && options?.genres?.length > 0) {
-            genresPart = `genres=${options.genres.join('&')}`;
+            genresPart = `genres=${options.genres.join(',')}`;
         }
 
         let fullOptions = [orderingPart, genresPart].filter(Boolean).join('&');
@@ -457,7 +464,7 @@ export function useGetCurrentGameList (query='') {
             return null
         }
 
-        const formattedGenreList = `genres=${allGenres.join('&')}`;
+        const formattedGenreList = `genres=${allGenres.join(',')}`;
         return formattedGenreList;
     }
 

@@ -24,6 +24,10 @@ function SortingFilter ({className="", type='sorting', content, onApplyFilters, 
     const sortingOptions = [
         { value: "name", label: "Alphabetisch" },
         { value: "released", label: "Release Datum" },
+        { value: "created", label: "Gemaakt Datum" },
+        { value: "updated", label: "Update Datum" },
+        { value: "rating", label: "Rating" },
+        { value: "metacritic", label: "Metacritic" },
     ];
 
     const filterOptions = [
