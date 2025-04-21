@@ -23,8 +23,6 @@ export function useGetGameList () {
             null,
         );
 
-        console.warn("OPTIONS", options)
-        console.warn("QUERY", query)
         return response;
     };
     // returns info for state management
@@ -84,7 +82,6 @@ export function useGetLastPage () {
             `GET`,
             null
         );
-        console.warn(options)
         return response
     };
     return { getLastPage, data, loading, error}
@@ -100,7 +97,6 @@ export function useGetRecommendedGameList () {
             "GET",
             null
         )
-        console.warn(response)
         return response
     }
     return { getRecommendedGameList, data, loading, error }
@@ -134,12 +130,6 @@ export function useGetCurrentGameList (query='') {
         data:recommendedGameListData,
         loading:recommendedGameListLoading,
         error:recommendedGameListError} = useGetRecommendedGameList();
-
-    const {
-        getGameDetails,
-        data:gameDetailData,
-        loading:gameDetailLoading,
-        error:gameDetailError } = useGetGameDetails()
 
     const {
         getNextPreviousPage,
@@ -199,10 +189,10 @@ export function useGetCurrentGameList (query='') {
         if (!lastPageData) return
 
         if (gameListType.current === "recommended") {
-            console.log("recommended last page data", lastPageData)
+            // console.log("recommended last page data", lastPageData)
             setCurrentRecommendedGameListData(lastPageData)
         } else if (gameListType.current === "main") {
-            console.log("main last page data", lastPageData)
+            // console.log("main last page data", lastPageData)
             setCurrentGameListData(lastPageData)
         }
     }, [lastPageData])
@@ -301,6 +291,7 @@ export function useGetCurrentGameList (query='') {
     function getLastPageNumber (type = "main") {
         // there is an hard limit for max pages from the API itself, which is 500
         // this only happens with api request contains custom arguments
+        // Also loading over page 500 often gives 502 timeout error
         gameListType.current = type;
         let pageMaxNumber;
 
@@ -308,38 +299,26 @@ export function useGetCurrentGameList (query='') {
             pageMaxNumber = Math.floor(currentGameListData.count / 20);
         } else  if (gameListType.current === "recommended") {
             pageMaxNumber = Math.floor(currentRecommendedGameListData.count / 20);
-
         }
-        // this makes sure the user can't accidentally get an 404 error due to the max page restraints
-        if (query || getOptionFilters(sortingFilters) || gameListType.current === "recommended" ) {
-            if (pageMaxNumber > 500){
-                return 500
-            } else {
-                return pageMaxNumber
-            }
+        // this makes sure the user can't accidentally get an 404 error due to the
+        // max page restraints or get an timeout error
+        if (pageMaxNumber > 500){
+            return 500
         } else {
-            return pageMaxNumber;
+            return pageMaxNumber
         }
     }
 
     function loadLastPage (type = "main") {
         gameListType.current = type;
-        console.warn(gameListType.current)
         let lastPageNumber;
-        // TEST QUERY EMPTYNESS
 
         if (gameListType.current === "main") {
             lastPageNumber = getLastPageNumber()
             getLastPage(lastPageNumber, query, getOptionFilters(sortingFilters))
         } else if (gameListType.current === "recommended") {
             lastPageNumber = getLastPageNumber("recommended")
-            console.warn(() => getFavoriteGameGenres())
 
-            const test = getFavoriteGameGenres()
-            console.warn("TEST V1 JA JONGUH", test)
-
-            const test1 = () => getFavoriteGameGenres()
-            console.warn("TEST V1 JA JONGUH", test1)
             getLastPage(lastPageNumber, null,  getFavoriteGameGenres())
         }
     }
@@ -354,10 +333,10 @@ export function useGetCurrentGameList (query='') {
         // sets appropriate dataset
         if (gameListType.current === "main") {
             gameListDataLocal = currentGameListData;
-            console.log("currentGameListData DATA" , currentGameListData)
+            // console.log("currentGameListData DATA" , currentGameListData)
         } else if (gameListType.current === "recommended") {
             gameListDataLocal = currentRecommendedGameListData
-            console.log("currentRecommendedGameListData DATA" , currentRecommendedGameListData)
+            // console.log("currentRecommendedGameListData DATA" , currentRecommendedGameListData)
         }
 
         // checks response for the next data
@@ -378,7 +357,7 @@ export function useGetCurrentGameList (query='') {
             const previousPageUrl = gameListDataLocal?.previous?.split("&")
             currentPage = previousPageUrl[1]?.split("=")[1]
         }
-        console.log(currentPage)
+        // console.log(currentPage)
         return currentPage
     }
 
@@ -388,7 +367,6 @@ export function useGetCurrentGameList (query='') {
         return Object.values(userFavoritesData.favorite_games)
             .some(genreList => genreList.includes(Number(gameId)));
     }
-
 
     // for the sort and filter options
     function handleSortingChange(newSort, type= "main") {
@@ -444,13 +422,12 @@ export function useGetCurrentGameList (query='') {
 
         let fullOptions = [orderingPart, genresPart].filter(Boolean).join('&');
 
-        console.warn("type", type)
-        console.warn("fullOptions", fullOptions)
+        // console.warn("type", type)
+        // console.warn("fullOptions", fullOptions)
 
         if (type === "recommended") {
             getRecommendedGameList(fullOptions);
         } else {
-            console.log(query)
             getGameList(query, fullOptions);
         }
     }
@@ -472,7 +449,6 @@ export function useGetCurrentGameList (query='') {
         const genreData = getFavoriteGameGenres()
 
         if (!genreData) {
-            console.warn("Geen fav genres")
             return
         }
 

@@ -1,4 +1,4 @@
-import {useContext, useState} from 'react';
+import {useContext} from 'react';
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
 import {UserInfoContext} from "../../context/UserInfoProvider.jsx";
 import {useGetCurrentGameList} from "../../hooks/useGames.js";
@@ -31,11 +31,6 @@ function Recommendations () {
     //TODO FIX FIRST LOADING STATE PLACEMENT
     return (
         <main className={`page-container ${selectedTheme} recommendations-page-container`}>
-            <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden"}/>
-
-            <StatusMessage statusState={currentGameListError} type={"error"}
-                           content={currentGameListError ? currentGameListError?.message : "er ging iets fout..."}/>
-
             {!currentGameListLoading &&
                 [...new Set(Object.values(userInfo.userInfoData?.favorite_games || {}).flat())].length === 0
                 &&
@@ -62,6 +57,11 @@ function Recommendations () {
                         </span>
                             <span className={"hidden-item"}></span>
                         </div>
+
+                        <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden"}/>
+
+                        <StatusMessage statusState={currentGameListError} type={"error"}
+                                       content={currentGameListError ? currentGameListError?.message : "er ging iets fout..."}/>
 
                         {currentRecommendedGameListData && <section className={"game-card-wrapper"}>
                             {currentRecommendedGameListData && currentRecommendedGameListData?.results?.length > 0 && currentRecommendedGameListData?.results?.map(game => (
