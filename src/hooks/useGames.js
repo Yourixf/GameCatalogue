@@ -1,5 +1,6 @@
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import {AuthContext} from "../context/AuthProvider.jsx";
+import {UserInfoContext} from "../context/UserInfoProvider.jsx";
 import {useApiCall } from "./useApiCall.js";
 import {useGetUserFavorites} from "./useUser.js";
 import {getToken, getTokenUsername} from "../helpers/auth.js";
@@ -16,11 +17,12 @@ export function useGetGameList () {
     async function getGameList (query='', options='') {
         // used fetchData from main api call method, gives required parts as an argument
         const response = await fetchData(
-            `${BASE_URL}/games?${API_KEY}${query && `&search=${query}`}${options && `&${options}`}`,
+            `${BASE_URL}/games?${API_KEY}${query ? `&search=${query}` : ``}${options && options !== 'false' ? `&${options}` : ''
+            }`,
             `GET`,
             null,
         );
-        // console.warn(options)
+
         return response;
     };
     // returns info for state management
@@ -68,67 +70,153 @@ export function useGetNextPreviousPage () {
     };
     return { getNextPreviousPage, data, loading, error}
 }
-//WIP
+
 export function useGetLastPage () {
     const {fetchData, data, loading, error } = useApiCall();
 
     async function getLastPage (lastPageNumber, query='', options='') {
+        console.warn("usegetlastpage option", options)
         const response = await fetchData(
-            `${BASE_URL}/games?${API_KEY}${options && `&${options}`}&page=${lastPageNumber}${query && `&search=${query}`}`,
+            `${BASE_URL}/games?${API_KEY}${options && options !== 'false' ? `&${options}` : ''
+            }&page=${lastPageNumber}${query ? `&search=${query}` : ``}`,
             `GET`,
             null
         );
-        // console.warn(options)
         return response
     };
     return { getLastPage, data, loading, error}
 }
 
-export function useGetCurrentGameList (query='', options='') {
+export function useGetRecommendedGameList () {
+    const {fetchData, data, loading, error } = useApiCall();
+
+    async function getRecommendedGameList (options) {
+        const response = await fetchData(
+            `${BASE_URL}/games?${API_KEY}${options && options !== 'false' ? `&${options}` : ''
+            }`,
+            "GET",
+            null
+        )
+        return response
+    }
+    return { getRecommendedGameList, data, loading, error }
+}
+
+export function useGetCurrentGameList (query='') {
     const { authData } = useContext(AuthContext)
+    const { userInfo } = useContext(UserInfoContext)
+
 
     const [currentGameListData, setCurrentGameListData ] = useState()
+    const [currentRecommendedGameListData, setCurrentRecommendedGameListData] = useState()
     const [currentGameListLoading, setCurrentGameListLoading ] = useState()
     const [currentGameListError, setCurrentGameListError ] = useState()
     const [sortingFilters, setSortingFilters] = useState({
         sort: '',
         genres: []
     })
+    const [queryState, setQueryState] = useState(query);
 
-    const { getGameList, data:gameListData, loading:gameListLoading, error:gameListError } = useGetGameList();
-    const { getNextPreviousPage, data:nextPreviousPageData, loading:nextPreviousPageLoading, error:nextPreviousPageError } = useGetNextPreviousPage()
-    const { getLastPage, data:lastPageData, loading:lastPageLoading, error:lastPageError } = useGetLastPage()
-    const { getUserFavorites, data:userFavoritesData, loading:userFavoritesLoading, error:userFavoritesError} = useGetUserFavorites();
+    const gameListType = useRef("main");
 
+    const {
+        getGameList,
+        data:gameListData,
+        loading:gameListLoading,
+        error:gameListError } = useGetGameList();
+
+    const {
+        getRecommendedGameList,
+        data:recommendedGameListData,
+        loading:recommendedGameListLoading,
+        error:recommendedGameListError} = useGetRecommendedGameList();
+
+    const {
+        getNextPreviousPage,
+        data:nextPreviousPageData,
+        loading:nextPreviousPageLoading,
+        error:nextPreviousPageError } = useGetNextPreviousPage()
+
+    const {
+        getLastPage,
+        data:lastPageData,
+        loading:lastPageLoading,
+        error:lastPageError } = useGetLastPage()
+
+    const {
+        getUserFavorites,
+        data:userFavoritesData,
+        loading:userFavoritesLoading,
+        error:userFavoritesError} = useGetUserFavorites();
+
+    const lastFavRef = useRef(null);
 
     useEffect(() => {
-        getGameList(query, options)
-        authData.user && getUserFavorites(getTokenUsername(getToken()), getToken())
-    }, [query])
+        if (gameListType.current === "main"){
+            getGameList(queryState, getOptionFilters(sortingFilters));
+        } else if (gameListType.current === "recommended") {
+            getRecommendedGameList(`${getOptionFilters(sortingFilters)}${getFavoriteGameGenres()}`)
+        }
+
+        if (authData.user) {
+            const token = getToken();
+            const username = getTokenUsername(token);
+            getUserFavorites(username, token);
+        }
+    }, [authData.user, queryState, sortingFilters]);
 
     // for the data state
     useEffect(() => {
-        if (gameListData)
+        if (gameListData){
             // console.log(gameListData);
             setCurrentGameListData(gameListData)
-        // console.log(currentGameListData)
-        // if (userFavoritesData)
-        //     console.log(userFavoritesData)
+        }
     }, [gameListData, userFavoritesData, sortingFilters]);
 
     useEffect(() => {
         // console.log(nextPreviousPageData)
-        setCurrentGameListData(nextPreviousPageData)
+        if (!nextPreviousPageData) return
+
+        if (gameListType.current === "recommended") {
+            setCurrentRecommendedGameListData(nextPreviousPageData)
+        } else {
+            setCurrentGameListData(nextPreviousPageData)
+        }
     }, [nextPreviousPageData])
 
     useEffect(() => {
         // console.log(lastPageData)
-        setCurrentGameListData(lastPageData)
+        if (!lastPageData) return
+
+        if (gameListType.current === "recommended") {
+            // console.log("recommended last page data", lastPageData)
+            setCurrentRecommendedGameListData(lastPageData)
+        } else if (gameListType.current === "main") {
+            // console.log("main last page data", lastPageData)
+            setCurrentGameListData(lastPageData)
+        }
     }, [lastPageData])
 
     useEffect(() => {
-        applySortingFilters(sortingFilters)
+        console.error(recommendedGameListData)
+        setCurrentRecommendedGameListData(recommendedGameListData)
+    }, [recommendedGameListData])
+
+    useEffect(() => {
+        applySortingFilters(sortingFilters, gameListType.current)
     }, [sortingFilters])
+
+    useEffect(() => {
+        const currentFavorites = userInfo?.userInfoData?.favorite_games;
+
+        const isChanged = JSON.stringify(currentFavorites) !== lastFavRef.current;
+
+        if (isChanged && currentFavorites && Object.keys(currentFavorites).length > 0) {
+            lastFavRef.current = JSON.stringify(currentFavorites);
+            getFavoriteGenresGames();
+        }
+    }, [userInfo?.userInfoData?.favorite_games]);
+
 
     // for the loading state
     useEffect(() => {
@@ -151,6 +239,12 @@ export function useGetCurrentGameList (query='', options='') {
         setCurrentGameListLoading(userFavoritesLoading)
     }, [userFavoritesLoading])
 
+    useEffect(() => {
+        // console.log(recommendedGameListLoading)
+        setCurrentGameListLoading(recommendedGameListLoading)
+    }, [recommendedGameListLoading])
+
+
     // for the error state
     useEffect(() => {
         // console.log(gameListError)
@@ -172,47 +266,83 @@ export function useGetCurrentGameList (query='', options='') {
         setCurrentGameListError(userFavoritesError)
     }, [userFavoritesError])
 
+    useEffect(() => {
+        // console.log(recommendedGameListError)
+        setCurrentGameListError(recommendedGameListError)
+    }, [recommendedGameListError])
 
     // for the pagination
-    function loadNextPage (url) {
+    function loadNextPage (url, type = "main") {
+        gameListType.current = type;
+
         getNextPreviousPage(url)
     }
 
-    function loadFirstPage (query='',) {
-        getGameList(query, getOptionFilters(sortingFilters))
-    }
+    function loadFirstPage (query='', type = "main") {
+        gameListType.current = type;
 
-    function getLastPageNumber () {
-        // there is an hard limit for max pages from the API itself, which is 500
-        // this only happens with api request contains custom arguments
-
-        const pageMaxNumber = Math.floor(currentGameListData.count / 20);
-
-        // this makes sure the user can't accidentally get an 404 error due to the max page restraints
-        if (query || getOptionFilters(sortingFilters)) {
-            if (pageMaxNumber > 500){
-                return 500
-            } else {
-                return pageMaxNumber
-            }
-        } else {
-            return pageMaxNumber;
+        if (gameListType.current === "main") {
+            getGameList(query, getOptionFilters(sortingFilters))
+        } else if (gameListType.current === "recommended") {
+            getRecommendedGameList(getFavoriteGameGenres())
         }
     }
 
-    function loadLastPage () {
-        const lastPageNumber = getLastPageNumber()
-        getLastPage(lastPageNumber, query, getOptionFilters(sortingFilters))
+    function getLastPageNumber (type = "main") {
+        // there is an hard limit for max pages from the API itself, which is 500
+        // this only happens with api request contains custom arguments
+        // Also loading over page 500 often gives 502 timeout error
+        gameListType.current = type;
+        let pageMaxNumber;
+
+        if (gameListType.current === "main"){
+            pageMaxNumber = Math.floor(currentGameListData.count / 20);
+        } else  if (gameListType.current === "recommended") {
+            pageMaxNumber = Math.floor(currentRecommendedGameListData.count / 20);
+        }
+        // this makes sure the user can't accidentally get an 404 error due to the
+        // max page restraints or get an timeout error
+        if (pageMaxNumber > 500){
+            return 500
+        } else {
+            return pageMaxNumber
+        }
+    }
+
+    function loadLastPage (type = "main") {
+        gameListType.current = type;
+        let lastPageNumber;
+
+        if (gameListType.current === "main") {
+            lastPageNumber = getLastPageNumber()
+            getLastPage(lastPageNumber, query, getOptionFilters(sortingFilters))
+        } else if (gameListType.current === "recommended") {
+            lastPageNumber = getLastPageNumber("recommended")
+
+            getLastPage(lastPageNumber, null,  getFavoriteGameGenres())
+        }
     }
 
     // method that check what the current page number is from the response info
-    function getCurrentPageNumber () {
+    function getCurrentPageNumber (type = "main") {
+        gameListType.current = type;
+
         let currentPage = ""
+        let gameListDataLocal;
+
+        // sets appropriate dataset
+        if (gameListType.current === "main") {
+            gameListDataLocal = currentGameListData;
+            // console.log("currentGameListData DATA" , currentGameListData)
+        } else if (gameListType.current === "recommended") {
+            gameListDataLocal = currentRecommendedGameListData
+            // console.log("currentRecommendedGameListData DATA" , currentRecommendedGameListData)
+        }
 
         // checks response for the next data
-        if (currentGameListData?.next) {
+        if (gameListDataLocal?.next) {
             // separates the URL by & char, checks for the page= part of the URL
-            const nextPageUrl = currentGameListData?.next?.split("&")
+            const nextPageUrl = gameListDataLocal?.next?.split("&")
             const hasPage = nextPageUrl.find(param => param.startsWith("page="))
 
             if (hasPage) {
@@ -222,25 +352,26 @@ export function useGetCurrentGameList (query='', options='') {
                 currentPage = nextPageUrl[1]?.split("=")[1] - 1
             }
         // if there isn't an next in the url, checks for a previous in the data
-        } else if (currentGameListData?.previous) {
-            //
-            const previousPageUrl = currentGameListData?.previous?.split("&")
+        } else if (gameListDataLocal?.previous) {
+            // splits url and gets current page number
+            const previousPageUrl = gameListDataLocal?.previous?.split("&")
             currentPage = previousPageUrl[1]?.split("=")[1]
         }
         // console.log(currentPage)
         return currentPage
     }
 
-    function checkFavorite (gameId) {
-        if (authData.user){
-            return !!userFavoritesData?.favorite_games?.includes(Number(gameId))
-        } else {
-            return false
-        }
+    function checkFavorite(gameId) {
+        if (!authData.user || !userFavoritesData?.favorite_games) return false;
+
+        return Object.values(userFavoritesData.favorite_games)
+            .some(genreList => genreList.includes(Number(gameId)));
     }
 
     // for the sort and filter options
-    function handleSortingChange(newSort) {
+    function handleSortingChange(newSort, type= "main") {
+        gameListType.current = type;
+        console.warn(type)
         setSortingFilters(prevFilters => ({ ...prevFilters, sort: newSort }));
     }
 
@@ -264,20 +395,69 @@ export function useGetCurrentGameList (query='', options='') {
             ))
         }
 
+        // formats the genrelist
         if (genreList?.length > 0) {
-            sortingFilterList = `${sortingFilterList}&genres=${genreList}`
+            sortingFilterList = `${sortingFilterList}&genres=${genreList.join(',')}`
         }
         return sortingFilterList;
     }
 
-    function applySortingFilters (options) {
-        const sortingFilterList = getOptionFilters(options)
+    function applySortingFilters(options, type = "main") {
+        gameListType.current = type;
 
-        getGameList(query, sortingFilterList)
+        let query = type === "main" ? queryState : null;
+
+        let orderingPart = '';
+        if (options?.sort) {
+            orderingPart = `ordering=${options.sort}`;
+        }
+
+        let genresPart = '';
+        if (type === "recommended") {
+            const favGenres = getFavoriteGameGenres();
+            if (favGenres) genresPart = favGenres;
+        } else if (type === "main" && options?.genres?.length > 0) {
+            genresPart = `genres=${options.genres.join(',')}`;
+        }
+
+        let fullOptions = [orderingPart, genresPart].filter(Boolean).join('&');
+
+        // console.warn("type", type)
+        // console.warn("fullOptions", fullOptions)
+
+        if (type === "recommended") {
+            getRecommendedGameList(fullOptions);
+        } else {
+            getGameList(query, fullOptions);
+        }
+    }
+
+
+    function getFavoriteGameGenres () {
+        const genreObj = userInfo?.userInfoData?.favorite_games || {};
+        const allGenres = Object.keys(genreObj);
+
+        if (allGenres.length === 0) {
+            return null
+        }
+
+        const formattedGenreList = `genres=${allGenres.join(',')}`;
+        return formattedGenreList;
+    }
+
+    async function getFavoriteGenresGames() {
+        const genreData = getFavoriteGameGenres()
+
+        if (!genreData) {
+            return
+        }
+
+        await getRecommendedGameList(getFavoriteGameGenres());
     }
 
     return {
         currentGameListData,
+        currentRecommendedGameListData,
         currentGameListLoading,
         currentGameListError,
         loadNextPage,
@@ -289,5 +469,6 @@ export function useGetCurrentGameList (query='', options='') {
         handleFilterChange,
         handleSortingChange,
         sortingFilters,
+        setQueryState,
     }
 }

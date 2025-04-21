@@ -12,6 +12,7 @@
 
 .button-content::first-letter {
     text-transform: capitalize;
+    color: var(--button-text-color-light);
 }
 
 .button-shadow {

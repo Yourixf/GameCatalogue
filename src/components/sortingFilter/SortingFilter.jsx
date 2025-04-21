@@ -5,7 +5,7 @@ import Input from "../input/Input.jsx";
 import Button from "../button/Button.jsx";
 import './SortingFilter.css';
 
-function SortingFilter ({className="", type='sorting', content, onApplyFilters, selectedFilters  }) {
+function SortingFilter ({className="", type='sorting', content, onApplyFilters, selectedFilters, listType }) {
     const { selectedTheme } = useContext(ThemeContext)
 
     const [dropdown, dropdownToggle ] = useState(false);
@@ -24,6 +24,10 @@ function SortingFilter ({className="", type='sorting', content, onApplyFilters, 
     const sortingOptions = [
         { value: "name", label: "Alphabetisch" },
         { value: "released", label: "Release Datum" },
+        { value: "created", label: "Gemaakt Datum" },
+        { value: "updated", label: "Update Datum" },
+        { value: "rating", label: "Rating" },
+        { value: "metacritic", label: "Metacritic" },
     ];
 
     const filterOptions = [
@@ -48,16 +52,14 @@ function SortingFilter ({className="", type='sorting', content, onApplyFilters, 
     }
 
     function handleApplyClick () {
-        onApplyFilters(tempSelection);
+        console.warn(listType)
+        onApplyFilters(tempSelection, listType);
     }
 
     function handleDeleteClick () {
         setTempSelection(type === "sorting" ? "" : []);
         onApplyFilters(type === "sorting" ? "" : []);
     }
-
-    // filter: genres - publishers -
-    // sort: release date - alphabetical order
 
     return (
         <div className={`sorting-filter ${type} ${className} ${selectedTheme} ${[dropdown ? " dropdown-menu-active" : "dropdown-menu-inactive"]}`}>

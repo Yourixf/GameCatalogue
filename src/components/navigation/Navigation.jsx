@@ -1,16 +1,15 @@
-import {useState, useContext, useEffect} from "react";
+import {useState, useContext} from "react";
 import {NavLink} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
 import {AuthContext} from "../../context/AuthProvider.jsx";
 import {UserInfoContext} from "../../context/UserInfoProvider.jsx";
-import {useGetUserFavorites} from "../../hooks/useUser.js";
-import {getToken, getTokenUsername} from "../../helpers/auth.js";
 import {getProfilePictureSrc} from "../../helpers/user.js";
 import Button from "../button/Button";
 import CircleIcon from '../../components/circleIcon/CircleIcon';
 import Input from "../input/Input.jsx";
+import StatusMessage from "../statusMessage/StatusMessage.jsx";
 import joystick from "../../assets/navbar/joystick.png";
 import home from "../../assets/navbar/home.png";
 import favorite from "../../assets/navbar/favorite.png";
@@ -18,7 +17,6 @@ import recommended from "../../assets/navbar/recommended.png";
 import search from "../../assets/navbar/search.png";
 import lightmode from "../../assets/navbar/lightmode.png";
 import './Navigation.css';
-import StatusMessage from "../statusMessage/StatusMessage.jsx";
 
 
 function Navigation () {
@@ -32,7 +30,7 @@ function Navigation () {
 
     const [fieldMessage, setFieldMessage] = useState('zoeken');
 
-    const { register, handleSubmit, formState: { errors } } = useForm({mode:'onSubmit'})
+    const { register, handleSubmit, formState: { errors }, reset } = useForm({mode:'onSubmit'})
 
 
     function dropdownClick () {
@@ -55,9 +53,17 @@ function Navigation () {
         navigate("/profile")
     }
 
+
+
     function handleFormSubmit(data) {
-        console.log(data)
-        navigate(`/results/` + data['game-search-field'])
+        // makes sure the query isn't empty
+        if (data['game-search-field'].trim().length !== 0) {
+            setFieldMessage("zoeken")
+            navigate(`/results/` + data['game-search-field'])
+        } else {
+            reset()
+            setFieldMessage("mag niet leeg zijn!")
+        }
     }
 
     const profilePictureSrc = getProfilePictureSrc(userInfo?.userInfoData);

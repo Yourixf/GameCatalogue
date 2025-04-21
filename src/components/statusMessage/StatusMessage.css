@@ -7,6 +7,7 @@
 
 .status-loading {
     color: var(--loading-text-color-dark);
+    cursor: wait;
 }
 
 .loading-dots {
@@ -35,7 +36,6 @@
 
 .status-error {
     color: var(--error-text-color-dark);
-    cursor: wait;
 }
 
 .status-succes {

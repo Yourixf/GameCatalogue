@@ -1,7 +1,6 @@
 import {useContext} from 'react';
 import {Routes, Route, Navigate} from 'react-router-dom';
 import {AuthContext} from "./context/AuthProvider.jsx";
-import {UserInfoContext} from "./context/UserInfoProvider.jsx";
 import Navigation from './components/navigation/Navigation';
 import Home from './pages/home/Home';
 import Favorites from './pages/favorites/Favorites';

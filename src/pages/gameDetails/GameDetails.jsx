@@ -2,6 +2,7 @@ import {useParams} from "react-router-dom";
 import  {useContext, useEffect, useState} from "react";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
 import {AuthContext} from "../../context/AuthProvider.jsx";
+import {UserInfoContext} from "../../context/UserInfoProvider.jsx";
 import {useGetGameDetails, useGetGameScreenshots} from "../../hooks/useGames.js";
 import {useGetUserFavorites, useUpdateUserInfo} from "../../hooks/useUser.js";
 import {getToken, getTokenUsername} from "../../helpers/auth.js";
@@ -15,6 +16,8 @@ import './GameDetails.css'
 function GameDetails () {
     const { selectedTheme } = useContext(ThemeContext)
     const { authData } = useContext(AuthContext)
+    const { userInfo } = useContext(UserInfoContext)
+
 
     const [mainGamePicture, setMainGamePicture] = useState();
     const [descriptionView, setDesccriptionView] = useState(false);
@@ -61,45 +64,51 @@ function GameDetails () {
     }
 
     async function handleFavoriteClick() {
-        let favoriteGames = { favorite_games: []}
+        if (!gameDetailData?.genres) return;
 
-        console.log(getUserFavoritesData)
+        const gameId = Number(id);
+        const genres = gameDetailData.genres.map(genre => genre.slug);
+        const isAlreadyFavorite = checkFavorite(gameId);
 
-        favoriteGames = getUserFavoritesData
-        console.log(favoriteGames.favorite_games)
-        console.log(favoriteGames.favorite_games.includes(Number(id)))
+        const favoriteGames = {
+            profile_picture: getUserFavoritesData?.profile_picture || "defaultProfile.png",
+            favorite_games: typeof getUserFavoritesData?.favorite_games === "object" && !Array.isArray(getUserFavoritesData.favorite_games)
+                ? { ...getUserFavoritesData.favorite_games }
+                : {}
+        };
 
-        if (favoriteGames?.favorite_games?.includes(Number(id))) {
-            console.log("BEVAT INDERDAAD")
-
-            console.log(favoriteGames)
-            favoriteGames.favorite_games = favoriteGames.favorite_games.filter((game) => {
-                console.log(game)
-                return game !== Number(id)
-            })
-            // console.log(testlist)
-            console.log(favoriteGames)
-
-            let favoriteGamesString = JSON.stringify(favoriteGames)
-            let formData = {
-                info: favoriteGamesString
+        genres.forEach(genre => {
+            if (!favoriteGames.favorite_games[genre]) {
+                favoriteGames.favorite_games[genre] = [];
             }
-            await updateUserInfo(formData, currentToken, tokenUsername)
-        } else if (!favoriteGames?.favorite_games?.includes(Number(id))) {
-            console.log("BEVAT NIET")
-            favoriteGames.favorite_games.push(Number(id))
-            let favoriteGamesString = JSON.stringify(favoriteGames)
-            let formData = {
-                info: favoriteGamesString
+
+            if (isAlreadyFavorite) {
+                favoriteGames.favorite_games[genre] = favoriteGames.favorite_games[genre].filter(id => id !== gameId);
+                if (favoriteGames.favorite_games[genre].length === 0) {
+                    delete favoriteGames.favorite_games[genre];
+                }
+            } else {
+                if (!favoriteGames.favorite_games[genre].includes(gameId)) {
+                    favoriteGames.favorite_games[genre].push(gameId);
+                }
             }
-            await updateUserInfo(formData, currentToken, tokenUsername)
-        } else {
-            console.log("ER GING WAT FOUT")
-        }
+        });
+
+        console.log("favoriteGames:", favoriteGames);
+
+        const formData = {
+            info: JSON.stringify(favoriteGames)
+        };
+
+        console.log("formData:", formData);
+
+        await updateUserInfo(formData, currentToken, tokenUsername);
+        userInfo.refreshUserInfo();
     }
 
     function checkFavorite () {
-        return !!getUserFavoritesData?.favorite_games?.includes(Number(id))
+        if (!authData.user || !getUserFavoritesData?.favorite_games) return false;
+        return Object.values(getUserFavoritesData.favorite_games).some(ids => ids.includes(Number(id)))
     }
 
     return (

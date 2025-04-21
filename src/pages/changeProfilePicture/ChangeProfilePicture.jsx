@@ -14,7 +14,7 @@ import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 
 function ChangeProfilePicture () {
     const { selectedTheme } = useContext(ThemeContext)
-    const { userInfo, refreshUserInfo } = useContext(UserInfoContext)
+    const { userInfo } = useContext(UserInfoContext)
 
     const [profilePicture, setProfilePicture ] = useState();
 
@@ -45,7 +45,7 @@ function ChangeProfilePicture () {
     }, [getUserFavoritesData]);
 
     useEffect(() => {
-        refreshUserInfo()
+        userInfo.refreshUserInfo()
     }, [updateUserInfoData])
 
     function cancelButton () {

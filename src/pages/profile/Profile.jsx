@@ -71,7 +71,13 @@ function Profile () {
                         <h2 className={"profile-email"}>{authData?.user?.email}</h2>
 
                         <span onClick={favoriteClick} className={`profile-favorite-games-section`}>
-                            <h2 className={"profile-favorite-amount"}>{} {getUserFavoritesData?.favorite_games?.length ? getUserFavoritesData?.favorite_games?.length : 0 }</h2>
+                            <h2 className="profile-favorite-amount">
+                                {[...new Set(
+                                  Object.values(getUserFavoritesData?.favorite_games || {})
+                                      .flat()
+                                )].length}
+                            </h2>
+
                             <p className={"profile-favorite-text"}>Favorieten games</p>
                         </span>
                     </div>

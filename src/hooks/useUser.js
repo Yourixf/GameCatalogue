@@ -71,6 +71,7 @@ export function useUpdateUserInfo () {
         console.warn(response);
         return response;
     };
+    console.warn(data)
     return { updateUserInfo, data, loading, error };
 }
 
@@ -131,6 +132,7 @@ export function useGetUserFavorites () {
                 "Authorization": `Bearer ${currentToken}`
             }
         );
+        console.warn(response)
         return response;
     };
     return { getUserFavorites, data, loading, error };

@@ -41,9 +41,9 @@
     color: var(--game-card-text-light);
 }
 
-.section-title-wrapper{
+.section-title-wrapper.recommended-card-title-wrapper{
     display: flex;
-    width: 100%;
+    width: 80%;
 }
 
 .recommended-title {

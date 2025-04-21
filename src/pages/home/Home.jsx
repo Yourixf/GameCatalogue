@@ -1,4 +1,5 @@
 import {useContext, useState} from 'react';
+import {useNavigate} from "react-router-dom";
 import {AuthContext} from "../../context/AuthProvider.jsx";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
 import {UserInfoContext} from "../../context/UserInfoProvider.jsx";
@@ -15,10 +16,14 @@ function Home () {
     const { selectedTheme } = useContext(ThemeContext)
     const { authData } = useContext(AuthContext)
     const { userInfo } = useContext(UserInfoContext)
-    // const userInfo = userInfoContext?.userInfo;
+
+    const navigate = useNavigate();
+
+    const [ currentRecommended, setCurrentRecommended ] = useState(0);
 
     const {
         currentGameListData,
+        currentRecommendedGameListData,
         currentGameListLoading,
         currentGameListError,
         loadNextPage,
@@ -32,54 +37,56 @@ function Home () {
         sortingFilters
     } = useGetCurrentGameList()
 
+    function handleRecommendedDetailClick () {
+        navigate('/game/' + currentRecommendedGameListData?.results[currentRecommended].id )
+    }
     console.log(currentGameListData)
 
     return(
         <main className={`page-container ${selectedTheme} home-page-container`}>
 
-            {authData.user && userInfo &&
+            {authData.user && userInfo && currentRecommendedGameListData &&
                 <section className={`section-outer-container recommended-section-outer`}>
                     <div className={`section-inner-container recommended-section-inner ${selectedTheme}`}>
                         <span className={"recommended-section-wrapper"}>
 
-                            <span className={"section-title-wrapper"}>
+                            <span className={"section-title-wrapper recommended-card-title-wrapper"}>
                                 <h2 className={`section-title recommended-title`}>Aanbevolen voor jou</h2>
                             </span>
-                            <article className={`recommended-card ${selectedTheme}`}>
+                            <article onClick={handleRecommendedDetailClick} className={`recommended-card ${selectedTheme}`}>
                                 <figure className={`recommended-game-image-wrapper`}>
-                                <img className={`recommended-game-image`} src={currentGameListData?.results[7].background_image} alt="game-image"/>
+                                <img className={`recommended-game-image`} src={currentRecommendedGameListData?.results[currentRecommended].background_image} alt="game-image"/>
                                 </figure>
                                 <span className={`recommended-game-info-wrapper`}>
                                     <div className={`recommended-text-info`}>
                                         <h3 className={`recommended-text-description`}>Titel</h3>
-                                        <h3 className={`recommended-text-content`}>{currentGameListData?.results[7].name}</h3>
+                                        <h3 className={`recommended-text-content`}>{currentRecommendedGameListData?.results[currentRecommended].name}</h3>
                                     </div>
 
                                     <div className={`recommended-text-info`}>
                                         <h3 className={`recommended-text-description`}>Uitgifte datum</h3>
-                                        <h3 className={`recommended-text-content`}>{currentGameListData?.results[7].released}</h3>
+                                        <h3 className={`recommended-text-content`}>{currentRecommendedGameListData?.results[currentRecommended].released}</h3>
                                     </div>
                                     <div className={`recommended-text-info`}>
                                         <h3 className={`recommended-text-description`}>Metascore</h3>
                                         <Metascore className={`game-detail-text-content`}
-                                               value={currentGameListData?.results[7].metacritic}/>
+                                               value={currentRecommendedGameListData?.results[currentRecommended].metacritic}/>
                                     </div>
-                                    <GamePlatformIcons platforms={currentGameListData?.results[7].parent_platforms} className={` recommended-game-card-platforms game-detail-game-card-platforms`} />
+                                    <GamePlatformIcons platforms={currentRecommendedGameListData?.results[currentRecommended].parent_platforms} className={` recommended-game-card-platforms game-detail-game-card-platforms`} />
                                 
                                 </span>
                             </article>
                             <nav className={`recommended-pagination`} aria-label={"recommended games pagination"}>
-                                <span className={`recommended-pagination-other currently-selected`}
+                                <span onClick={() => setCurrentRecommended(0)} className={`recommended-pagination-other ${currentRecommended === 0 && `currently-selected`}` }
                                       aria-label={"game-1"}></span>
-                                <span className={`recommended-pagination-other`} aria-label={"game 2"}></span>
-                                <span className={`recommended-pagination-other`} aria-label={"game 3"}></span>
-                                <span className={`recommended-pagination-other`} aria-label={"game 4"}></span>
-                                <span className={`recommended-pagination-other`} aria-label={"game 5"}></span>
-                                <span className={`recommended-pagination-other`} aria-label={"game 6"}></span>
+                                <span onClick={() => setCurrentRecommended(1)} className={`recommended-pagination-other ${currentRecommended === 1 && `currently-selected`}`} aria-label={"game 2"}></span>
+                                <span onClick={() => setCurrentRecommended(2)} className={`recommended-pagination-other ${currentRecommended === 2 && `currently-selected`}`} aria-label={"game 3"}></span>
+                                <span onClick={() => setCurrentRecommended(3)} className={`recommended-pagination-other ${currentRecommended === 3 && `currently-selected`}`} aria-label={"game 4"}></span>
+                                <span onClick={() => setCurrentRecommended(4)} className={`recommended-pagination-other ${currentRecommended === 4 && `currently-selected`}`} aria-label={"game 5"}></span>
+                                <span onClick={() => setCurrentRecommended(5)} className={`recommended-pagination-other ${currentRecommended === 5 && `currently-selected`}`} aria-label={"game 6"}></span>
                             </nav>
                         </span>
                     </div>
-
                 </section>
             }
 
@@ -133,7 +140,7 @@ function Home () {
                             loadPreviousPage={currentGameListData?.previous ? () => loadNextPage(currentGameListData?.previous) : null}
                             loadFirstPage={() => loadFirstPage()}
                             lastPageValue={getLastPageNumber()}
-                            loadLastPage={loadLastPage}
+                            loadLastPage={() => loadLastPage()}
                             currentPageValue={getCurrentPageNumber()}
                         />
                     </div>

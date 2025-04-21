@@ -1,4 +1,4 @@
-import {useContext, useState} from 'react';
+import {useContext, useEffect} from 'react';
 import {useParams} from "react-router-dom";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
 import {useGetCurrentGameList, } from "../../hooks/useGames.js";
@@ -6,13 +6,16 @@ import GameCard from "../../components/gameCard/GameCard.jsx";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 import SortingFilter from "../../components/sortingFilter/SortingFilter.jsx";
 import Pagination from "../../components/pagination/Pagination.jsx";
-import Button from "../../components/button/Button.jsx";
 import './Results.css';
 
 function Results () {
     const { selectedTheme } = useContext(ThemeContext)
 
     let {query} = useParams();
+
+    useEffect(() => {
+        setQueryState(query);
+    }, [query]);
 
     const {
         currentGameListData,
@@ -26,6 +29,7 @@ function Results () {
         checkFavorite,
         handleFilterChange,
         handleSortingChange,
+        setQueryState,
         sortingFilters
     } = useGetCurrentGameList(query)
 
@@ -86,16 +90,14 @@ function Results () {
                             loadNextPage={currentGameListData?.next ? () => loadNextPage(currentGameListData?.next): null}
                             loadPreviousPage={currentGameListData?.previous ? () => loadNextPage(currentGameListData?.previous): null}
                             loadFirstPage={() => loadFirstPage(query)}
-                            lastPageValue={getLastPageNumber()}
-                            loadLastPage={loadLastPage}
-                            currentPageValue={getCurrentPageNumber()}
+                            lastPageValue={getLastPageNumber("main")}
+                            loadLastPage={() => loadLastPage("main")}
+                            currentPageValue={getCurrentPageNumber("main")}
+                            listType={"main"}
                             />
                             :
                             null
                         }
-
-
-
                     </div>
                 </section>
             }
