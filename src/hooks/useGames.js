@@ -165,7 +165,7 @@ export function useGetCurrentGameList (query='') {
         if (gameListType.current === "main"){
             getGameList(queryState, getOptionFilters(sortingFilters));
         } else if (gameListType.current === "recommended") {
-            getRecommendedGameList(`${getOptionFilters()}${getFavoriteGameGenres()}`)
+            getRecommendedGameList(`${getOptionFilters(sortingFilters)}${getFavoriteGameGenres()}`)
         }
 
         if (authData.user) {
