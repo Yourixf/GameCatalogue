@@ -98,7 +98,7 @@ function Home () {
             {currentGameListData &&
                 <section className={`section-outer-container trending-games-outer-container`}>
                     <div className={`section-inner-container trending-games-inner-container`}>
-                        <div className={"section-game-header"}>
+                        <div className={"section-title-wrapper"}>
                             <h2 className={`section-title`}>
                                 Uitgelicht
                             </h2>

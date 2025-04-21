@@ -26,9 +26,6 @@ function Recommendations () {
         sortingFilters
     } = useGetCurrentGameList()
 
-    console.log(userInfo);
-
-    //TODO FIX FIRST LOADING STATE PLACEMENT
     return (
         <main className={`page-container ${selectedTheme} recommendations-page-container`}>
             {!currentGameListLoading &&
@@ -41,7 +38,7 @@ function Recommendations () {
             {currentRecommendedGameListData && !currentGameListError &&
                 <section className={`section-outer-container recommended-games-outer-container`}>
                     <div className={`section-inner-container recommended-games-inner-container`}>
-                        <div className={"section-game-header"}>
+                        <div className={"section-title-wrapper"}>
                             <h2 className={`section-title`}>
                                 Aanbevelingen
                             </h2>

@@ -82,6 +82,8 @@
 
     border-radius: 10px;
 
+    cursor: pointer;
+
     border-bottom: 1px solid var(--main-stroke-color);
     box-shadow: 0 4px 30px 0 rgba(0, 0, 0, 0.48);
     z-index: 1;
@@ -194,7 +196,7 @@
     align-content: center;
 }
 
-.section-game-header {
+.section-title-wrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -236,7 +238,7 @@
         margin: 0 10px;
     }
 
-    .section-game-header {
+    .section-title-wrapper {
         flex-direction: column;
     }
     .hidden-item {

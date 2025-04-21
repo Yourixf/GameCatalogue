@@ -1,7 +1,8 @@
 import {useContext, useEffect, useState} from 'react';
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
 import {AuthContext} from "../../context/AuthProvider.jsx";
-import {useGetGameDetails} from "../../hooks/useGames.js";
+import {UserInfoContext} from "../../context/UserInfoProvider.jsx";
+import {useGetCurrentGameList, useGetGameDetails} from "../../hooks/useGames.js";
 import {useGetUserFavorites} from "../../hooks/useUser.js";
 import {getToken, getTokenUsername} from "../../helpers/auth.js";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
@@ -9,7 +10,6 @@ import GameCard from "../../components/gameCard/GameCard.jsx";
 import Pagination from "../../components/pagination/Pagination.jsx";
 import SortingFilter from "../../components/sortingFilter/SortingFilter.jsx";
 import './Favorites.css';
-import {UserInfoContext} from "../../context/UserInfoProvider.jsx";
 
 function Favorites () {
     const { selectedTheme } = useContext(ThemeContext)
@@ -19,12 +19,17 @@ function Favorites () {
     const { getGameDetails, data:gameDetailData, loading:gameDetailLoading, error:gameDetailError } = useGetGameDetails();
     const { getUserFavorites, data:getUserFavoritesData} = useGetUserFavorites();
 
-
     const [ gameList, setGameList] = useState([]);
     const [ loadingGames, setLoadingGames] = useState(false)
 
     const currentToken = authData.user && getToken()
     const tokenUsername = authData.user && getTokenUsername(currentToken)
+
+    const {
+        handleSortingChange,
+        handleFilterChange,
+        sortingFilters
+    } = useGetCurrentGameList()
 
     useEffect(() => {
         // gets user favorites
@@ -79,32 +84,43 @@ function Favorites () {
                                content={gameDetailError ? gameDetailError?.message : "Je hebt geen favorieten."}/>
             }
 
-            {!loadingGames && gameList.length > 0 && <section className={"game-card-wrapper"}>
-                <section className={`section-inner-container favorite-games-section-inner-container`}>
-                    <span className={"section-title-wrapper"}>
-                        <h2 className={`section-title recommended-title`}>Jouw favorieten</h2>
-                        <span className={"sorting-filter-wrapper state-two"}>
-                                    <SortingFilter content={"Sorteer op:"} type={'sorting'}/>
-                                    <SortingFilter content={"Filter op:"} type={"filter"}/>
+            {!loadingGames && gameList.length > 0 &&
+                <section className={`section-outer-container favorite-games-section-outer-container`}>
+                    <section className={`section-inner-container favorite-games-section-inner-container`}>
+                        <span className={"section-title-wrapper"}>
+                            <h2 className={`section-title recommended-title`}>Jouw favorieten</h2>
+                            <span className={"sorting-filter-wrapper state-two"}>
+                                    {/*<SortingFilter*/}
+                                    {/*    onApplyFilters={handleSortingChange}*/}
+                                    {/*    content={"Sorteer op:"}*/}
+                                    {/*    type={'sorting'}*/}
+                                    {/*    selectedFilters={sortingFilters?.sort}*/}
+                                    {/*/>*/}
+                                    {/*<SortingFilter*/}
+                                    {/*    onApplyFilters={handleFilterChange}*/}
+                                    {/*    content={"Filter op:"}*/}
+                                    {/*    type={"filter"}*/}
+                                    {/*    selectedFilters={sortingFilters?.genres}*/}
+                                    {/*/>*/}
+                            </span>
+                                <span className={"hidden-item"}></span>
                         </span>
-                        <span className={"hidden-item"}></span>
-
-                    </span>
-                    <StatusMessage statusState={loadingGames || gameDetailLoading} type={"loading"} content={"Laden"}/>
-
-                    { gameList.map(game => (
-                        <GameCard
-                            key={game?.id}
-                            gameTitle={game?.name}
-                            gameImage={game?.background_image}
-                            gamePlatforms={game?.parent_platforms}
-                            gameId={game?.id}
-                            favorite={false}
-                        />
-                    ))}
+                        <StatusMessage statusState={loadingGames || gameDetailLoading} type={"loading"} content={"Laden"}/>
+                        <section className={"game-card-wrapper"}>
+                            {gameList.map(game => (
+                                <GameCard
+                                    key={game?.id}
+                                    gameTitle={game?.name}
+                                    gameImage={game?.background_image}
+                                    gamePlatforms={game?.parent_platforms}
+                                    gameId={game?.id}
+                                    favorite={false}
+                                />
+                            ))}
+                        </section>
+                        {/*  TODO PAGINATION  */}
+                    </section>
                 </section>
-                {/*  TODO PAGINATION  */}
-            </section>
             }
         </main>
 
