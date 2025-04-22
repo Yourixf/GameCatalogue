@@ -1,22 +1,19 @@
-import {useContext, useEffect, useState} from 'react';
+import {useContext, useEffect} from 'react';
 import {useNavigate} from "react-router-dom";
 import CircleIcon from "../../components/circleIcon/CircleIcon.jsx";
-import {AuthContext} from "../../context/AuthProvider.jsx";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
-import {useGetCurrentUserInfo, useGetUserFavorites, useUploadProfilePicture} from "../../hooks/useUser.js";
+import { useGetUserFavorites} from "../../hooks/useUser.js";
 import {getToken, getTokenUsername} from "../../helpers/auth.js";
-import { profilePictures } from "../../assets/profilePictures/profilePictures.js";
 import Button from "../../components/button/Button.jsx";
-import defaultProfile from "../../assets/profilePictures/defaultProfile.png";
 import './Profile.css';
-import {getProfilePictureSrc} from "../../helpers/user.js";
+import {getProfilePictureSrc, useAuthData, useUserInfo} from "../../helpers/user.js";
 import {UserInfoContext} from "../../context/UserInfoProvider.jsx";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 
 function Profile () {
-    const { authData } = useContext(AuthContext)
+    const authData = useAuthData();
     const { selectedTheme } = useContext(ThemeContext)
-    const { userInfo } = useContext(UserInfoContext)
+    const userInfo = useUserInfo();
 
 
     const navigate = useNavigate()

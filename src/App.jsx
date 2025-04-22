@@ -1,6 +1,4 @@
-import {useContext} from 'react';
 import {Routes, Route, Navigate} from 'react-router-dom';
-import {AuthContext} from "./context/AuthProvider.jsx";
 import Navigation from './components/navigation/Navigation';
 import Home from './pages/home/Home';
 import Favorites from './pages/favorites/Favorites';
@@ -14,10 +12,12 @@ import Test from './pages/test/Test.jsx'
 import GameDetails from "./pages/gameDetails/GameDetails.jsx";
 import ChangePassword from "./pages/changePassword/ChangePassword.jsx";
 import ChangeProfilePicture from "./pages/changeProfilePicture/ChangeProfilePicture.jsx";
+import {useAuthData} from "./helpers/user.js";
 import './App.css';
 
 function App() {
-    const { authData } = useContext(AuthContext)
+
+    const authData = useAuthData();
 
     return (
       <>

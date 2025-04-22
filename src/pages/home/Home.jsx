@@ -1,6 +1,5 @@
 import {useContext, useState} from 'react';
 import {useNavigate} from "react-router-dom";
-import {AuthContext} from "../../context/AuthProvider.jsx";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
 import {UserInfoContext} from "../../context/UserInfoProvider.jsx";
 import GameCard from "../../components/gameCard/GameCard.jsx";
@@ -11,11 +10,14 @@ import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 import GamePlatformIcons from "../../components/gamePlatformIcons/GamePlatformIcons.jsx";
 import Metascore from "../../components/metascore/Metascore.jsx";
 import './Home.css';
+import {useAuthData, useUserInfo} from "../../helpers/user.js";
 
 function Home () {
     const { selectedTheme } = useContext(ThemeContext)
-    const { authData } = useContext(AuthContext)
-    const { userInfo } = useContext(UserInfoContext)
+    const userInfo = useUserInfo();
+    const authData = useAuthData();
+
+
 
     const navigate = useNavigate();
 

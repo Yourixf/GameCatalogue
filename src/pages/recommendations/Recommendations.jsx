@@ -7,10 +7,11 @@ import StatusMessage from '../../components/statusMessage/StatusMessage.jsx';
 import SortingFilter from "../../components/sortingFilter/SortingFilter.jsx";
 import Pagination from "../../components/pagination/Pagination.jsx";
 import './Recommendations.css';
+import {useUserInfo} from "../../helpers/user.js";
 
 function Recommendations () {
     const { selectedTheme } = useContext(ThemeContext)
-    const { userInfo } = useContext(UserInfoContext)
+    const userInfo = useUserInfo();
 
     const {
         currentRecommendedGameListData,

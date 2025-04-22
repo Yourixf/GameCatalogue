@@ -8,13 +8,13 @@ import CircleIcon from "../../components/circleIcon/CircleIcon.jsx";
 import Button from "../../components/button/Button.jsx";
 import { profilePictures } from "../../assets/profilePictures/profilePictures.js";
 import './ChangeProfilePicture.css';
-import {getProfilePictureSrc} from "../../helpers/user.js";
+import {getProfilePictureSrc, useUserInfo} from "../../helpers/user.js";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 
 
 function ChangeProfilePicture () {
     const { selectedTheme } = useContext(ThemeContext)
-    const { userInfo } = useContext(UserInfoContext)
+    const userInfo = useUserInfo();
 
     const [profilePicture, setProfilePicture ] = useState();
 

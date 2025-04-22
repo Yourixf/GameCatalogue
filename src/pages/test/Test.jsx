@@ -15,6 +15,7 @@ import testProfile from "../../assets/testProfile.jpg"
 import CircleIcon from '../../components/circleIcon/CircleIcon.jsx';
 import Input from '../../components/input/Input.jsx';
 import StatusMessage from '../../components/statusMessage/StatusMessage.jsx';
+import {useAuthData} from "../../helpers/user.js";
 
 function Test () {
     const [jwtToken, setJWTToken] = useState("")
@@ -22,7 +23,7 @@ function Test () {
     const { getUserInfo, data } = useGetUserInfo()
     const {uploadProfilePicture } = useUploadProfilePicture()
     const {downloadProfilePicture } = useDownloadProfilePicture()
-    const { authData } = useContext(AuthContext)
+    const authData = useAuthData();
     const autoHeaderToken = getToken()
 
     const noviBaseHeaders = {

@@ -4,6 +4,7 @@ import {UserInfoContext} from "../context/UserInfoProvider.jsx";
 import {useApiCall } from "./useApiCall.js";
 import {useGetUserFavorites} from "./useUser.js";
 import {getToken, getTokenUsername} from "../helpers/auth.js";
+import {useAuthData, useUserInfo} from "../helpers/user.js";
 
 // For cleaner code view
 const BASE_URL = import.meta.env.VITE_RAWG_API_BASE_URL;
@@ -103,8 +104,8 @@ export function useGetRecommendedGameList () {
 }
 
 export function useGetCurrentGameList (query='') {
-    const { authData } = useContext(AuthContext)
-    const { userInfo } = useContext(UserInfoContext)
+    const authData = useAuthData();
+    const userInfo = useUserInfo();
 
 
     const [currentGameListData, setCurrentGameListData ] = useState()

@@ -2,18 +2,18 @@ import {useContext} from "react";
 import {useNavigate} from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
-import {AuthContext} from "../../context/AuthProvider.jsx";
 import {useLoginUser } from "../../hooks/useUser.js";
 import Button from "../../components/button/Button.jsx";
 import Label from "../../components/label/Label.jsx";
 import Input from "../../components/input/Input.jsx";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 import './Login.css';
+import {useAuthData} from "../../helpers/user.js";
 
 
 function Login () {
     const { selectedTheme } = useContext(ThemeContext)
-    const { authData } = useContext(AuthContext)
+    const authData = useAuthData();
 
     const navigate = useNavigate();
 

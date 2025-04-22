@@ -11,12 +11,13 @@ import Button from "../../components/button/Button.jsx";
 import Metascore from "../../components/metascore/Metascore.jsx";
 import GamePlatformIcons from "../../components/gamePlatformIcons/GamePlatformIcons.jsx";
 import './GameDetails.css'
+import {useAuthData, useUserInfo} from "../../helpers/user.js";
 
 
 function GameDetails () {
     const { selectedTheme } = useContext(ThemeContext)
-    const { authData } = useContext(AuthContext)
-    const { userInfo } = useContext(UserInfoContext)
+    const authData = useAuthData();
+    const userInfo = useUserInfo();
 
 
     const [mainGamePicture, setMainGamePicture] = useState();

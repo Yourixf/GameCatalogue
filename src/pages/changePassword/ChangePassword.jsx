@@ -2,7 +2,6 @@ import {useContext, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
-import {AuthContext} from "../../context/AuthProvider.jsx";
 import {useUpdateUserInfo} from "../../hooks/useUser.js";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 import Button from "../../components/button/Button.jsx";
@@ -14,7 +13,6 @@ import './ChangePassword.css';
 
 function ChangePassword () {
     const { selectedTheme } = useContext(ThemeContext)
-    const { authData } = useContext(AuthContext)
 
     const [ passwordConflict, setPasswordConflict ] = useState(false)
 

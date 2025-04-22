@@ -1,20 +1,19 @@
 import {useContext, useEffect, useState} from 'react';
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
-import {AuthContext} from "../../context/AuthProvider.jsx";
 import {UserInfoContext} from "../../context/UserInfoProvider.jsx";
 import {useGetCurrentGameList, useGetGameDetails} from "../../hooks/useGames.js";
 import {useGetUserFavorites} from "../../hooks/useUser.js";
 import {getToken, getTokenUsername} from "../../helpers/auth.js";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 import GameCard from "../../components/gameCard/GameCard.jsx";
-import Pagination from "../../components/pagination/Pagination.jsx";
-import SortingFilter from "../../components/sortingFilter/SortingFilter.jsx";
+
 import './Favorites.css';
+import {useAuthData, useUserInfo} from "../../helpers/user.js";
 
 function Favorites () {
     const { selectedTheme } = useContext(ThemeContext)
-    const { authData } = useContext(AuthContext)
-    const { userInfo } = useContext(UserInfoContext)
+    const authData = useAuthData();
+    const userInfo = useUserInfo();
 
     const { getGameDetails, data:gameDetailData, loading:gameDetailLoading, error:gameDetailError } = useGetGameDetails();
     const { getUserFavorites, data:getUserFavoritesData} = useGetUserFavorites();

@@ -5,7 +5,7 @@ import {useForm} from "react-hook-form";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
 import {AuthContext} from "../../context/AuthProvider.jsx";
 import {UserInfoContext} from "../../context/UserInfoProvider.jsx";
-import {getProfilePictureSrc} from "../../helpers/user.js";
+import {getProfilePictureSrc, useAuthData, useUserInfo} from "../../helpers/user.js";
 import Button from "../button/Button";
 import CircleIcon from '../../components/circleIcon/CircleIcon';
 import Input from "../input/Input.jsx";
@@ -21,8 +21,10 @@ import './Navigation.css';
 
 function Navigation () {
     const { toggleTheme, selectedTheme } = useContext(ThemeContext)
-    const { authData } = useContext(AuthContext)
-    const { userInfo } = useContext(UserInfoContext)
+
+    const authData = useAuthData();
+
+    const userInfo = useUserInfo();
 
     const navigate = useNavigate();
 
