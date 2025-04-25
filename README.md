@@ -1,6 +1,6 @@
 # Game Catalogue installatiehandleiding
 
-# 1. Inleiding
+## 1. Inleiding
 
 Doorloop van de jaren heb ik redelijk wat games gespeeld en gekocht waarvan de meeste heel leuk waren en kan blijven spelen. Maar soms is het tijd voor afwisseling. Nou zijn er diverse platformen zoals Steam, Ubisoft en App Store waar je games kan opzoeken en downloaden, maar er is naar mijn mening niet een overzichtelijke manier om al deze games van al deze platformen in te zien, dat is waar ik met mijn applicatie verandering in zal brengen.
 
