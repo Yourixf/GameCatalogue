@@ -1,8 +1,6 @@
 import {useParams} from "react-router-dom";
 import  {useContext, useEffect, useState} from "react";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
-import {AuthContext} from "../../context/AuthProvider.jsx";
-import {UserInfoContext} from "../../context/UserInfoProvider.jsx";
 import {useGetGameDetails, useGetGameScreenshots} from "../../hooks/useGames.js";
 import {useGetUserFavorites, useUpdateUserInfo} from "../../hooks/useUser.js";
 import {getToken, getTokenUsername} from "../../helpers/auth.js";
@@ -13,20 +11,18 @@ import GamePlatformIcons from "../../components/gamePlatformIcons/GamePlatformIc
 import './GameDetails.css'
 import {useAuthData, useUserInfo} from "../../helpers/user.js";
 
-
 function GameDetails () {
     const { selectedTheme } = useContext(ThemeContext)
     const authData = useAuthData();
     const userInfo = useUserInfo();
-
 
     const [mainGamePicture, setMainGamePicture] = useState();
     const [descriptionView, setDesccriptionView] = useState(false);
 
     const { getGameDetails, data:gameDetailData, loading:gameDetailLoading, error:gameDetailError } = useGetGameDetails();
     const { getGameScreenshots, data:gameScreenshotData, loading:gameScreenshotLoading, error:gameScreenshotError } = useGetGameScreenshots()
-    const { updateUserInfo, data:updateUserInfoData} = useUpdateUserInfo();
-    const { getUserFavorites, data:getUserFavoritesData} = useGetUserFavorites();
+    const { updateUserInfo, data:updateUserInfoData, loading:updateUserInfoLoading, error:updateUserInfoError} = useUpdateUserInfo();
+    const { getUserFavorites, data:getUserFavoritesData, loading:getUserFavoritesLoading, error:getUserFavoritesError} = useGetUserFavorites();
 
     const currentToken = authData.user && getToken()
     const tokenUsername = authData.user && getTokenUsername(currentToken)
@@ -47,11 +43,9 @@ function GameDetails () {
     }, [gameDetailData])
 
     useEffect(() => {
-        console.log(gameDetailData)
     }, [gameDetailData])
 
     useEffect(() => {
-        console.log("updateUserInfoData veranderd:", updateUserInfoData, getUserFavoritesData);
         getUserFavorites(tokenUsername, currentToken)
     }, [updateUserInfoData,])
 
@@ -95,16 +89,13 @@ function GameDetails () {
             }
         });
 
-        console.log("favoriteGames:", favoriteGames);
 
         const formData = {
             info: JSON.stringify(favoriteGames)
         };
 
-        console.log("formData:", formData);
-
         await updateUserInfo(formData, currentToken, tokenUsername);
-        userInfo.refreshUserInfo();
+        await userInfo.refreshUserInfo();
     }
 
     function checkFavorite () {
@@ -114,15 +105,15 @@ function GameDetails () {
 
     return (
         <main className={`page-container ${selectedTheme} game-detail-page-outer-container`}>
-            <section className={"section-inner-container related-games-section-outer-container"}>
-
-            </section>
-
             <span className={`status-message-wrapper`}>
-                 <StatusMessage statusState={gameDetailLoading} type={"loading"} content={"Game info laden"}/>
+                 <StatusMessage statusState={gameDetailLoading } type={"loading"} content={"Game info laden"}/>
                 <StatusMessage statusState={gameScreenshotLoading} type={"loading"} content={"Game screenshot laden"}/>
+                <StatusMessage statusState={updateUserInfoLoading || getUserFavoritesLoading} type={"loading"} content={"User info laden"}/>
+
                 <StatusMessage statusState={gameDetailError} type={"error"} content={gameDetailError ?  gameDetailError?.response?.data : "er ging iets fout bij het ophalen van de game data..."}/>
-                <StatusMessage statusState={gameScreenshotError} type={"error"} content={gameDetailError ?  gameDetailError?.response?.data : "er ging iets fout bij het ophalen van de game screenshot..."}/>
+                <StatusMessage statusState={gameScreenshotError} type={"error"} content={gameScreenshotError ?  gameScreenshotError?.response?.data : "er ging iets fout bij het ophalen van de game screenshot..."}/>
+                <StatusMessage statusState={getUserFavoritesError} type={"error"} content={getUserFavoritesError ?  getUserFavoritesError?.response?.data : "er ging iets fout bij het ophalen van de user favorieten..."}/>
+                <StatusMessage statusState={updateUserInfoError} type={"error"} content={updateUserInfoError ?  updateUserInfoError?.response?.data : "er ging iets fout bij het updaten van de user favorieten..."}/>
             </span>
 
             { gameDetailData &&
@@ -141,7 +132,7 @@ function GameDetails () {
                                         <img className={`game-detail-game-image`} src={mainGamePicture} alt="game-image"/>
                                     </figure>
 
-                                    {/* when there is either a additional image - TO DO: WHEN ONLY ADDITIONAL IS ALSO THE MAIN ONE */}
+                                    {/* when there is either a additional image */}
                                     {gameScreenshotData && gameScreenshotData?.results?.map(screenshot => ( screenshot.image !== gameDetailData?.background_image )) ?
                                         <span className={`game-screenshots-wrapper ${descriptionView ? `description-expended` : `description-unextended`}`}>
 
@@ -182,7 +173,6 @@ function GameDetails () {
                                 </span>
                                 :
                                 null
-
                             }
 
 
@@ -233,7 +223,6 @@ function GameDetails () {
                         {authData.user && <span className={"section-footer-wrapper"}>
                             <Button onClick={handleFavoriteClick}
                                     className={`section-favorite-button`}
-                                // content={"Voeg to aan favorieten"}
                                     content={checkFavorite() ? 'Verwijder van favorieten' : 'Voeg toe aan favorieten'}
                             />
                         </span>}

@@ -1,6 +1,4 @@
-import {useContext, useEffect, useRef, useState} from "react";
-import {AuthContext} from "../context/AuthProvider.jsx";
-import {UserInfoContext} from "../context/UserInfoProvider.jsx";
+import {useEffect, useRef, useState} from "react";
 import {useApiCall } from "./useApiCall.js";
 import {useGetUserFavorites} from "./useUser.js";
 import {getToken, getTokenUsername} from "../helpers/auth.js";
@@ -76,7 +74,6 @@ export function useGetLastPage () {
     const {fetchData, data, loading, error } = useApiCall();
 
     async function getLastPage (lastPageNumber, query='', options='') {
-        console.warn("usegetlastpage option", options)
         const response = await fetchData(
             `${BASE_URL}/games?${API_KEY}${options && options !== 'false' ? `&${options}` : ''
             }&page=${lastPageNumber}${query ? `&search=${query}` : ``}`,
@@ -106,7 +103,6 @@ export function useGetRecommendedGameList () {
 export function useGetCurrentGameList (query='') {
     const authData = useAuthData();
     const userInfo = useUserInfo();
-
 
     const [currentGameListData, setCurrentGameListData ] = useState()
     const [currentRecommendedGameListData, setCurrentRecommendedGameListData] = useState()
@@ -169,13 +165,11 @@ export function useGetCurrentGameList (query='') {
     // for the data state
     useEffect(() => {
         if (gameListData){
-            // console.log(gameListData);
             setCurrentGameListData(gameListData)
         }
     }, [gameListData, userFavoritesData, sortingFilters]);
 
     useEffect(() => {
-        // console.log(nextPreviousPageData)
         if (!nextPreviousPageData) return
 
         if (gameListType.current === "recommended") {
@@ -186,20 +180,16 @@ export function useGetCurrentGameList (query='') {
     }, [nextPreviousPageData])
 
     useEffect(() => {
-        // console.log(lastPageData)
         if (!lastPageData) return
 
         if (gameListType.current === "recommended") {
-            // console.log("recommended last page data", lastPageData)
             setCurrentRecommendedGameListData(lastPageData)
         } else if (gameListType.current === "main") {
-            // console.log("main last page data", lastPageData)
             setCurrentGameListData(lastPageData)
         }
     }, [lastPageData])
 
     useEffect(() => {
-        console.error(recommendedGameListData)
         setCurrentRecommendedGameListData(recommendedGameListData)
     }, [recommendedGameListData])
 
@@ -221,61 +211,50 @@ export function useGetCurrentGameList (query='') {
 
     // for the loading state
     useEffect(() => {
-        // console.log(gameListLoading)
         setCurrentGameListLoading(gameListLoading)
     }, [gameListLoading])
 
     useEffect(() => {
-        // console.log(nextPreviousPageLoading)
         setCurrentGameListLoading(nextPreviousPageLoading)
     }, [nextPreviousPageLoading])
 
     useEffect(() => {
-        // console.log(lastPageLoading)
         setCurrentGameListLoading(lastPageLoading)
     }, [lastPageLoading])
 
     useEffect(() => {
-        // console.log(userFavoritesLoading)
         setCurrentGameListLoading(userFavoritesLoading)
     }, [userFavoritesLoading])
 
     useEffect(() => {
-        // console.log(recommendedGameListLoading)
         setCurrentGameListLoading(recommendedGameListLoading)
     }, [recommendedGameListLoading])
 
 
     // for the error state
     useEffect(() => {
-        // console.log(gameListError)
         setCurrentGameListError(gameListError)
     }, [gameListError])
 
     useEffect(() => {
-        // console.log(nextPreviousPageError)
         setCurrentGameListError(nextPreviousPageError)
     }, [nextPreviousPageError])
 
     useEffect(() => {
-        // console.log(lastPageError)
         setCurrentGameListError(lastPageError)
     }, [lastPageError])
 
     useEffect(() => {
-        // console.log(userFavoritesError)
         setCurrentGameListError(userFavoritesError)
     }, [userFavoritesError])
 
     useEffect(() => {
-        // console.log(recommendedGameListError)
         setCurrentGameListError(recommendedGameListError)
     }, [recommendedGameListError])
 
     // for the pagination
     function loadNextPage (url, type = "main") {
         gameListType.current = type;
-
         getNextPreviousPage(url)
     }
 
@@ -319,7 +298,6 @@ export function useGetCurrentGameList (query='') {
             getLastPage(lastPageNumber, query, getOptionFilters(sortingFilters))
         } else if (gameListType.current === "recommended") {
             lastPageNumber = getLastPageNumber("recommended")
-
             getLastPage(lastPageNumber, null,  getFavoriteGameGenres())
         }
     }
@@ -334,10 +312,8 @@ export function useGetCurrentGameList (query='') {
         // sets appropriate dataset
         if (gameListType.current === "main") {
             gameListDataLocal = currentGameListData;
-            // console.log("currentGameListData DATA" , currentGameListData)
         } else if (gameListType.current === "recommended") {
             gameListDataLocal = currentRecommendedGameListData
-            // console.log("currentRecommendedGameListData DATA" , currentRecommendedGameListData)
         }
 
         // checks response for the next data
@@ -358,7 +334,6 @@ export function useGetCurrentGameList (query='') {
             const previousPageUrl = gameListDataLocal?.previous?.split("&")
             currentPage = previousPageUrl[1]?.split("=")[1]
         }
-        // console.log(currentPage)
         return currentPage
     }
 
@@ -372,7 +347,6 @@ export function useGetCurrentGameList (query='') {
     // for the sort and filter options
     function handleSortingChange(newSort, type= "main") {
         gameListType.current = type;
-        console.warn(type)
         setSortingFilters(prevFilters => ({ ...prevFilters, sort: newSort }));
     }
 
@@ -423,16 +397,12 @@ export function useGetCurrentGameList (query='') {
 
         let fullOptions = [orderingPart, genresPart].filter(Boolean).join('&');
 
-        // console.warn("type", type)
-        // console.warn("fullOptions", fullOptions)
-
         if (type === "recommended") {
             getRecommendedGameList(fullOptions);
         } else {
             getGameList(query, fullOptions);
         }
     }
-
 
     function getFavoriteGameGenres () {
         const genreObj = userInfo?.userInfoData?.favorite_games || {};
@@ -452,13 +422,14 @@ export function useGetCurrentGameList (query='') {
         if (!genreData) {
             return
         }
-
         await getRecommendedGameList(getFavoriteGameGenres());
     }
 
     return {
         currentGameListData,
         currentRecommendedGameListData,
+        recommendedGameListLoading,
+        recommendedGameListError,
         currentGameListLoading,
         currentGameListError,
         loadNextPage,

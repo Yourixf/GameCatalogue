@@ -8,7 +8,6 @@ import Login from './pages/login/Login';
 import Register from './pages/register/Register';
 import Profile from "./pages/profile/Profile.jsx";
 import NotFound from './pages/404/404';
-import Test from './pages/test/Test.jsx'
 import GameDetails from "./pages/gameDetails/GameDetails.jsx";
 import ChangePassword from "./pages/changePassword/ChangePassword.jsx";
 import ChangeProfilePicture from "./pages/changeProfilePicture/ChangeProfilePicture.jsx";
@@ -16,7 +15,6 @@ import {useAuthData} from "./helpers/user.js";
 import './App.css';
 
 function App() {
-
     const authData = useAuthData();
 
     return (
@@ -32,7 +30,6 @@ function App() {
           <Route path='/profile' element={authData?.user ? <Profile/> : <Navigate to="/login"/>}/>
           <Route path='/profile/changepassword' element={authData?.user ? <ChangePassword/> : <Navigate to="/login"/>}/>
           <Route path='/profile/changeprofilepicture' element={authData?.user ? <ChangeProfilePicture/> : <Navigate to='/login'/>}/>
-          <Route path='/test' element={<Test/>}/>
           <Route path='/game/:id' element={<GameDetails/>}/>
           <Route path='*' element={<NotFound/>}/>
         </Routes>

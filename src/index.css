@@ -102,6 +102,7 @@ body{
 
 .page-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -111,11 +112,10 @@ body{
 
   @media (max-width: 758px) {
     min-height: calc(100vh - 58px);
-
   }
 }
 
-  .page-container.dark-mode {
+.page-container.dark-mode {
   background: linear-gradient(45deg, var(--main-background-color-dark) 0%, var(--secondary-background-color-dark) 100%);
 
 }
@@ -175,4 +175,14 @@ body{
 
 body:has(.status-loading) {
   cursor: wait;
+}
+
+.section-game-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 100%;
+  gap: 10px;
 }

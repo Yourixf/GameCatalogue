@@ -22,13 +22,11 @@ form {
     border-radius: 10px;
     border-bottom: 1px solid var(--main-stroke-color);
     box-shadow: 0 4px 30px 0 rgba(0, 0, 0, 0.48);
-
 }
 
 .login-card.dark-mode {
     background-color: var(--login-main-background-color-dark);
     color: var(--login-text-color-dark);
-
 }
 
 .login-card.light-mode {
@@ -45,12 +43,6 @@ form {
     flex-direction: column;
     justify-content: center;
     row-gap: 20px;
-
-}
-
-/* state two */
-@media all and (max-width: 1130px) {
-
 }
 
 /* state three */

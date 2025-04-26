@@ -3,13 +3,10 @@ import {NavLink} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
-import {AuthContext} from "../../context/AuthProvider.jsx";
-import {UserInfoContext} from "../../context/UserInfoProvider.jsx";
 import {getProfilePictureSrc, useAuthData, useUserInfo} from "../../helpers/user.js";
 import Button from "../button/Button";
 import CircleIcon from '../../components/circleIcon/CircleIcon';
 import Input from "../input/Input.jsx";
-import StatusMessage from "../statusMessage/StatusMessage.jsx";
 import joystick from "../../assets/navbar/joystick.png";
 import home from "../../assets/navbar/home.png";
 import favorite from "../../assets/navbar/favorite.png";
@@ -21,19 +18,15 @@ import './Navigation.css';
 
 function Navigation () {
     const { toggleTheme, selectedTheme } = useContext(ThemeContext)
-
     const authData = useAuthData();
-
     const userInfo = useUserInfo();
 
     const navigate = useNavigate();
 
     const [dropdown, dropdownToggle] = useState(false);
-
     const [fieldMessage, setFieldMessage] = useState('zoeken');
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({mode:'onSubmit'})
-
 
     function dropdownClick () {
         console.log(dropdown);
@@ -55,8 +48,6 @@ function Navigation () {
         navigate("/profile")
     }
 
-
-
     function handleFormSubmit(data) {
         // makes sure the query isn't empty
         if (data['game-search-field'].trim().length !== 0) {
@@ -69,12 +60,6 @@ function Navigation () {
     }
 
     const profilePictureSrc = getProfilePictureSrc(userInfo?.userInfoData);
-
-
-    if (authData?.status === "pending" || userInfo?.status === "pending") {
-        console.error("PENDING INDEED")
-        return <StatusMessage type={"loading"} content={"TeSTING laden......"} />;
-    } else {
 
     return(
 
@@ -139,7 +124,6 @@ function Navigation () {
                 <div className={"profile-section"}>
                     <Button onClick={handleClick} className={"navbar-login-button" + " state-one"} content="inloggen" shadow={false}/>
                 </div>
-
             }
 
             <div onClick={dropdownClick} className={`navbar-menu ${selectedTheme} ${[dropdown ? " navbar-menu-active" : ""]}`}>
@@ -169,7 +153,7 @@ function Navigation () {
                         <CircleIcon className="favorite-icon" iconPictureSource={favorite} title={"Favorieten pagina"}/>
                     </NavLink>
                 </li>
-                {authData.user ?
+                {authData?.user ?
                     <div className={"profile-section"}>
                         <CircleIcon className={"profile-icon state-two"} onClick={profileButton} iconPictureSource={profilePictureSrc} title={"Profiel pagina"}/>
 
@@ -182,12 +166,10 @@ function Navigation () {
                     <div className={"profile-section"}>
                         <Button onClick={handleClick} className={"navbar-login-button" + " state-two"} content="inloggen" shadow={false}/>
                     </div>
-
                 }
-
             </div>
         </nav>
-    ); }
+    );
 }
 
 export default Navigation;

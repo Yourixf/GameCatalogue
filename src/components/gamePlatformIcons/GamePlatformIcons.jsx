@@ -1,4 +1,3 @@
-import './GamePlatformIcons.css'
 import windwows from "../../assets/platforms/windows.png";
 import apple from "../../assets/platforms/apple.png";
 import playstation from "../../assets/platforms/playstation.png";
@@ -6,6 +5,7 @@ import xbox from "../../assets/platforms/xbox.png";
 import android from "../../assets/platforms/android.png";
 import nitendoswitch from "../../assets/platforms/nitendoswitch.png";
 import web from "../../assets/platforms/web.png";
+import './GamePlatformIcons.css'
 
 function GamePlatformIcons ({platforms, className=""}) {
 

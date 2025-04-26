@@ -1,14 +1,12 @@
 import {useContext, useEffect, useState} from 'react';
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
-import {UserInfoContext} from "../../context/UserInfoProvider.jsx";
-import {useGetCurrentGameList, useGetGameDetails} from "../../hooks/useGames.js";
+import {useGetGameDetails} from "../../hooks/useGames.js";
 import {useGetUserFavorites} from "../../hooks/useUser.js";
 import {getToken, getTokenUsername} from "../../helpers/auth.js";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 import GameCard from "../../components/gameCard/GameCard.jsx";
-
-import './Favorites.css';
 import {useAuthData, useUserInfo} from "../../helpers/user.js";
+import './Favorites.css';
 
 function Favorites () {
     const { selectedTheme } = useContext(ThemeContext)
@@ -23,12 +21,6 @@ function Favorites () {
 
     const currentToken = authData.user && getToken()
     const tokenUsername = authData.user && getTokenUsername(currentToken)
-
-    const {
-        handleSortingChange,
-        handleFilterChange,
-        sortingFilters
-    } = useGetCurrentGameList()
 
     useEffect(() => {
         // gets user favorites
@@ -78,6 +70,8 @@ function Favorites () {
     return(
         <main className={`page-container ${selectedTheme} favorites-page-container`}>
 
+            <StatusMessage statusState={loadingGames} type={"loading"} content={"Laden"}/>
+
             {!loadingGames && gameList.length <= 0 && [...new Set(Object.values(userInfo.userInfoData?.favorite_games || {}).flat())].length === 0 &&
                 <StatusMessage statusState={true} type={"error"}
                                content={gameDetailError ? gameDetailError?.message : "Je hebt geen favorieten."}/>
@@ -88,21 +82,6 @@ function Favorites () {
                     <section className={`section-inner-container favorite-games-section-inner-container`}>
                         <span className={"section-title-wrapper"}>
                             <h2 className={`section-title recommended-title`}>Jouw favorieten</h2>
-                            <span className={"sorting-filter-wrapper state-two"}>
-                                    {/*<SortingFilter*/}
-                                    {/*    onApplyFilters={handleSortingChange}*/}
-                                    {/*    content={"Sorteer op:"}*/}
-                                    {/*    type={'sorting'}*/}
-                                    {/*    selectedFilters={sortingFilters?.sort}*/}
-                                    {/*/>*/}
-                                    {/*<SortingFilter*/}
-                                    {/*    onApplyFilters={handleFilterChange}*/}
-                                    {/*    content={"Filter op:"}*/}
-                                    {/*    type={"filter"}*/}
-                                    {/*    selectedFilters={sortingFilters?.genres}*/}
-                                    {/*/>*/}
-                            </span>
-                                <span className={"hidden-item"}></span>
                         </span>
                         <StatusMessage statusState={loadingGames || gameDetailLoading} type={"loading"} content={"Laden"}/>
                         <section className={"game-card-wrapper"}>
@@ -117,7 +96,6 @@ function Favorites () {
                                 />
                             ))}
                         </section>
-                        {/*  TODO PAGINATION  */}
                     </section>
                 </section>
             }

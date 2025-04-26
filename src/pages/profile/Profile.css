@@ -85,12 +85,6 @@
     font-size: 27px;
 }
 
-
-/* state two */
-@media all and (max-width: 1130px) {
-
-}
-
 /* state three */
 @media all and (max-width: 758px) {
     .profile-card {

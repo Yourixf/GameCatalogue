@@ -7,7 +7,6 @@
     align-items: center;
     justify-content: space-between;
     column-gap: 10px;
-
 }
 
 .navbar.dark-mode {
@@ -44,7 +43,6 @@ a {
     transform: rotate(0deg);
     transition-duration: 1.5s;
 }
-
 
 .nav-searchbar {
     display: flex;
@@ -102,7 +100,6 @@ a {
 .navbar-search-icon-button.light-mode {
     border-left: var(--navbar-background-light) solid 4px;
 }
-
 
 .search-icon {
     max-height: 38px;
@@ -223,7 +220,6 @@ a {
         box-shadow: 0 0 20px 4px black;
 
         z-index: 2;
-
     }
 
     .navbar-dropdown-active.dark-mode {
@@ -265,14 +261,10 @@ a {
         width: 44px;
     }
 
-
-
     .search-icon {
         width: 35px;
     }
     .company-section {
         min-width: 0;
     }
-
-
 }

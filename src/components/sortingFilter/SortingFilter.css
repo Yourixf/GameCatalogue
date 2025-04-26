@@ -64,12 +64,6 @@
     min-width: fit-content;
 }
 
-
-/* state two */
-@media all and (max-width: 1130px) {
-
-}
-
 /* state three */
 @media all and (max-width: 758px) {
     .sorting-filter {

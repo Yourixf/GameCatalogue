@@ -64,57 +64,11 @@ export function useUpdateUserInfo () {
                 "Authorization": `Bearer ${currentToken}`
             }
         );
-        console.warn(response);
         return response;
     };
-    console.warn(data)
     return { updateUserInfo, data, loading, error };
 }
 
-export function useUploadProfilePicture () {
-    const { fetchData, data, loading, error } = useApiCall();
-
-    async function uploadProfilePicture (profilePicture, currentToken, tokenUsername) {
-        const formData = new FormData();
-        formData.append("file", profilePicture);
-
-        for (let [key, value] of formData.entries()) {
-            console.log(`${key}:`, value);
-        }
-
-
-        const response = await fetchData(
-            `${BASE_URL}/users/${encodeURIComponent(tokenUsername)}/upload`,
-            "POST",
-            formData,
-            {
-                "Authorization": `Bearer ${currentToken}`
-            }
-        );
-
-        return response;
-    };
-    return { uploadProfilePicture, data, loading, error};
-}
-
-export function useDownloadProfilePicture () {
-    const { fetchData, data, loading, error } = useApiCall();
-
-    async function downloadProfilePicture (currentToken, tokenUsername) {
-        const response = await fetchData(
-            `${BASE_URL}/users/${tokenUsername}/download`,
-            "GET",
-            null,
-            {
-                "accept":"*/*",
-                "Authorization": `Bearer ${currentToken}`
-            }
-        );
-
-        return response;
-    };
-    return { downloadProfilePicture, data, loading, error};
-}
 
 export function useGetUserFavorites () {
     const { fetchData, data, loading, error } = useApiCall();
@@ -128,7 +82,6 @@ export function useGetUserFavorites () {
                 "Authorization": `Bearer ${currentToken}`
             }
         );
-        console.warn(response)
         return response;
     };
     return { getUserFavorites, data, loading, error };

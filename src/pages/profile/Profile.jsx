@@ -1,25 +1,22 @@
 import {useContext, useEffect} from 'react';
 import {useNavigate} from "react-router-dom";
-import CircleIcon from "../../components/circleIcon/CircleIcon.jsx";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
 import { useGetUserFavorites} from "../../hooks/useUser.js";
-import {getToken, getTokenUsername} from "../../helpers/auth.js";
-import Button from "../../components/button/Button.jsx";
-import './Profile.css';
 import {getProfilePictureSrc, useAuthData, useUserInfo} from "../../helpers/user.js";
-import {UserInfoContext} from "../../context/UserInfoProvider.jsx";
+import {getToken, getTokenUsername} from "../../helpers/auth.js";
+import CircleIcon from "../../components/circleIcon/CircleIcon.jsx";
+import Button from "../../components/button/Button.jsx";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
+import './Profile.css';
 
 function Profile () {
     const authData = useAuthData();
     const { selectedTheme } = useContext(ThemeContext)
     const userInfo = useUserInfo();
 
-
     const navigate = useNavigate()
 
     const { getUserFavorites, data:getUserFavoritesData, loading:getUserFavoritesLoading, error:getUserFavoritesError } = useGetUserFavorites();
-
 
     const currentToken = getToken()
     const tokenUsername = getTokenUsername(currentToken)
@@ -29,7 +26,6 @@ function Profile () {
     }, []);
 
     useEffect(() => {
-        console.warn(getUserFavoritesData)
     }, [getUserFavoritesData])
 
     function changePassword () {

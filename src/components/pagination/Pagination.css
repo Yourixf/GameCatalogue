@@ -104,15 +104,9 @@
     .pagination {
         font-size: 17px;
         height: 30px;
-
     }
 
     .pagination-pages {
         min-width: 25px;
     }
-}
-
-/* state three */
-@media all and (max-width: 758px) {
-
 }

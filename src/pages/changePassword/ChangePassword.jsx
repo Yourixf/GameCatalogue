@@ -10,7 +10,6 @@ import Label from "../../components/label/Label.jsx";
 import Input from "../../components/input/Input.jsx";
 import './ChangePassword.css';
 
-
 function ChangePassword () {
     const { selectedTheme } = useContext(ThemeContext)
 

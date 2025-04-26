@@ -102,7 +102,6 @@ function Results () {
                 </section>
             }
         </main>
-
     );
 }
 

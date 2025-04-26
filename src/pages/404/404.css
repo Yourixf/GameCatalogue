@@ -29,10 +29,6 @@
     margin-top: 20px;
 }
 
-/* state two */
-@media all and (max-width: 1130px) {
-}
-
 /* state three */
 @media all and (max-width: 758px) {
     .not-found-error {
@@ -45,5 +41,4 @@
     .error-main-text, .error-secondary-text, .error-home-button{
         font-size: 24px;
     }
-
 }

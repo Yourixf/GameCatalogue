@@ -1,7 +1,6 @@
-.related-games-section-outer-container {
-    display: none;
+.game-detail-page-outer-container {
+    flex-direction: column;
 }
-
 
 .game-detail-section-inner-container {
     position: relative;
@@ -230,22 +229,15 @@
     justify-content: space-around;
 }
 
-/* state two */
-@media all and (max-width: 1300px) {
-}
-
 /* state three */
 @media all and (max-width: 758px) {
     .game-detail-card {
         flex-direction: column;
     }
 
-
-
     .game-detail-game-image {
         border-top-right-radius:10px ;
     }
-
 
     .game-screenshots-wrapper {
         display: flex;
@@ -257,7 +249,6 @@
         max-height: 200px;
     }
  
-
     .game-screenshot-figure {
         display: flex;
         max-width: 200px;
@@ -267,7 +258,6 @@
     .description-expended .game-screenshot-figure {
         max-width: 200px;
     }
-
 
     .game-detail-game-info-wrapper.description-expended {
         max-width: none;
@@ -300,6 +290,4 @@
     .section-title{
         font-size: 32px;
     }
-
-
 }

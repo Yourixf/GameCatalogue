@@ -10,11 +10,6 @@
     font-size: 26px;
 }
 
-/* state two */
-@media all and (max-width: 1130px) {
-
-}
-
 /* state three */
 @media all and (max-width: 758px) {
     .label-title, p {

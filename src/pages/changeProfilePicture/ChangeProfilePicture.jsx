@@ -1,16 +1,14 @@
 import {useContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
-import {UserInfoContext} from "../../context/UserInfoProvider.jsx";
 import {useGetUserFavorites, useUpdateUserInfo} from "../../hooks/useUser.js";
 import {getToken, getTokenUsername} from "../../helpers/auth.js";
+import {useUserInfo} from "../../helpers/user.js";
 import CircleIcon from "../../components/circleIcon/CircleIcon.jsx";
 import Button from "../../components/button/Button.jsx";
+import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 import { profilePictures } from "../../assets/profilePictures/profilePictures.js";
 import './ChangeProfilePicture.css';
-import {getProfilePictureSrc, useUserInfo} from "../../helpers/user.js";
-import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
-
 
 function ChangeProfilePicture () {
     const { selectedTheme } = useContext(ThemeContext)
@@ -34,7 +32,6 @@ function ChangeProfilePicture () {
     }, []);
 
     useEffect(() => {
-        // console.warn("getUserFavoritesData:", getUserFavoritesData);
         const rawInfo = getUserFavoritesData;
 
         if (rawInfo) {

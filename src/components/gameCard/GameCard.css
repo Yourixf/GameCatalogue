@@ -49,7 +49,6 @@
     min-width: 100%;
     min-height: 30px;
     border-bottom: 2px solid var(--main-stroke-color);
-
 }
 
 .game-card-title {
@@ -67,19 +66,12 @@
     color: var(--game-card-text-light);
 }
 
-
-/* state two */
-@media all and (max-width: 1130px) {
-
-}
-
 /* state three */
 @media all and (max-width: 758px) {
     .game-card-main {
         margin: 10px;
         width: 234px;
         border-radius: 12px;
-
     }
 
     .game-text-label {

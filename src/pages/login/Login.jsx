@@ -3,13 +3,12 @@ import {useNavigate} from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
 import {useLoginUser } from "../../hooks/useUser.js";
+import {useAuthData} from "../../helpers/user.js";
 import Button from "../../components/button/Button.jsx";
 import Label from "../../components/label/Label.jsx";
 import Input from "../../components/input/Input.jsx";
 import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 import './Login.css';
-import {useAuthData} from "../../helpers/user.js";
-
 
 function Login () {
     const { selectedTheme } = useContext(ThemeContext)
@@ -19,7 +18,6 @@ function Login () {
 
     const { register, handleSubmit, formState: { errors } } = useForm({mode:'onSubmit'});
     const { loginUser, data, loading, error } = useLoginUser();
-
 
     function registerButton () {
         navigate('/register');
@@ -32,18 +30,15 @@ function Login () {
         }
 
         try {
-            console.log("login.jsx - 34")
             const token = await loginUser(formData)
 
             if (!token) {
                 throw new Error("Login.jsx.jsx - 38 - Login failed")
             }
-            console.log("login.jsx - 40")
             await authData.login(token.data.jwt);
 
-            navigate('/')
+            navigate('/profile')
         } catch (e) {
-            console.log("login.jsx - 45")
             console.log(e)
         }
     }

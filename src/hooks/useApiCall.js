@@ -11,7 +11,6 @@ export function useApiCall () {
         setLoading(true);
         setError(null);
         setData(null)
-        console.log(`Fetching from: ${url}`);
 
         try {
             const isFormData = body instanceof FormData;
@@ -32,12 +31,9 @@ export function useApiCall () {
                 mode: "cors",
             };
             const response = await axios(options);
-            console.log(response);
             setData(response.data ? response.data : response);
-            console.log(response)
             return response
         } catch (e) {
-            console.log(e)
             setError(e);
         } finally {
             setLoading(false);

@@ -46,11 +46,6 @@ form {
     row-gap: 20px;
 }
 
-/* state two */
-@media all and (max-width: 1130px) {
-
-}
-
 /* state three */
 @media all and (max-width: 758px) {
     .register-card {

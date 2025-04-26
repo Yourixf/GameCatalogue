@@ -1,6 +1,5 @@
-import {createContext, useContext, useEffect, useState} from "react";
+import {createContext, useEffect, useState} from "react";
 import StatusMessage from "../components/statusMessage/StatusMessage.jsx";
-import {AuthContext} from "./AuthProvider.jsx";
 import {useGetUserFavorites} from "../hooks/useUser.js";
 import {getToken} from "../helpers/auth.js";
 import {useAuthData} from "../helpers/user.js";
@@ -10,9 +9,7 @@ export const UserInfoContext = createContext({
     status: 'pending'})
 
 function UserInfoProvider ({children}) {
-
     const authData = useAuthData();
-
 
     const [ userInfoState, setUserInfoState ] = useState({
         userInfoData: null,

@@ -1,13 +1,12 @@
 import {useContext} from 'react';
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
-import {UserInfoContext} from "../../context/UserInfoProvider.jsx";
 import {useGetCurrentGameList} from "../../hooks/useGames.js";
+import {useUserInfo} from "../../helpers/user.js";
 import GameCard from "../../components/gameCard/GameCard.jsx";
 import StatusMessage from '../../components/statusMessage/StatusMessage.jsx';
 import SortingFilter from "../../components/sortingFilter/SortingFilter.jsx";
 import Pagination from "../../components/pagination/Pagination.jsx";
 import './Recommendations.css';
-import {useUserInfo} from "../../helpers/user.js";
 
 function Recommendations () {
     const { selectedTheme } = useContext(ThemeContext)
@@ -30,11 +29,14 @@ function Recommendations () {
     return (
         <main className={`page-container ${selectedTheme} recommendations-page-container`}>
             {!currentGameListLoading &&
-                [...new Set(Object.values(userInfo.userInfoData?.favorite_games || {}).flat())].length === 0
+                [...new Set(Object.values(userInfo?.userInfoData?.favorite_games || {}).flat())].length === 0
                 &&
                 <StatusMessage statusState={true} type={"error"}
                                content={currentGameListError ? currentGameListError?.message : "Je hebt geen aanbevelingen."}/>
             }
+            <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden"}/>
+            <StatusMessage statusState={currentGameListError} type={"error"}
+            content={currentGameListError ? currentGameListError?.message : "er ging iets fout..."}/>
 
             {currentRecommendedGameListData && !currentGameListError &&
                 <section className={`section-outer-container recommended-games-outer-container`}>
@@ -56,11 +58,6 @@ function Recommendations () {
                             <span className={"hidden-item"}></span>
                         </div>
 
-                        <StatusMessage statusState={currentGameListLoading} type={"loading"} content={"Laden"}/>
-
-                        <StatusMessage statusState={currentGameListError} type={"error"}
-                                       content={currentGameListError ? currentGameListError?.message : "er ging iets fout..."}/>
-
                         {currentRecommendedGameListData && <section className={"game-card-wrapper"}>
                             {currentRecommendedGameListData && currentRecommendedGameListData?.results?.length > 0 && currentRecommendedGameListData?.results?.map(game => (
                                 <GameCard
@@ -71,7 +68,6 @@ function Recommendations () {
                                     gameId={game?.id}
                                     favorite={checkFavorite(game?.id)}
                                 />
-
                             ))}
                         </section>}
 

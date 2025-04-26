@@ -1,8 +1,8 @@
-import './GameCard.css';
 import {useContext} from "react";
+import {useNavigate} from "react-router-dom";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
 import GamePlatformIcons from "../gamePlatformIcons/GamePlatformIcons.jsx";
-import {useNavigate} from "react-router-dom";
+import './GameCard.css';
 
 
 function GameCard ({className="", gameTitle="", gameImage="", gamePlatforms="", gameId=null, favorite=false }) {

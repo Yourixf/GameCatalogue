@@ -1,7 +1,7 @@
 import {useContext, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import {ThemeContext} from "../../context/ThemeProvider.jsx";
-import {UserInfoContext} from "../../context/UserInfoProvider.jsx";
+import {useAuthData, useUserInfo} from "../../helpers/user.js";
 import GameCard from "../../components/gameCard/GameCard.jsx";
 import Pagination from "../../components/pagination/Pagination.jsx";
 import SortingFilter from "../../components/sortingFilter/SortingFilter.jsx";
@@ -10,14 +10,11 @@ import StatusMessage from "../../components/statusMessage/StatusMessage.jsx";
 import GamePlatformIcons from "../../components/gamePlatformIcons/GamePlatformIcons.jsx";
 import Metascore from "../../components/metascore/Metascore.jsx";
 import './Home.css';
-import {useAuthData, useUserInfo} from "../../helpers/user.js";
 
 function Home () {
     const { selectedTheme } = useContext(ThemeContext)
     const userInfo = useUserInfo();
     const authData = useAuthData();
-
-
 
     const navigate = useNavigate();
 
@@ -42,7 +39,6 @@ function Home () {
     function handleRecommendedDetailClick () {
         navigate('/game/' + currentRecommendedGameListData?.results[currentRecommended].id )
     }
-    console.log(currentGameListData)
 
     return(
         <main className={`page-container ${selectedTheme} home-page-container`}>

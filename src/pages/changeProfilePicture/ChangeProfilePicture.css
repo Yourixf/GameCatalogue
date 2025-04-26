@@ -16,7 +16,6 @@
     box-shadow: 0 4px 30px 0 rgba(0, 0, 0, 0.48);
 }
 
-
 .profile-picture-section {
     display: flex;
     flex-direction: row;
@@ -39,12 +38,10 @@
     color: var(--login-text-color-dark);
 }
 
-
 .change-profile-picture-card.light-mode {
     background-color: var(--login-main-background-color-light);
     color: var(--login-text-color-light);
 }
-
 
 .change-profile-picture-card .profile-picture .circle-icon-main  {
     width: 130px;
@@ -84,6 +81,4 @@
         position: relative;
         bottom: 6px;
     }
-
-
 }

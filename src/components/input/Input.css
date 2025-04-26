@@ -25,13 +25,6 @@
     accent-color: green;
 }
 
-
-
-/* state two */
-@media all and (max-width: 1130px) {
-
-}
-
 /* state three */
 @media all and (max-width: 758px) {
     .input-field {
@@ -52,5 +45,4 @@
         width: 100%;
         min-width: 20px;
     }
-
 }
