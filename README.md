@@ -43,6 +43,7 @@ VITE_RAWG_API_BASE_URL='https://api.rawg.io/api'
 Voor deze applicatie heb ik een standaard test account gemaakt met de volgende gegevens:
 - Gebruikersnaam: `Novi User`
 - Wachtwoord: `12345678`
+
 (Let op: de Novi API verwijdert elke 3 maanden automatisch alle gemaakte accounts. Het kan daarom voorkomen dat het testaccount niet meer beschikbaar is. In dat geval kun je eenvoudig zelf een nieuw account registreren via de registratiepagina.)
 
 ## 5. Beschikbare commando's
