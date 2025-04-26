@@ -53,5 +53,5 @@ In de terminal van de IDE kun je de volgende commando's uitvoeren:
 1. `npm install` of `npm i` in het kort. Deze installeert de benodigde packages
 2. `npm run dev`, deze start de ontwikkelserver, meestal op [http://localhost:5173](http://localhost:5173)
 - Optionele commando's:
-- `npm run build`, maakt een geoptimaliseerde versie van de applicatie (voor productie)
-- `npm run preview`, draait een lokale server om de productieversie van de applicatie te bekijken (hiervoor moet je eerst `npm run build` uitvoeren)
+1. `npm run build`, maakt een geoptimaliseerde versie van de applicatie (voor productie)
+2. `npm run preview`, draait een lokale server om de productieversie van de applicatie te bekijken (hiervoor moet je eerst `npm run build` uitvoeren)
