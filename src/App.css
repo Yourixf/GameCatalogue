@@ -1,0 +1,12 @@
+.env-error-page-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    min-height: 100vh;
+
+    background: linear-gradient(45deg, var(--main-background-color-dark) 0%, var(--secondary-background-color-dark) 100%);
+
+  }

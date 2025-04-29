@@ -7,6 +7,7 @@ import UserInfoProvider from "./context/UserInfoProvider.jsx";
 import App from './App.jsx'
 import './index.css'
 
+
 createRoot(document.getElementById('root')).render(
     <StrictMode>
         <Router>
