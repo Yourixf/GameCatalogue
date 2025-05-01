@@ -186,3 +186,9 @@ body:has(.status-loading) {
   width: 100%;
   gap: 10px;
 }
+
+@media all and (max-width: 1330px) {
+  .section-game-header {
+    flex-direction: column;
+  }
+}
