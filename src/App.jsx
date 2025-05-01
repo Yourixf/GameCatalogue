@@ -12,41 +12,21 @@ import GameDetails from "./pages/gameDetails/GameDetails.jsx";
 import ChangePassword from "./pages/changePassword/ChangePassword.jsx";
 import ChangeProfilePicture from "./pages/changeProfilePicture/ChangeProfilePicture.jsx";
 import {useAuthData} from "./helpers/user.js";
+import {checkEnvVars} from "./helpers/environmentVariables.js";
 import StatusMessage from './components/statusMessage/StatusMessage.jsx';
 import './App.css';
 
 
 function App() {
     const authData = useAuthData();
- 
 
-    function checkEnvVars() {
-
-      const NOVI_URL = import.meta.env.VITE_NOVI_API_BASE_URL;
-      const NOVI_API_KEY = import.meta.env.VITE_NOVI_API_KEY;
-      const RAWG_URL = import.meta.env.VITE_RAWG_API_BASE_URL;
-      const RAWG_API_KEY = import.meta.env.VITE_RAWG_API_KEY;
-     
-
-    
-      const validValues = !!NOVI_URL && !!NOVI_API_KEY && !!RAWG_URL && !!RAWG_API_KEY
-      console.log(!!NOVI_URL && !!NOVI_API_KEY && !!RAWG_URL && !!RAWG_API_KEY)
-      
-      return validValues
-    }
-  
-    const envError = checkEnvVars();
-
-    if (!envError) {
+    if (!checkEnvVars()) {
       return (
         <main className={`env-error-page-container`}>
-          <StatusMessage statusState={true} type={"error"} content={`Environment variabelen zijn onjuist, controleer deze.`}/>
-            
+          <StatusMessage statusState={true} type={"error"} content={`Een of meer environmentvariabelen ontbreken of hebben een ongeldige waarde. Controleer deze.`}/>
         </main>
       )
     } else {
-
-
         return (
           <>
             <Navigation/>
