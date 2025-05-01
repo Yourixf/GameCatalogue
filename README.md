@@ -17,10 +17,10 @@ Om deze applicatie te kunnen draaien heb je een aantal dingen nodig.
 - IDE (integrated development environment) zoals WebStorm
 - Moderne browser
 - Internet verbinding
-- Novi API Key: 'gamecatalogue:QCNnRs9yfPCbZmu2BT3h'
-- Novi API Base URL: 'https://api.datavortex.nl/gamecatalogue'
-- RAWG API Key: '5fde045bdba542bab0274fd5a10db4ea'
-- RAWG API Base URL: 'https://api.rawg.io/api'
+- Novi API Key: ''
+- Novi API Base URL: ''
+- RAWG API Key: ''
+- RAWG API Base URL: ''
 
 ## 3. Installatie instructie
 
@@ -30,10 +30,10 @@ Om deze applicatie te kunnen draaien heb je een aantal dingen nodig.
 4. Maak in de root van het project een nieuw bestand aan genaamd `.env` en kopieer hierin de inhoud van het bestaande `.env.dist` bestand. Je .env bestand zou er dan zo uit moeten zien:
 
 ```
-VITE_NOVI_API_KEY='gamecatalogue:QCNnRs9yfPCbZmu2BT3h'
-VITE_NOVI_API_BASE_URL='https://api.datavortex.nl/gamecatalogue'
-VITE_RAWG_API_KEY='5fde045bdba542bab0274fd5a10db4ea'
-VITE_RAWG_API_BASE_URL='https://api.rawg.io/api'
+VITE_NOVI_API_KEY=''
+VITE_NOVI_API_BASE_URL=''
+VITE_RAWG_API_KEY=''
+VITE_RAWG_API_BASE_URL=''
 ```
 5. Start de ontwikkelserver door in de terminal het volgende commando uit te voeren: `npm run dev`
 6. In de terminal wordt dan een link gegeven waarop deze draait, in de meeste gevallen zal dit [http://localhost:5173](http://localhost:5173) zijn
