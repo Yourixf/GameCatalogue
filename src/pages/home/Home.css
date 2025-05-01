@@ -323,5 +323,6 @@
 
     .recommended-game-info-wrapper {
         flex-basis: fit-content;
+        width: 100%;
     }
 }
